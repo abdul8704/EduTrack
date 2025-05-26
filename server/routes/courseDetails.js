@@ -5,4 +5,5 @@ const { getAllCourses } = require('../controllers/courses');
 
 router.route('/').get(getAllCourses);
 
+
 module.exports = router;

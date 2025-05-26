@@ -5,6 +5,7 @@ const getAllCourses = async (req, res) => {
     res.status(200).json({ courses });
 }
 
+
 module.exports = {
     getAllCourses
 };
