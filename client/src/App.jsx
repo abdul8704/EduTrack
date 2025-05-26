@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, } from 'react-router-dom'
 import { Navbar } from './components/Navbar.jsx'
 import { Courses } from './components/Courses.jsx'
 import { Login } from './components/Login.jsx'
-import { Singup } from './components/Signup.jsx'
+import { Signup } from './components/Signup.jsx'
 
 function AppContent() {
   return (
@@ -11,7 +11,7 @@ function AppContent() {
       <Navbar/>
       <Routes>
         <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Singup />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/course' element={<Courses />} />
       </Routes>
     </>
