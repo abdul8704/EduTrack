@@ -1,7 +1,7 @@
 import React from 'react';
-import './navbar.css';
+import '../styles/navbar.css';
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="footer">
       <p>&copy; 2025 Zuntra Learns. All rights reserved.</p>
@@ -9,6 +9,3 @@ function Footer() {
   );
 }
 
-
-
-export default Footer;
