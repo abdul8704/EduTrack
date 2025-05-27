@@ -1,25 +1,67 @@
-import React, {useRef,useState} from 'react'
-import {Link} from "react-router-dom"
-import '../styles/Login.css'
-export const Login = () => {
+import React from "react";
+import "../styles/Login.css"
 
-    return(
-        <div className='main'>
-        <div className='log-box'>
-            <h1>Login</h1>
-            <form>
-                <div className="li">
-                <label htmlFor='email'>Email Id:</label>
-                <input type='email' id='email' placeholder='abc@gmail.com' required></input>
-                </div>
-                <div className="li">
-                <label htmlFor='pass'>Password: </label>
-                <input type='password' id='pass' placeholder='Enter your password' required></input>
-                </div>
-                <button type="submit">Login</button>
-                <Link to="/signup">New User? Signup</Link>              
-            </form>
-        </div>
-        </div>
-    )
-}
+export const Login = () => {
+  return (
+    <div className="login-main">
+    <div className="login-wrapper">
+      <div className="login-card-switch">
+        <label className="login-switch">
+          <input type="checkbox" className="login-toggle" />
+          <span className="login-slider"></span>
+          <span className="login-card-side"></span>
+          <div className="login-flip-card__inner">
+            <div className="login-flip-card__front">
+              <div className="login-title">Log in</div>
+              <form className="login-flip-card__form" action="">
+                <input
+                  className="login-flip-card__input"
+                  name="email"
+                  placeholder="Email"
+                  type="email"
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                />
+                <button className="login-flip-card__btn" type="submit">
+                  Let&apos;s go!
+                </button>
+              </form>
+            </div>
+            <div className="login-flip-card__back">
+              <div className="login-title">Sign up</div>
+              <form className="login-flip-card__form" action="">
+                <input
+                  className="login-flip-card__input"
+                  placeholder="Name"
+                  name="name"
+                  type="text"
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="email"
+                  placeholder="Email"
+                  type="email"
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                />
+                <button className="login-flip-card__btn" type="submit">
+                  Confirm!
+                </button>
+              </form>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    </div>
+  );
+};
+
