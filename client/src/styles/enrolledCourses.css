@@ -110,3 +110,14 @@
     background: linear-gradient(to left, #eaeaea, #fffffc00);
     border-radius: 0 0.5rem 0.5rem 0;
 }
+
+.available-courses-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 3rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
