@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { CoursesCard } from './CoursesCard';
 import '../styles/EnrolledCourses.css';
+import { CoursesCard } from './CoursesCard'; // ✅ Import the reusable component
 
-export const EnrolledCourses = () => {
+export const AvailableCourses = () => {
   const courses = [
     {
       id: 1,
@@ -77,47 +77,20 @@ export const EnrolledCourses = () => {
   ];
 
   const scrollRef = useRef(null);
-  const scrollAmount = 300;
-
-  const handleLeftClick = () => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    if (container.scrollLeft === 0) {
-      container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
-    } else {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    }
-  };
-
-  const handleRightClick = () => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
-      container.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
 
   return (
     <div className="enrolled-container">
-      <div className="enrolled-title">Enrolled Courses</div>
-      <div className="enrolled-carousel-wrapper">
-        <div className="enrolled-arrow enrolled-left-arrow" onClick={handleLeftClick}>&lt;</div>
-        <div className="enrolled-courses-container" ref={scrollRef}>
-          {courses.map((course) => (
-            <CoursesCard
-              key={course.id}
-              image={course.image}
-              title={course.title}
-              instructor={course.instructor}
-              rating={course.rating}
-            />
-          ))}
-        </div>
-        <div className="enrolled-arrow enrolled-right-arrow" onClick={handleRightClick}>&gt;</div>
+      <div className="enrolled-title">Available Courses</div>
+      <div className="available-courses-container" ref={scrollRef}>
+        {courses.map((course) => (
+          <CoursesCard
+            key={course.id}
+            image={course.image}
+            title={course.title}
+            instructor={course.instructor}
+            rating={course.rating}
+          />
+        ))}
       </div>
     </div>
   );
