@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif'; 
 
@@ -41,3 +41,5 @@ const NavbarInput = () => {
     </form>
   );
 };
+
+ 
