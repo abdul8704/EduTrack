@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import '../styles/EnrolledCourses.css'
+import { CoursesCard } from './CoursesCard';
+import '../styles/EnrolledCourses.css';
 
 export const EnrolledCourses = () => {
   const courses = [
@@ -107,14 +108,13 @@ export const EnrolledCourses = () => {
         <div className="enrolled-arrow enrolled-left-arrow" onClick={handleLeftClick}>&lt;</div>
         <div className="enrolled-courses-container" ref={scrollRef}>
           {courses.map((course) => (
-            <div key={course.id} className="enrolled-course-card">
-              <img src={course.image} alt={course.title} className="enrolled-course-image" />
-              <div className="enrolled-course-title">{course.title}</div>
-              <div className="enrolled-course-bottom">
-                <div className="enrolled-course-instructor">by {course.instructor}</div>
-                <div className="enrolled-course-rating">⭐ {course.rating}</div>
-              </div>
-            </div>
+            <CoursesCard
+              key={course.id}
+              image={course.image}
+              title={course.title}
+              instructor={course.instructor}
+              rating={course.rating}
+            />
           ))}
         </div>
         <div className="enrolled-arrow enrolled-right-arrow" onClick={handleRightClick}>&gt;</div>

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import '../styles/EnrolledCourses.css';
+import { CoursesCard } from './CoursesCard'; // ✅ Import the reusable component
 
 export const AvailableCourses = () => {
   const courses = [
@@ -82,14 +83,13 @@ export const AvailableCourses = () => {
       <div className="enrolled-title">Available Courses</div>
       <div className="available-courses-container" ref={scrollRef}>
         {courses.map((course) => (
-          <div key={course.id} className="enrolled-course-card">
-            <img src={course.image} alt={course.title} className="enrolled-course-image" />
-            <div className="enrolled-course-title">{course.title}</div>
-            <div className="enrolled-course-bottom">
-              <div className="enrolled-course-instructor">by {course.instructor}</div>
-              <div className="enrolled-course-rating">⭐ {course.rating}</div>
-            </div>
-          </div>
+          <CoursesCard
+            key={course.id}
+            image={course.image}
+            title={course.title}
+            instructor={course.instructor}
+            rating={course.rating}
+          />
         ))}
       </div>
     </div>
