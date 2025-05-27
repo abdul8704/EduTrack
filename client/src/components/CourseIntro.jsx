@@ -1,14 +1,14 @@
 import React from 'react'
 import '../styles/CoursePage.css';
 import IotImage from '../assets/zuntraLogo.avif';
-export const CourseIntro = () => {
+export const CourseIntro = ({name}) => {
     return (
         <div className="course-page">
             <div className="course-card">
                 <div className="course-info corner-layout">
                     <img className="big-image" src={IotImage} alt="IoT" />
                     <div className="text-corner">
-                        <h2>Internet of Things</h2>
+                        <h2>{name}</h2>
                         <p>
                             This course enriches the learners to describe components of IoT Architecture and platforms of IoT ecosystem, and understand how to use Arduino to build prototypes.
 

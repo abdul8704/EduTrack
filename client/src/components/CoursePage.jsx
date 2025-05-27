@@ -8,7 +8,7 @@ export const CoursePage = () => {
 
     return (
         <div className="course-page">
-            <CourseIntro/>
+            <CourseIntro name={"Peace"} />
             <div className="course-overview">
                 <h3>Overview</h3>
                 <p>
