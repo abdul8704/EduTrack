@@ -78,17 +78,20 @@
 .navbar-button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1em;
-  font-size: 1em;
+  padding: 1em 1.5em; /* increased padding */
+  font-size: 1.05em;       /* slightly bigger font */
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #BADA55;
+  color: black;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.3s, border-color 0.25s;
 }
 
+
 .navbar-button:hover {
-  border-color: #BADA55;
+  background-color: black;
+  color: white;
 }
 
 .navbar-button:focus,
@@ -101,7 +104,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 40px; /* Ensure consistent height */
   background: #fff;
   border: 2px solid #2f2ee9;
   border-radius: 20px;
@@ -112,13 +115,15 @@
 
 .navbar-input {
   flex: 1;
-  background-color: transparent;
   border: none;
   outline: none;
+  background: transparent;
   font-size: 0.9rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0 0.5rem;
   height: 100%;
+  line-height: 1.4; /* helps center text vertically */
 }
+
 .navbar-form:before {
   content: "";
   position: absolute;
@@ -145,17 +150,12 @@
   left: 0;
   bottom: 0;
   z-index: -1;
-  filter: blur(30px);
+  filter: blur(20px);
   border-radius: 20px;
-  background-color: #999cff;
-  background-image: radial-gradient(at 85% 51%, hsla(60,60%,61%,1) 0px, transparent 50%),
-    radial-gradient(at 74% 68%, hsla(235,69%,77%,1) 0px, transparent 50%),
-    radial-gradient(at 64% 79%, hsla(284,72%,73%,1) 0px, transparent 50%),
-    radial-gradient(at 75% 16%, hsla(283,60%,72%,1) 0px, transparent 50%),
-    radial-gradient(at 90% 65%, hsla(153,70%,64%,1) 0px, transparent 50%),
-    radial-gradient(at 91% 83%, hsla(283,74%,69%,1) 0px, transparent 50%),
-    radial-gradient(at 72% 91%, hsla(213,75%,75%,1) 0px, transparent 50%);
+  background-color: rgba(186, 218, 85, 0.3); /* dimmed #BADA55 */
+  background-image: none;
 }
+
 
 .navbar-input:focus {
   outline: none;
@@ -237,8 +237,9 @@
 
 .navbar-search-button svg,
 .navbar-reset svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
 }
 
 .navbar-reset {

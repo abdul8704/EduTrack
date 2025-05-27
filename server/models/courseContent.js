@@ -38,11 +38,7 @@ const courseContentSchema = new mongoose.Schema({
             },
         ],
         default: [],
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+    }
 });
 
 module.exports = mongoose.model("CourseContent", courseContentSchema);
