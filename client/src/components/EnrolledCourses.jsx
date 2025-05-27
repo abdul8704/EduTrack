@@ -107,7 +107,7 @@ export const EnrolledCourses = () => {
       <div className="enrolled-carousel-wrapper">
         <div className="enrolled-arrow enrolled-left-arrow" onClick={handleLeftClick}>&lt;</div>
         <div className="enrolled-courses-container" ref={scrollRef}>
-          {courses.map((course) => (
+          {courses.map((course) => ( 
             <CoursesCard
               key={course.id}
               image={course.image}

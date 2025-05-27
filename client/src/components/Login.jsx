@@ -1,52 +1,67 @@
-import { useNavigate } from "react-router-dom";
-import { Signup } from "./Signup";
-import '../styles/Login.css';
+import React from "react";
+import "../styles/Login.css"
 
 export const Login = () => {
-const navigate = useNavigate();
-
-  const handleToggle = () => {
-    console.log("Sign up button clicked")
-    navigate("/signup");
-  };
-
   return (
-    <div className="main">
-      <div className="wrapper">
-        <div className="card-container">
-          <div className="switch" onClick={handleToggle}>
-            <input
-              type="checkbox"
-              className="toggle"
-              id="toggle"
-            />
-            <span className="slider"></span>
-            <span className="card-side"></span>
-          </div>
-
-          <div className="flip-card__inner login-card">
-            <div className="flip-card__front">
-              <div className="title">Login</div>
-              <form className="flip-card__form">
+    <div className="login-main">
+    <div className="login-wrapper">
+      <div className="login-card-switch">
+        <label className="login-switch">
+          <input type="checkbox" className="login-toggle" />
+          <span className="login-slider"></span>
+          <span className="login-card-side"></span>
+          <div className="login-flip-card__inner">
+            <div className="login-flip-card__front">
+              <div className="login-title">Log in</div>
+              <form className="login-flip-card__form" action="">
                 <input
-                  type="email"
-                  className="flip-card__input"
+                  className="login-flip-card__input"
+                  name="email"
                   placeholder="Email"
-                  required
+                  type="email"
                 />
                 <input
-                  type="password"
-                  className="flip-card__input"
+                  className="login-flip-card__input"
+                  name="password"
                   placeholder="Password"
-                  required
+                  type="password"
                 />
-                <button type="submit" className="flip-card__btn">Login</button>
+                <button className="login-flip-card__btn" type="submit">
+                  Let&apos;s go!
+                </button>
+              </form>
+            </div>
+            <div className="login-flip-card__back">
+              <div className="login-title">Sign up</div>
+              <form className="login-flip-card__form" action="">
+                <input
+                  className="login-flip-card__input"
+                  placeholder="Name"
+                  name="name"
+                  type="text"
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="email"
+                  placeholder="Email"
+                  type="email"
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                />
+                <button className="login-flip-card__btn" type="submit">
+                  Confirm!
+                </button>
               </form>
             </div>
           </div>
-
-        </div>
+        </label>
       </div>
+    </div>
     </div>
   );
 };
+
