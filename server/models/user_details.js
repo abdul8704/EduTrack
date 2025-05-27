@@ -4,7 +4,6 @@ const userDetailsSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
     },
     email: {
         type: String,
@@ -16,19 +15,7 @@ const userDetailsSchema = new mongoose.Schema({
         required: true,
     },
     currentCourses: {
-        type: [
-            {
-                courseId: String,
-                progress: {
-                    type: Map,
-                    of: Number, 
-                },
-                percentComplete: {
-                    type: Number,
-                    default: 0,
-                },
-            },
-        ],
+        courseIDs: [String],
         default: [],
     },
 });
