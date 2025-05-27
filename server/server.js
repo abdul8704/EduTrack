@@ -3,17 +3,18 @@ require("express-async-errors");
 
 const express = require("express");
 const connectDB = require("./database/connect");
-const courseDetailsRouter = require("./routes/courseDetails");
+const courseDetailsRouter = require("./routes/userRouter");
 const errorHandlerMiddleware = require("./middlewares/error-handler");
 const notFoundMiddleware = require("./middlewares/not-found");
-const { getAllUsers } = require("./controllers/user_data");
+const userRouter  = require("./routes/userRouter");
+const adminRoutes = require("./routes/adminRouter");
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/api/user/course", courseDetailsRouter);
-app.use("/api/admin/userdata", getAllUsers);
+app.use("/api/user/", userRouter);
+app.use("/api/admin/", adminRoutes);
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware);
 
