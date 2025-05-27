@@ -1,0 +1,92 @@
+.navbar-navbar {
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: rgb(220, 233, 237);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.navbar-left-section,
+.navbar-right-section {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.navbar-logo-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+.navbar-search-container {
+  flex: 3;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 1rem;
+}
+
+.navbar-search-container .form {
+  width: 100% !important;
+}
+
+.navbar-right-section {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-right-section a {
+  flex: none;
+  text-align: center;
+  font-weight: 500;
+  padding: 0 0.5rem;
+  color: #0b0b0d;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar-right-section a:hover {
+  color: #BADA55;
+}
+/* === Styles moved from index.css for Navbar isolation === */
+.navbar-right-section a {
+  font-weight: 500;
+  color: #0b0b0d;
+  text-decoration: inherit;
+}
+
+.navbar-right-section a:hover {
+  color: #BADA55;
+}
+
+.navbar-button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.navbar-button:hover {
+  border-color: #BADA55;
+}
+
+.navbar-button:focus,
+.navbar-button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
