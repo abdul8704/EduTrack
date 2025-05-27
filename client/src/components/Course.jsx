@@ -8,7 +8,7 @@ const courseModules = [
   },
   {
     name: "Module 2",
-    submodules: ["Part A", "Part B", "Assignment"]
+    submodules: ["Lecture 1", "Lecture 2", "Assignment"]
   },
   {
     name: "Module 3",
@@ -16,40 +16,34 @@ const courseModules = [
   },
   {
     name: "Module 4",
-    submodules: ["Part A", "Part B", "Assignment"]
+    submodules: ["Reading", "Video", "Test"]
   },
   {
     name: "Module 5",
-    submodules: ["Part A", "Part B", "Assignment"]
+    submodules: ["Final Project", "Resources", "FAQ"]
   }
 ];
 
 export const Course = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-  const [collapsed, setCollapsed] = useState(window.innerWidth <= 600); // start collapsed on small screens
 
   const toggleModule = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
   return (
     <div className="course-container">
-      <div className={`course-navbar ${collapsed ? 'collapsed' : ''}`}>
+      <div className="course-navbar">
         {courseModules.map((module, index) => (
           <div key={index} className="course-module-wrapper">
             <button
               className="course-nav-btn"
               onClick={() => toggleModule(index)}
-              disabled={collapsed} // disable buttons when collapsed
             >
               {module.name}
             </button>
 
-            {activeIndex === index && !collapsed && (
+            {activeIndex === index && (
               <div className="course-submodule-list">
                 {module.submodules.map((sub, subIndex) => (
                   <div key={subIndex} className="course-submodule-item">
@@ -60,11 +54,6 @@ export const Course = () => {
             )}
           </div>
         ))}
-
-        {/* Arrow for toggling collapse */}
-        <div className="course-collapse-bar" onClick={toggleCollapsed}>
-          &gt;
-        </div>
       </div>
 
       <div className="course-module">
