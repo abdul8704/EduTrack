@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import '../styles/EnrolledCourses.css'
 
 export const EnrolledCourses = () => {
   const courses = [

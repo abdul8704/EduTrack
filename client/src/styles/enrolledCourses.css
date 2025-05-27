@@ -13,14 +13,14 @@
 }
 
 .enrolled-carousel-wrapper {
-  display: flex; /* UPDATED */
+  display: flex;
   align-items: center;
-  gap: 1rem; /* Space between arrows and content */
+  gap: 1rem;
 }
 
 .enrolled-courses-outer {
-  flex: 1; /* NEW - fills remaining space */
-  overflow: hidden; /* prevent overflow of scroll */
+  flex: 1;
+  overflow: hidden;
 }
 
 .enrolled-courses-container {
@@ -88,7 +88,7 @@
 
 .enrolled-arrow {
   width: 2.5rem;
-  height: 20rem; /* match course card height */
+  height: 20rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,11 +101,11 @@
   position: static;   
 }
 
-/* Removed absolute positioning from arrows */
-.enrolled-left-arrow{
+.enrolled-left-arrow {
    background: linear-gradient(to right, #eaeaea, #ffffff00);
    border-radius: 0.5rem 0 0 0.5rem;
 }
+
 .enrolled-right-arrow {
     background: linear-gradient(to left, #eaeaea, #fffffc00);
     border-radius: 0 0.5rem 0.5rem 0;
