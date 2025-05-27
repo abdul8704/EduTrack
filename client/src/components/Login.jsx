@@ -1,6 +1,7 @@
 import React, {useRef,useState} from 'react'
 import {Link} from "react-router-dom"
-function Login() {
+import '../styles/Login.css'
+export const Login = () => {
 
     return(
         <div className='main'>
@@ -22,5 +23,3 @@ function Login() {
         </div>
     )
 }
-
-export default Login
