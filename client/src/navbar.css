@@ -8,7 +8,13 @@
   align-items: center;
   box-sizing: border-box;
 }
-
+.footer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #282c34;
+    color: white;
+    text-align: center;
+}
 .navbar-left-section,
 .navbar-right-section {
   display: flex;
