@@ -1,4 +1,5 @@
- import React from 'react';
+import { Link } from 'react-router-dom';
+import React from 'react';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif'; 
 
@@ -17,7 +18,7 @@ export const Navbar = () => {
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
-        <button className="navbar-button">Login</button>
+        <Link to="/login" className="navbar-button">Login</Link>
       </div>
     </nav>
   );
