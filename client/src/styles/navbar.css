@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 .footer {
     margin-top: 2rem;
@@ -34,10 +35,12 @@
 }
 
 .navbar-search-container {
-  flex: 3;
+   flex: 3;
   display: flex;
+  align-items: center;
   justify-content: flex-start;
   padding-left: 1rem;
+  min-width: 0; 
 }
 
 .navbar-search-container .form {
@@ -84,12 +87,14 @@
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 
 .navbar-button:hover {
-  border-color: #BADA55;
+  background-color: black;
+  border-color: #000;
 }
 
 .navbar-button:focus,
@@ -99,23 +104,19 @@
 
 /* ✅ Namespaced form input styles */
 .navbar-form {
-  --timing: 0.3s;
-  --width-of-input: 200px;
-  --height-of-input: 40px;
-  --border-height: 2px;
-  --input-bg: #fff;
-  --border-color: #2f2ee9;
-  --border-radius: 30px;
-  --after-border-radius: 1px;
-  position: relative;
-  width: var(--width-of-input);
-  height: var(--height-of-input);
   display: flex;
   align-items: center;
-  padding-inline: 0.8em;
-  border-radius: var(--border-radius);
-  transition: border-radius 0.5s ease;
-  background: var(--input-bg,#fff);
+  height: 40px;
+  padding: 0 0.5rem;
+  border: 2px solid #2f2ee9;
+  border-radius: 20px;
+  background: #fff;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  gap: 0.5rem;
+  max-width: 300px; /* ✅ Prevent it from stretching beyond container */
+  overflow: hidden;
 }
 
 .navbar-input {
@@ -187,8 +188,10 @@
 }
 
 .navbar-form svg {
-  width: 17px;
-  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  margin: 0; /* ✅ fix vertical shift */
+  display: block;
 }
 
 .navbar-reset-icon {
@@ -224,23 +227,24 @@
 
 .navbar-input {
   flex: 1;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
   border: none;
   outline: none;
   background: transparent;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.5rem;
+  line-height: 1.2;
+  height: 100%;
 }
 
 .navbar-search-button,
 .navbar-reset {
-  background: none;
-  border: none;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
   cursor: pointer;
-  color: #666;
 }
 
 .navbar-search-button svg,
