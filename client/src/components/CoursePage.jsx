@@ -5,7 +5,7 @@ import { FullCourse } from './FullCourse';
 import '../styles/CoursePage.css';
 
 export const CoursePage = () => {
-  const { id } = useParams();
+  const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export const CoursePage = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/alice01/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/user/alice01/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setLoading(false);
@@ -24,7 +24,7 @@ export const CoursePage = () => {
     };
 
     fetchCourseData();
-  }, [id]);
+  }, [courseId]);
 
   if (loading) return <div>Loading course...</div>;
   if (!course) return <div>Course not found.</div>;
