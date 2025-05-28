@@ -64,12 +64,10 @@ const getCourseById = async (req, res) => {
             }
         );
         if (!course)
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "Course not found(coursedetails collection)",
-                });
+            return res.status(404).json({
+                success: false,
+                message: "Course not found(coursedetails collection)",
+            });
 
         const contents = await CourseContent.findOne(
             { courseId: courseId },
@@ -81,12 +79,10 @@ const getCourseById = async (req, res) => {
         );
 
         if (!contents)
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "Course content not found(course contents table)",
-                });
+            return res.status(404).json({
+                success: false,
+                message: "Course content not found(course contents table)",
+            });
 
         const formattedContents = contents.modules.map((module) => ({
             moduleTitle: module.moduleTitle,
@@ -137,13 +133,11 @@ const getSubModuleByCourseId = async (req, res) => {
     try {
         const course = await CourseContent.findOne({ courseId });
         if (!course)
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "this error should never oocur. if it does, u messed up big time.",
-                });
+            return res.status(404).json({
+                success: false,
+                message:
+                    "this error should never oocur. if it does, u messed up big time.",
+            });
 
         const moduleIndex = parseInt(moduleNumber);
         const subModuleIndex = parseInt(subModuleNumber);
@@ -175,12 +169,10 @@ const getSubModuleByCourseId = async (req, res) => {
             .json({ success: true, subModule: subModuleContent });
     } catch (error) {
         console.error("Error fetching submodule by course ID:", error);
-        return res
-            .status(500)
-            .json({
-                success: false,
-                message: "Unable to get submodule details",
-            });
+        return res.status(500).json({
+            success: false,
+            message: "Unable to get submodule details",
+        });
     }
 };
 
