@@ -70,7 +70,7 @@
 /* Layout */
 .empprog-container {
   display: flex;
-  height: calc(100vh - 10.1rem);
+  height: calc(100vh - 10.15rem);
   width: 100%;
   background-color: #f8f9fa;
   box-sizing: border-box;
