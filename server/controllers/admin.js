@@ -3,8 +3,15 @@ const Progress = require('../models/courseProgress');
 const Courses = require('../models/courseDetails'); // Assuming you have a model for course details
 
 const getAllUsers = async (req, res) => {
-    const users = await User.find({});
-    res.status(200).json({ success: true, courseData: users });
+    const userData = await User.find({}, {
+        username: 1,
+        userid: 1,
+        email: 1,
+        profilePicture: 1,
+        role: 1,
+        position: 1,
+    })
+    res.status(200).json({ success: true, allUsers: userData });
 }
 
 const getAllUsersProgress = async (req, res) => {
