@@ -5,6 +5,9 @@ import { Home } from './components/Home';
 import { Footer } from './components/Footer';
 import { CoursePage } from './components/CoursePage';
 import { Course } from './components/Course';
+import { EmployeeDeets } from './components/EmployeeDeets';
+import { EmpProgress } from './components/EmpProgress';
+import { AdminNavbar } from './components/AdminNavbar';
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
         <Route path="/coursepage" element={<CoursePage />} />
         <Route path="/course" element={<Course />} />
         <Route path="/" element={<Home />} />
+        <Route path="/empdeets" element={<EmployeeDeets/>}/>
+        <Route path="/empprogress" element={<EmpProgress/>}/>
+        <Route path="/adminnav" element={<AdminNavbar/>}/>
       </Routes>
       <Footer />
     </BrowserRouter>

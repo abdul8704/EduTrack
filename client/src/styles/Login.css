@@ -9,7 +9,7 @@
 }
 
 .login-wrapper {
-  --input-focus: #bada55;
+  --input-focus: #27282749;
   --font-color: #323232;
   --font-color-sub: #666;
   --bg-color: #fff;
@@ -134,7 +134,7 @@
   justify-content: center;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  background: #bada55;
+  background: #27282749;
   gap: 20px;
   border-radius: 5px;
   border: 2px solid var(--main-color);
