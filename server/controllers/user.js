@@ -23,6 +23,7 @@ const getAllCourses = async (req, res) => {
 const getCurrentCourses = async (req, res) => {
     const { userId } = req.params;
 }
+
 const getCourseById = async (req, res) => {
     try{
         const { courseId } = req.params;
@@ -51,6 +52,35 @@ const getCourseById = async (req, res) => {
     }catch(error){
         console.error('Error fetching course by ID:', error);
         return res.status(500).json({ success: false, message: 'unable to get course details with id' });
+    }
+}
+
+const getModuleAndSubmoduleCount = async  (req, res) => {
+    const { courseId } = req.params;
+    try {
+        const course = await CourseContent.findOne({ courseId });
+
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const moduleCount = course.modules.length;
+        const submoduleCounts = course.modules.map((mod, index) => ({
+            moduleTitle: mod.moduleTitle,
+            submoduleCount: mod.submodules.length,
+        }));
+
+        return res.status(200).json({
+            success: true,
+            moduleCount,
+            submoduleCounts,
+        });
+    } catch (error) {
+        return res.status(500).json({   
+            success: false,
+            message: "Error fetching course content",
+            error: error.message,
+        });
     }
 }
 
@@ -86,5 +116,6 @@ const getSubModuleByCourseId = async (req, res) => {
 module.exports = {
     getAllCourses,
     getCourseById,
-    getModuleByCourseId 
+    getModuleByCourseId,
+    getModuleAndSubmoduleCount,
 };
