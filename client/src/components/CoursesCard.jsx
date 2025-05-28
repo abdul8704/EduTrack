@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/EnrolledCourses.css'
 
-export const CoursesCard = ({ image, title, instructor, rating }) => {
+export const CoursesCard = ({key, title, image, instructor, rating }) => {
   return (
     <div className="enrolled-course-card">
       <img src={image} alt={title} className="enrolled-course-image" />

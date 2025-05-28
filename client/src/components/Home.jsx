@@ -1,20 +1,40 @@
-import React from 'react'
-import { EnrolledCourses } from './EnrolledCourses'
-import { AvailableCourses } from './AvailableCourses'
-import axios from 'axios'
-
-const getCourseData = async (req, res) => {
-  const data = await axios.get('/api/user/')
-  console.log(data);
-  return data;
-}
+import React, { useEffect, useState } from 'react';
+import { EnrolledCourses } from './EnrolledCourses';
+import { AvailableCourses } from './AvailableCourses';
+import axios from 'axios';
 
 export const Home = () => {
-  const course = getCourseData();
+  const [courses, setCourses] = useState({
+    enrolledCourses: [],
+    availableCourses: []
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/');
+        setCourses({
+          enrolledCourses: response.data.enrolledCourses,
+          availableCourses: response.data.availableCourses
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <>    
-        <EnrolledCourses/>
-        <AvailableCourses/>
+    <>
+      <EnrolledCourses enrolled={courses.enrolledCourses} />
+      <AvailableCourses available={courses.availableCourses} />
     </>
-  )
-}
+  );
+};
