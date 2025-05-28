@@ -198,7 +198,7 @@
   left: 0;
   background-color: rgb(220, 233, 237);
   width: 100vw;
-  height: calc(100vh - 3.75rem);
+  height: auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -268,4 +268,10 @@
 /* Fix for preventing horizontal scroll when mobile menu open */
 body.navbar-menu-open {
   overflow: hidden;
+}
+ 
+@media screen and (max-width: 48rem) {
+  .navbar-mobile-menu .navbar-button {
+    display: block;
+  }
 }
