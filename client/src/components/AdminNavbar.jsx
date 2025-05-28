@@ -32,7 +32,7 @@ export const AdminNavbar = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/');
+        const response = await axios.get('http://localhost:5000/api/user/alice01');
         setCourses({
           enrolledCourses: response.data.enrolledCourses,
           availableCourses: response.data.availableCourses
