@@ -23,16 +23,19 @@ export const FullCourse = ({ courseData, contentsData }) => {
       <div className="course-card">
         <div className="course-info corner-layout">
           {courseIntroVideo?.videoUrl && (
-            <iframe
-              className="big-image"
-              width="560"
-              height="315"
-              src={getEmbedUrl(courseIntroVideo.videoUrl)}
-              title={courseIntroVideo.videoTitle}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            <div className="video-wrapper">
+              {/* <iframe
+                src="BPfdv6PXMx8?si=htubqUHBunrFRp3f"
+                // src={getEmbedUrl(courseIntroVideo.videoUrl)}
+                title={courseIntroVideo.videoTitle}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe> */}
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/BPfdv6PXMx8?si=htubqUHBunrFRp3f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              
+
+            </div>
           )}
 
           <div className="text-corner">
