@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/course.css';
 import { CourseNavbar } from './CourseNavbar';
-
+import { Module } from './Module';
 const courseModules = [
   {
     name: "Module 1",
@@ -48,11 +48,7 @@ export const Course = () => {
       <button className="course-hamburger" onClick={toggleNavbar}>
         {isCollapsed ? '>' : '<'}
       </button>
-
-
-      <div className="course-module">
-        {/* Right-side content will go here later */}
-      </div>
+      <Module/>
     </div>
   );
 };
