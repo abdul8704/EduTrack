@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const courseContent = require('./courseContent');
+const mongoose = require("mongoose");
+const courseContent = require("./courseContent");
 
 const courseDetailsSchema = new mongoose.Schema({
     courseId: {
@@ -25,9 +25,9 @@ const courseDetailsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    courseImage:{
+    courseImage: {
         type: String,
-        default: 'https://example.com/default-course-image.jpg', // Placeholder image URL
+        default: "https://example.com/default-course-image.jpg", // Placeholder image URL
     },
     tags: {
         type: [String],
@@ -40,4 +40,4 @@ const courseDetailsSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('CourseDetails', courseDetailsSchema);
+module.exports = mongoose.model("CourseDetails", courseDetailsSchema);
