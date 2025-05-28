@@ -4,7 +4,7 @@ const Courses = require('../models/courseDetails'); // Assuming you have a model
 
 const getAllUsers = async (req, res) => {
     const users = await User.find({});
-    res.status(200).json({ success: true, data: users });
+    res.status(200).json({ success: true, courseData: users });
 }
 
 const getAllUsersProgress = async (req, res) => {
