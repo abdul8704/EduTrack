@@ -10,6 +10,8 @@ const getAllCourses = async (req, res) => {
             courseName: 1,
             courseRating: 1,
             courseInstructor: 1,
+            courseImage: 1,
+            courseId: 1
         });
         return res.status(200).json({ success:true, enrolledCourses: courses, availableCourses: courses });
     } catch (error) {
