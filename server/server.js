@@ -3,7 +3,6 @@ require("express-async-errors");
 
 const express = require("express");
 const connectDB = require("./database/connect");
-const courseDetailsRouter = require("./routes/userRouter");
 const errorHandlerMiddleware = require("./middlewares/error-handler");
 const notFoundMiddleware = require("./middlewares/not-found");
 const userRouter  = require("./routes/userRouter");
