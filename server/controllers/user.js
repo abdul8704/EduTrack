@@ -43,48 +43,35 @@ const getCourseById = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Course not found(coursedetails collection)' });
         
         const contents = await CourseContent.findOne(
-            { courseId: "CS101" },
-            { "modules.moduleTitle": 1, _id: 0 }
+            { courseId: courseId },
+            {
+                "modules.moduleTitle": 1,
+                _id: 0,
+                "modules.submodules.submoduleTitle": 1,
+            }
         );
         
         if (!contents)
             return res.status(404).json({ success: false, message: 'Course content not found(course contents table)' });
-        
-        return res.status(200).json({ success: true, data: course, contents: contents.modules  }); 
-    }catch(error){
-        console.error('Error fetching course by ID:', error);
-        return res.status(500).json({ success: false, message: 'unable to get course details with id' });
-    }
-}
 
-const getModuleAndSubmoduleCount = async  (req, res) => {
-    const { courseId } = req.params;
-    try {
-        const course = await CourseContent.findOne({ courseId });
-
-        if (!course) {
-            return res.status(404).json({ success: false, message: "Course not found" });
-        }
-
-        const moduleCount = course.modules.length;
-        const submoduleCounts = course.modules.map((mod, index) => ({
-            moduleTitle: mod.moduleTitle,
-            submoduleCount: mod.submodules.length,
+        const formattedContents = contents.modules.map((module) => ({
+            moduleTitle: module.moduleTitle,
+            submodules: module.submodules.map((sub) => sub.submoduleTitle),
         }));
 
         return res.status(200).json({
             success: true,
-            moduleCount,
-            submoduleCounts,
+            data: course,
+            contents: formattedContents,
         });
-    } catch (error) {
-        return res.status(500).json({   
-            success: false,
-            message: "Error fetching course content",
-            error: error.message,
-        });
+        
+        // return res.status(200).json({ success: true, data: course, contents: contents.modules  }); 
+    }catch(error){
+        console.error('Error fetching course bmy ID:', error);
+        return res.status(500).json({ success: falsm, message: 'unable to get course details with id' });
     }
 }
+
 
 const getModuleByCourseId = async (req, res) => {
     const { courseId, moduleNumber } = req.params;
@@ -119,5 +106,4 @@ module.exports = {
     getAllCourses,
     getCourseById,
     getModuleByCourseId,
-    getModuleAndSubmoduleCount,
 };
