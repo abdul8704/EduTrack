@@ -1,10 +1,10 @@
 const User = require('../models/userDetails');
 const Progress = require('../models/courseProgress'); 
-const Courses = require
+const Courses = require('../models/courseDetails'); // Assuming you have a model for course details
 
 const getAllUsers = async (req, res) => {
     const users = await User.find({});
-    res.status(200).json({ success: true, data: users });
+    res.status(200).json({ success: true, courseData: users });
 }
 
 const getAllUsersProgress = async (req, res) => {
@@ -35,7 +35,6 @@ const getAllUsersProgress = async (req, res) => {
 const addNewUser = async (req, res) => {
     try {
         const { username, emailHash, passwordHash } = req.body;
-    
         const existingUser = await User.findOne({ email: emailHash });
         if (existingUser) 
             return res.status(400).json({ success: false, message: 'User already exists' });
@@ -43,10 +42,12 @@ const addNewUser = async (req, res) => {
         const newUser = new User({
             username: username,
             email: emailHash,
+            userid: emailHash,
             passwordHash: passwordHash,
-            currentCourses: []
+            currentCourses: [],
         });
-    
+        
+        console.log("New user created:", newUser);
         await newUser.save();
         res.status(201).json({ success: true, message: 'User created successfully' });
     } catch (error) {
@@ -58,7 +59,7 @@ const addNewUser = async (req, res) => {
 const getUserForCourse = async (req, res) => {
     const { courseId } = req.params;
     try {
-        const courseExists = await Courses.find({ courseId });
+        const courseExists = await Courses.findOne({ courseId: courseId });
         if (!courseExists) {
             return res.status(404).json({ success: false, message: 'Course does not exist' });
         }
@@ -77,14 +78,15 @@ const getUserForCourse = async (req, res) => {
         const data = [];
 
         courseData.map((progress) => {
+
             const user = userNameId.find(user => user.userid === progress.userId);
             data.push({
-                username: user ? user.username : 'Unknown User',
+                username: user ? user.username : "Unknown User",
                 userId: progress.userId,
-                completion: courseData.percentComplete
-            })
+                completion: progress.percentComplete,
+            });
         });
-        res.status(200).json({ success: true, data: data });
+        res.status(200).json({ success: true, data: data});
     } catch (error) {
         console.error('Error fetching user:', error);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -94,5 +96,6 @@ const getUserForCourse = async (req, res) => {
 module.exports = {
     getAllUsers,
     getAllUsersProgress,
-    addNewUser
+    addNewUser,
+    getUserForCourse,
 }; 
