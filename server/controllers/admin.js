@@ -14,29 +14,24 @@ const getAllUsers = async (req, res) => {
     res.status(200).json({ success: true, allUsers: userData });
 }
 
-const getAllUsersProgress = async (req, res) => {
+const getProgressByUserId = async (req, res) => {
+    const { employeeid } = req.params;
     try {
-        const progressData = await Progress.find();
-
-        const grouped = {};
-
-        progressData.forEach((entry) => {
-            if (!grouped[entry.userId]) {
-                grouped[entry.userId] = [];
-            }
-            grouped[entry.userId].push({
-                courseName: entry.courseName,
-                percentComplete: entry.percentComplete,
-            });
+        const userProgress = await Progress.find({ userId: employeeid }, {
+            userId: 1,
+            courseId: 1,
+            courseName: 1,
+            percentComplete: 1,
         });
-        if (!grouped)
-            return res.status(404).json({ success: false, message: "No progress data found" });
-        res.status(200).json(grouped);
-    } catch (err) {
-        console.error("Error fetching user progress:", err);
-        res.status(500).json({ success: false, error: "Server error" });
+
+        if (!userProgress || userProgress.length === 0) {
+            return res.status(404).json({ success: false, message: 'No progress found for this user' });
+        }
+        res.status(200).json({ success: true, progress: userProgress });
+    } catch (error) {
+        console.error('Error fetching progress:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
-    
 }
 
 const addNewUser = async (req, res) => {
@@ -102,7 +97,7 @@ const getUserForCourse = async (req, res) => {
 
 module.exports = {
     getAllUsers,
-    getAllUsersProgress,
     addNewUser,
     getUserForCourse,
+    getProgressByUserId,
 }; 
