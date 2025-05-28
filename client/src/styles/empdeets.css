@@ -1,4 +1,4 @@
-.enrolled-container {
+.emp-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -6,24 +6,24 @@
   position: relative;
 }
 
-.enrolled-title {
+.emp-title {
   font-weight: bold;
   font-size: 2rem;
   color: #333;
 }
 
-.enrolled-carousel-wrapper {
+.emp-carousel-wrapper {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.enrolled-courses-outer {
+.emp-courses-outer {
   flex: 1;
   overflow: hidden;
 }
 
-.enrolled-courses-container {
+.emp-courses-container {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
@@ -33,11 +33,11 @@
   -ms-overflow-style: none;
 }
 
-.enrolled-courses-container::-webkit-scrollbar {
+.emp-courses-container::-webkit-scrollbar {
   display: none;
 }
 
-.enrolled-course-card {
+.emp-course-card {
   background: #f0f0f0;
   border-radius: 1rem;
   box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
@@ -50,24 +50,24 @@
   flex-shrink: 0;
 }
 
-.enrolled-course-card:hover {
+.emp-course-card:hover {
   transform: translateY(-0.5rem);
 }
 
-.enrolled-course-image {
+.emp-course-image {
   width: 100%;
   height: 12rem;
   object-fit: cover;
 }
 
-.enrolled-course-title {
+.emp-course-title {
   font-size: 1.4rem;
   font-weight: 600;
   color: #222;
   padding: 1rem 1rem 0 1rem;
 }
 
-.enrolled-course-bottom {
+.emp-course-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,18 +75,18 @@
   margin-top: auto;
 }
 
-.enrolled-course-instructor {
+.emp-course-instructor {
   font-size: 1rem;
   color: #555;
 }
 
-.enrolled-course-rating {
+.emp-course-rating {
   font-size: 1rem;
   color: #ff9900;
   font-weight: 500;
 }
 
-.enrolled-arrow {
+.emp-arrow {
   width: 2.5rem;
   height: 20rem;
   display: flex;
@@ -98,22 +98,21 @@
   transition: background-color 0.3s ease;
   flex-shrink: 0;
   user-select: none;
-  position: static;   
+  position: static;
 }
 
-.enrolled-left-arrow {
-   background: linear-gradient(to right, #eaeaea, #ffffff00);
-   border-radius: 0.5rem 0 0 0.5rem;
+.emp-left-arrow {
+  background: linear-gradient(to right, #eaeaea, #ffffff00);
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.enrolled-right-arrow {
-    background: linear-gradient(to left, #eaeaea, #fffffc00);
-    border-radius: 0 0.5rem 0.5rem 0;
+.emp-right-arrow {
+  background: linear-gradient(to left, #eaeaea, #fffffc00);
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
-.available-courses-container {
+.emp-available-container {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 1.5rem;
   overflow-x: auto;

@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/navbar.css';
-import logo from '../assets/zuntraLogo.avif'; 
+import logo from '../assets/zuntraLogo.avif';
 
 export const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(prev => !prev);
+  };
+
   return (
-    <nav className="navbar-navbar">
+    <nav className={`navbar-navbar ${menuOpen ? 'navbar-expanded' : ''}`}>
       <div className="navbar-left-section">
         <div className="navbar-logo-container">
           <img src={logo} alt="Logo" className="navbar-logo" />
@@ -14,12 +20,19 @@ export const Navbar = () => {
           <NavbarInput />
         </div>
       </div>
-      <div className="navbar-right-section">
+
+      <div className={`navbar-right-section ${menuOpen ? 'navbar-menu-open' : ''}`}>
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
         <Link to="/login" className="navbar-button">Login</Link>
       </div>
+
+      <button className={`navbar-hamburger ${menuOpen ? 'navbar-hamburger-open' : ''}`} onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={menuOpen}>
+        <span className="navbar-hamburger-bar"></span>
+        <span className="navbar-hamburger-bar"></span>
+        <span className="navbar-hamburger-bar"></span>
+      </button>
     </nav>
   );
 };
@@ -42,5 +55,3 @@ const NavbarInput = () => {
     </form>
   );
 };
-
- 
