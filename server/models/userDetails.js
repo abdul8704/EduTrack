@@ -19,6 +19,19 @@ const userDetailsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profilePicture: {
+        type: String,
+        default: 'default-profile-pic.png',
+    },
+    role:{
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user',
+    },
+    position: {
+        type: String,
+        default: 'Software Engineer',
+    },
     currentCourses: {
         type: [String],
         default: [],
