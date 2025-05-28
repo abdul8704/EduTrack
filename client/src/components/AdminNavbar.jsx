@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
 import '../styles/adminnavbar.css';
 import { Users, BookOpen } from 'lucide-react';
 import { EmployeeDeets } from './EmployeeDeets.jsx'
 import { AvailableCourses } from './AvailableCourses.jsx';
+import React, { useState, useEffect } from 'react'; 
+import axios from 'axios'; 
+
 
 export const AdminNavbar = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const options = [
@@ -20,7 +22,32 @@ export const AdminNavbar = () => {
   const toggleNavbar = () => {
     setIsCollapsed(!isCollapsed);
   };
+  const [courses, setCourses] = useState({
+    enrolledCourses: [],
+    availableCourses: []
+  });
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/');
+        setCourses({
+          enrolledCourses: response.data.enrolledCourses,
+          availableCourses: response.data.availableCourses
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="admnav-container">
       <div className={`admnav-navbar ${isCollapsed ? 'admnav-collapsed' : ''}`}>
@@ -43,7 +70,7 @@ export const AdminNavbar = () => {
 
       <div className="admnav-module">
         {activeIndex === 0 && <div><EmployeeDeets/></div>}
-        {activeIndex === 1 && <div><AvailableCourses/></div>}
+        {activeIndex === 1 && <div><AvailableCourses available={courses.availableCourses} /></div>}
       </div>
     </div>
   );
