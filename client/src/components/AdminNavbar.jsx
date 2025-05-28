@@ -14,7 +14,7 @@ export const AdminNavbar = () => {
   ];
 
   const toggleModule = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
+    setActiveIndex(index);
   };
 
   const toggleNavbar = () => {
