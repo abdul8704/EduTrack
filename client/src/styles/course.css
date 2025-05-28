@@ -1,6 +1,6 @@
 .course-container {
   display: flex;
-  height: 100vh;
+  min-height: 80vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
   overflow-x: hidden;
@@ -8,7 +8,7 @@
 
 .course-navbar {
   width: 15rem;
-  height: 100vh;
+  height: auto;
   background: #ffffff;
   border-right: 0.1rem solid #e0e0e0;
   display: flex;
@@ -23,7 +23,7 @@
 }
 
 .course-navbar.collapsed {
-  width: 1rem;
+  width: 0rem;
   padding: 0;
   border-right: none;
   box-shadow: none;
@@ -107,37 +107,6 @@
   overflow: hidden;
 }
 
-/* Arrow bar */
-.course-collapse-bar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #bada55;
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
-  width: 1rem;
-  height: 2.5rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  text-align: center;
-  line-height: 2.5rem;
-  user-select: none;
-  box-shadow: 0 0 6px #bada5599;
-  transition: background 0.3s ease, opacity 0.3s ease;
-  z-index: 20;
-  display: none; /* default hidden, shown only in collapsed */
-}
-
-.course-collapse-bar:hover {
-  background: #a1b533;
-}
-
-.course-navbar:not(.collapsed) > .course-collapse-bar {
-  display: none;
-}
-
 /* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
   .course-navbar {
@@ -148,7 +117,7 @@
   }
 
   .course-navbar.collapsed {
-    width: 1rem;
+    width: 0rem;
   }
 
   .course-navbar:not(.collapsed) {
@@ -178,4 +147,9 @@
   .course-module {
     padding: 1rem;
   }
+}
+
+.course-hamburger{
+  background-color: #bada55;
+  border: 0px;
 }

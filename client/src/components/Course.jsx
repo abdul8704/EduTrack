@@ -38,13 +38,6 @@ export const Course = () => {
 
   return (
     <div className="course-container">
-      <button
-        className="course-hamburger"
-        onClick={toggleNavbar}
-      >
-        ☰
-      </button>
-
       <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
         {courseModules.map((module, index) => (
           <div key={index} className="course-module-wrapper">
@@ -67,7 +60,12 @@ export const Course = () => {
           </div>
         ))}
       </div>
-
+              <button
+        className="course-hamburger"
+        onClick={toggleNavbar}
+      >
+        {isCollapsed ? '>' : '<'}
+      </button>
       <div className="course-module">
         {/* Right-side content will go here later */}
       </div>
