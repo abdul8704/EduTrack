@@ -1,11 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../controllers/user');
+const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
 
-router.get("/", adminController.getAllUsers);
-router.get("/:courseId", adminController.getUserForCourse);
-router.post("/add", adminController.addNewUser);
-router.get("/")
-
+router.get("/:adminid/", adminController.getAllUsers);
+router.get("/:adminid/:courseId", adminController.getUserForCourse);
+router.post("/:adminid/add", adminController.addNewUser);
+router.get(
+    "/:adminid/progress/:employeeid",
+    adminController.getProgressByUserId
+);
 module.exports = router;

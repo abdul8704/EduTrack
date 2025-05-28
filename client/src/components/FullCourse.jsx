@@ -1,90 +1,70 @@
 import React from 'react';
 import '../styles/CoursePage.css';
 
-export const FullCourse = ({ name, img, id }) => {
-    const courseArray = [
-        {
-            id: 1,
-            info: "This comprehensive course is designed to provide learners with a deep understanding of the fundamental components and architecture of the Internet of Things (IoT).",
-            label: "contents as follows",
-            overviewItems: [
-                {
-                    heading: "What is IoT?",
-                    content: "The Internet of Things (IoT) refers to a system of interrelated physical devices connected via the Internet, enabling them to collect and exchange data."
-                },
-                {
-                    heading: "Internet of Things 101",
-                    content: [
-                        "Describe the key layers and components of IoT architecture.",
-                        "Understand different IoT platforms and ecosystems.",
-                        "Develop simple IoT projects using Arduino and Raspberry Pi.",
-                        "Apply communication protocols like MQTT and HTTP in IoT systems."
-                    ]
-                },
-                {
-                    heading: "Internet of Things 201",
-                    content: [
-                        "Edge computing in IoT",
-                        "Real-world IoT case studies",
-                        "Data processing pipelines",
-                        "Advanced IoT security strategies"
-                    ]
-                }
-            ]
-        }
+// Helper to convert YouTube short URL to embed format
+const getEmbedUrl = (url) => {
+  const match = url.match(/(?:youtu\.be\/|v=)([^&?]+)/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+};
 
-    ];
+export const FullCourse = ({ courseData, contentsData }) => {
+  if (!courseData) return <div>No course data available</div>;
 
-    const selectedCourse = courseArray.find(course => course.id === id);
+  const {
+    courseIntroVideo,
+    courseName,
+    courseDescription,
+    courseRating,
+    courseInstructor
+  } = courseData;
 
-    return (
-        <div className= "fullcourse-container" >
-        <div className="course-card" >
-            <div className="course-info corner-layout" >
-                <img className="big-image" src = { img } alt = { name } />
-                    <div className="text-corner" >
-                        <h2>{ name } </h2>
-                        < p > { selectedCourse.info } </p>
-                        < button className = "start-button" > Start </button>
-                            </div>
-                            </div>
+  return (
+    <div className="fullcourse-container">
+      <div className="course-card">
+        <div className="course-info corner-layout">
+          {courseIntroVideo?.videoUrl && (
+            <iframe
+              className="big-image"
+              width="560"
+              height="315"
+              src={getEmbedUrl(courseIntroVideo.videoUrl)}
+              title={courseIntroVideo.videoTitle}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          )}
 
-                            < div className = "progress-label" > Learning Progress </div>
-                                < div className = "progress-bar-bg" >
-                                    <div className="progress-bar-fill" style = {{ width: '50%' }
-} />
-    </div>
-    < p className = "progress-status" > Status: Started </p>
+          <div className="text-corner">
+            <h2>{courseName}</h2>
+            <p>{courseDescription}</p>
+            <p><strong>Instructor:</strong> {courseInstructor}</p>
+            <p><strong>Rating:</strong> ⭐ {courseRating}</p>
+            <button className="start-button">Start</button>
+            <div className="progress-label">Learning Progress</div>
+            <div className="progress-bar-bg">
+              <div className="progress-bar-fill" style={{ width: '50%' }} />
+            </div>
+          </div>
+        </div>
 
-        < div className = "certificate-generate" >
-            <span>Generate Certificate </span>
-                < button className = "download-button" > Download </button>
-                    </div>
-                    </div>
-
-                    < div className = "overview-container" >
-                        <h1 className="overview-title" > Tables of Contents </h1>
-                            < p className = "overview-label" > { selectedCourse.label } </p>
-                                < div className = "overview-cards" >
-                                    {
-                                        selectedCourse.overviewItems.map((item, idx) => (
-                                            <div key= { idx } className = "overview-card" >
-                                            <h3>{ item.heading } </h3>
-              {
-                                                Array.isArray(item.content) ? (
-                                                    <ul>
-                                                    {
-                                                        item.content.map((line, i) => (
-                                                            <li key= { i } > { line } </li>
-                                                        ))}
-                                            </ul>
-                                        ) : (
-                                            <p>{ item.content } </p>
-                                        )}
-</div>
-          ))}
-</div>
-    </div>
+        <div className="overview-container">
+          <h1 className="overview-title">Table of Contents</h1>
+          <p className="overview-label">Contents as follows</p>
+          <div className="overview-cards">
+            {contentsData.map((module, idx) => (
+              <div key={idx} className="overview-card">
+                <h3>{module.moduleTitle}</h3>
+                <ul>
+                  {module.submodules.map((sub, i) => (
+                    <li key={i}>{sub}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

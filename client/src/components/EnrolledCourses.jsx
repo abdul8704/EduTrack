@@ -63,7 +63,7 @@ export const EnrolledCourses = ({ enrolled }) => {
           {Array.isArray(enrolled) &&
             enrolled.map((course) => (
               <CoursesCard
-                key={course.courseId}
+                id={course.courseId}
                 title={course.courseName}
                 image={course.courseImage}
                 instructor={course.courseInstructor}
@@ -73,7 +73,7 @@ export const EnrolledCourses = ({ enrolled }) => {
           {Array.isArray(enrolled) &&
             enrolled.map((course) => (
               <CoursesCard
-                key={course.courseId}
+                id={course.courseId}
                 title={course.courseName}
                 image={course.courseImage}
                 instructor={course.courseInstructor}

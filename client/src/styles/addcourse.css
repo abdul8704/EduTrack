@@ -1,0 +1,138 @@
+/* Base */
+.addcourse-form {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9fff5;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(186, 218, 85, 0.5);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Titles */
+.addcourse-title {
+  text-align: center;
+  color: #bada55;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.addcourse-modules h2,
+.addcourse-final-quiz h2 {
+  color: #bada55;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #bada55;
+  padding-bottom: 6px;
+}
+
+/* Inputs */
+.addcourse-input,
+.addcourse-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 2px solid #bada55;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline-offset: 2px;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.addcourse-input:focus,
+.addcourse-textarea:focus {
+  border-color: #8aa41f;
+  background-color: #f0f9d3;
+}
+
+/* Sections */
+.addcourse-module,
+.addcourse-lecture,
+.addcourse-assignment,
+.addcourse-quiz-question-block {
+  margin-bottom: 24px;
+  padding: 12px 15px;
+  border: 1px solid #bada55;
+  border-radius: 8px;
+  background: #e9f1be;
+}
+
+/* Sub-headings */
+.addcourse-lectures h3,
+.addcourse-assignments h3 {
+  color: #7a8a00;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Buttons */
+.addcourse-button,
+.addcourse-button-small,
+.addcourse-submit-button {
+  background-color: #bada55;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.25s ease;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.addcourse-button:hover,
+.addcourse-button-small:hover,
+.addcourse-submit-button:hover {
+  background-color: #8aa41f;
+}
+
+.addcourse-button-small {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+/* Submit Button Centered */
+.addcourse-submit-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.addcourse-submit-button {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .addcourse-form {
+    padding: 15px;
+  }
+
+  .addcourse-input,
+  .addcourse-textarea {
+    font-size: 0.9rem;
+  }
+
+  .addcourse-button,
+  .addcourse-button-small,
+  .addcourse-submit-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+  }
+
+  .addcourse-submit-container {
+    margin-top: 20px;
+  }
+
+  .addcourse-button-small {
+    width: auto;
+    display: block;
+    margin-top: 10px;
+  }
+}

@@ -246,6 +246,11 @@
   margin-top: 1rem;
 }
 
+/* Fix for preventing horizontal scroll when mobile menu open */
+body.navbar-menu-open {
+  overflow: hidden;
+}
+
 /* Responsive Styles */
 @media screen and (max-width: 48rem) { /* 768px */
   /* Show hamburger */
@@ -278,15 +283,15 @@
     justify-content: space-between;
     align-items: center;
   }
-}
-
-/* Fix for preventing horizontal scroll when mobile menu open */
-body.navbar-menu-open {
-  overflow: hidden;
-}
- 
-@media screen and (max-width: 48rem) {
   .navbar-mobile-menu .navbar-button {
     display: block;
   }
+   .navbar-button {
+    padding: 1.25rem 2.5rem; /* Increased padding for bigger button */
+    font-size: 1.125rem; /* 18px instead of default 16px */
+  }
 }
+
+
+ 
+

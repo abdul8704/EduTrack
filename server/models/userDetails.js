@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userDetailsSchema = new mongoose.Schema({
     username: {
@@ -21,16 +21,16 @@ const userDetailsSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: 'default-profile-pic.png',
+        default: "default-profile-pic.png",
     },
-    role:{
+    role: {
         type: String,
-        enum: ['user', 'admin'],
-        default: 'user',
+        enum: ["user", "admin"],
+        default: "user",
     },
     position: {
         type: String,
-        default: 'Software Engineer',
+        default: "Software Engineer",
     },
     currentCourses: {
         type: [String],
@@ -38,4 +38,4 @@ const userDetailsSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('UserDetails', userDetailsSchema);
+module.exports = mongoose.model("UserDetails", userDetailsSchema);

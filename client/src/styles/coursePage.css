@@ -26,6 +26,7 @@
   width: 45%;
   height: 350px;
   border-radius: 12px;
+  object-fit: cover;
 }
 
 /* Text beside image */
@@ -34,7 +35,7 @@
 }
 
 .text-corner h2 {
-  color: #000000; /* Forest Green */
+  color: #000000;
   font-size: 28px;
   margin-bottom: 15px;
 }
@@ -50,7 +51,7 @@
   margin-top: 15px;
   padding: 10px 24px;
   font-size: 16px;
-  background-color: #bada55; /* Olive */
+  background-color: #bada55;
   color: white;
   border: none;
   border-radius: 8px;
@@ -113,4 +114,89 @@
 
 .download-button:hover {
   background-color: #5c6a2e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .course-card {
+    padding: 20px;
+  }
+
+  .course-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .big-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+  }
+
+  .text-corner h2 {
+    font-size: 24px;
+  }
+
+  .text-corner p {
+    font-size: 15px;
+  }
+
+  .start-button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-page {
+    padding: 15px;
+  }
+
+  .course-card {
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .big-image {
+    max-height: 220px;
+  }
+
+  .text-corner h2 {
+    font-size: 20px;
+  }
+
+  .text-corner p {
+    font-size: 14px;
+  }
+
+  .start-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .progress-bar-bg {
+    height: 12px;
+  }
+
+  .progress-status {
+    font-size: 14px;
+  }
+
+  .overview-title {
+    font-size: 20px;
+  }
+
+  .overview-card h3 {
+    font-size: 16px;
+  }
+
+  .overview-card p,
+  .overview-card ul {
+    font-size: 14px;
+  }
+
+  .overview-card ul li {
+    margin-bottom: 4px;
+  }
 }
