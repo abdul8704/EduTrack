@@ -31,12 +31,10 @@ const getProgressByUserId = async (req, res) => {
         );
 
         if (!userProgress || userProgress.length === 0) {
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "No progress found for this user",
-                });
+            return res.status(404).json({
+                success: false,
+                message: "No progress found for this user",
+            });
         }
         res.status(200).json({ success: true, progress: userProgress });
     } catch (error) {
