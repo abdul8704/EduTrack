@@ -18,6 +18,33 @@ export const AvailableCourses = ({ available }) => {
             rating={course.courseRating}
           />
         ))}
+        {Array.isArray(available) && available.map((course) => (
+          <CoursesCard
+            key={course.courseId}
+            image={course.courseImage}
+            title={course.courseName}
+            instructor={course.courseInstructor}
+            rating={course.courseRating}
+          />
+        ))}
+        {Array.isArray(available) && available.map((course) => (
+          <CoursesCard
+            key={course.courseId}
+            image={course.courseImage}
+            title={course.courseName}
+            instructor={course.courseInstructor}
+            rating={course.courseRating}
+          />
+        ))}
+        {Array.isArray(available) && available.map((course) => (
+          <CoursesCard
+            key={course.courseId}
+            image={course.courseImage}
+            title={course.courseName}
+            instructor={course.courseInstructor}
+            rating={course.courseRating}
+          />
+        ))}
       </div>
     </div>
   );
