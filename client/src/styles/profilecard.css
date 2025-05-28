@@ -7,10 +7,11 @@
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
   margin: 1.25rem auto; /* 20px = 1.25rem */
+  transition: transform 0.3s;
 }
 
 .profile-card:hover {
-  transform: translateY(-0.6rem);
+  transform: translateY(-0.8rem);
 }
 
 .profile-top {
