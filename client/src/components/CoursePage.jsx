@@ -1,12 +1,11 @@
 import React from 'react';
-import { FullCourse } from './FullCourse.jsx';
-import IotImage from '../assets/react.svg'; // Your image
+import { FullCourse } from './FullCourse';
 import '../styles/CoursePage.css';
 
 export const CoursePage = () => {
   const courseData = {
     name: "Internet of Things",
-    img: IotImage,
+    img: "https://www.youtube.com/embed/bTqVqk7FSmY", 
     id: 1,
   };
 
