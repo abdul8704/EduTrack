@@ -1,27 +1,24 @@
-/* ========== Sidebar ========== */
+/* Sidebar */
 .empprog-navbar {
   width: 20rem;
-  height: 100vh;
   background: rgb(220, 233, 237);
-  border-right: 0.1rem solid #e0e0e0;
-  border: 0.08rem solid rgb(62, 60, 60);
+  border-right: 0.08rem solid rgb(62, 60, 60);
   display: flex;
   flex-direction: column;
   padding: 2rem 1rem;
   overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
   z-index: 10;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  position: relative;
 }
 
-/* ========== Profile Section ========== */
+/* Profile */
 .empprog-profile-section {
-  border-radius: 1rem;
-  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem 1rem;
+  border-radius: 1rem;
   transition: transform 0.3s ease;
 }
 
@@ -66,54 +63,51 @@
   background-color: #f0f0f0;
   padding: 0.4rem 0.6rem;
   border-radius: 0.4rem;
-  word-break: break-word;
   text-align: center;
+  word-break: break-word;
 }
 
-/* ========== Layout Containers ========== */
+/* Layout */
 .empprog-container {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 10.1rem);
   width: 100%;
   background-color: #f8f9fa;
   box-sizing: border-box;
 }
 
 .empprog-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
   padding: 2rem 3rem;
   overflow-y: auto;
   background-color: rgb(241, 245, 229);
 }
 
-.empprog-cont {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-between;
-}
-
-/* ========== Headings ========== */
 .empprog-heading {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 2rem;
   color: #333;
+  margin-bottom: 2rem;
 }
 
-/* ========== Course Card ========== */
+.empprog-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Course Card */
 .empprog-course-card {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  box-sizing: border-box;
+  align-items: center;
+  width: 45%;
   background: #e9f1f7;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 1rem;
-  align-items: center;
   transition: transform 0.3s ease;
 }
 
@@ -121,16 +115,14 @@
   transform: translateY(-4px);
 }
 
-/* Course Image */
 .empprog-course-image {
   width: 80px;
   height: 80px;
-  object-fit: cover;
   border-radius: 0.8rem;
+  object-fit: cover;
   margin-right: 1.5rem;
 }
 
-/* Course Details */
 .empprog-course-details {
   flex: 1;
 }
@@ -148,7 +140,6 @@
   margin-bottom: 0.8rem;
 }
 
-/* Progress Bar */
 .empprog-progress-bar {
   height: 10px;
   background-color: #dfe6e9;
@@ -165,11 +156,11 @@
 
 .empprog-progress-percent {
   font-size: 0.85rem;
-  color: #333;
   font-weight: 500;
+  color: #333;
 }
 
-/* ========== Responsive ========== */
+/* Responsive */
 @media (max-width: 768px) {
   .empprog-container {
     flex-direction: column;
@@ -201,7 +192,6 @@
   .empprog-navbar {
     width: 1rem;
     padding: 0;
-    border-right: none;
     box-shadow: none;
   }
 }

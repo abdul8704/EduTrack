@@ -8,9 +8,10 @@
 /* Base navbar container */
 .navbar-navbar {
   max-width: 100%;
+  height: 5rem;
   margin: 0 auto;
   background-color: rgb(220, 233, 237);
-  padding: 1.5rem 2rem;
+  padding: 0rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
