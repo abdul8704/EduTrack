@@ -113,6 +113,7 @@
 
 .available-courses-container {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1.5rem;
   overflow-x: auto;
