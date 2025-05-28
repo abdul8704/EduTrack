@@ -4,8 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh; /* Full viewport height */
-  background-color: rgb(241, 245, 229); /* Optional background */
+  height: 85vh;
+  background-color: rgb(241, 245, 229);
 }
 
 .login-wrapper {
@@ -21,23 +21,23 @@
 }
 
 .login-switch {
-  transform: translateY(-200px);
+  transform: translateY(-12.5rem); /* -200px */
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
-  width: 50px;
-  height: 20px;
+  gap: 1.875rem; /* 30px */
+  width: 3.125rem; /* 50px */
+  height: 1.25rem; /* 20px */
 }
 
 .login-card-side::before {
   position: absolute;
   content: 'Log in';
-  left: -70px;
+  left: -4.375rem; /* -70px */
   top: 0;
-  width: 100px;
+  width: 6.25rem; /* 100px */
   text-decoration: underline;
   color: var(--font-color);
   font-weight: 600;
@@ -46,9 +46,9 @@
 .login-card-side::after {
   position: absolute;
   content: 'Sign up';
-  left: 70px;
+  left: 4.375rem; /* 70px */
   top: 0;
-  width: 100px;
+  width: 6.25rem; /* 100px */
   text-decoration: none;
   color: var(--font-color);
   font-weight: 600;
@@ -62,9 +62,9 @@
 
 .login-slider {
   box-sizing: border-box;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
-  box-shadow: 4px 4px var(--main-color);
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.125rem solid var(--main-color); /* 2px */
+  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -79,14 +79,14 @@
   box-sizing: border-box;
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
-  border: 2px solid var(--main-color);
-  border-radius: 5px;
-  left: -2px;
-  bottom: 2px;
+  height: 1.25rem; /* 20px */
+  width: 1.25rem;
+  border: 0.125rem solid var(--main-color); /* 2px */
+  border-radius: 0.3125rem; /* 5px */
+  left: -0.125rem; /* -2px */
+  bottom: 0.125rem; /* 2px */
   background-color: var(--bg-color);
-  box-shadow: 0 3px 0 var(--main-color);
+  box-shadow: 0 0.1875rem 0 var(--main-color); /* 3px */
   transition: 0.3s;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .login-toggle:checked + .login-slider:before {
-  transform: translateX(30px);
+  transform: translateX(1.875rem); /* 30px */
 }
 
 .login-toggle:checked ~ .login-card-side:before {
@@ -107,8 +107,8 @@
 }
 
 .login-flip-card__inner {
-  width: 300px;
-  height: 350px;
+  width: 18.75rem; /* 300px */
+  height: 21.875rem; /* 350px */
   position: relative;
   background-color: transparent;
   perspective: 1000px;
@@ -127,7 +127,7 @@
 
 .login-flip-card__front,
 .login-flip-card__back {
-  padding: 20px;
+  padding: 1.25rem; /* 20px */
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -135,10 +135,10 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   background: #27282749;
-  gap: 20px;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
-  box-shadow: 4px 4px var(--main-color);
+  gap: 1.25rem; /* 20px */
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.125rem solid var(--main-color);
+  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
 }
 
 .login-flip-card__back {
@@ -150,28 +150,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem; /* 20px */
 }
 
 .login-title {
-  margin: 20px 0 20px 0;
-  font-size: 25px;
+  margin: 1.25rem 0;
+  font-size: 1.5625rem; /* 25px */
   font-weight: 900;
   text-align: center;
   color: var(--main-color);
 }
 
 .login-flip-card__input {
-  width: 250px;
-  height: 40px;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
+  width: 15.625rem; /* 250px */
+  height: 2.5rem; /* 40px */
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.125rem solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 15px;
+  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
+  font-size: 0.9375rem; /* 15px */
   font-weight: 600;
   color: var(--font-color);
-  padding: 5px 10px;
+  padding: 0.3125rem 0.625rem; /* 5px 10px */
   outline: none;
 }
 
@@ -181,23 +181,23 @@
 }
 
 .login-flip-card__input:focus {
-  border: 2px solid var(--input-focus);
+  border: 0.125rem solid var(--input-focus);
 }
 
 .login-flip-card__btn:active {
-  box-shadow: 0px 0px var(--main-color);
-  transform: translate(3px, 3px);
+  box-shadow: 0 0 var(--main-color);
+  transform: translate(0.1875rem, 0.1875rem); /* 3px */
 }
 
 .login-flip-card__btn {
-  margin: 20px 0 20px 0;
-  width: 120px;
-  height: 40px;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
+  margin: 1.25rem 0;
+  width: 7.5rem; /* 120px */
+  height: 2.5rem; /* 40px */
+  border-radius: 0.3125rem; /* 5px */
+  border: 0.125rem solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 17px;
+  box-shadow: 0.25rem 0.25rem var(--main-color);
+  font-size: 1.0625rem; /* 17px */
   font-weight: 600;
   color: var(--font-color);
   cursor: pointer;

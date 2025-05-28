@@ -1,3 +1,10 @@
+.footer {
+  padding: 1rem;
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+}
+
 /* Base navbar container */
 .navbar-navbar {
   max-width: 100%;
