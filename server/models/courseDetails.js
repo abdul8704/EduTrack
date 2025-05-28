@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const courseContent = require('./courseContent');
 
 const courseDetailsSchema = new mongoose.Schema({
     courseId: {
@@ -23,6 +24,10 @@ const courseDetailsSchema = new mongoose.Schema({
     courseInstructor: {
         type: String,
         required: true,
+    },
+    courseImage:{
+        type: String,
+        default: 'https://example.com/default-course-image.jpg', // Placeholder image URL
     },
     tags: {
         type: [String],
