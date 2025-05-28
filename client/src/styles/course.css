@@ -145,8 +145,6 @@
     padding: 0;
     border-right: none;
     box-shadow: none;
-    justify-content: center;
-    align-items: center;
   }
 
   .course-navbar.collapsed {

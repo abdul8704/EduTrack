@@ -26,14 +26,26 @@ const courseModules = [
 
 export const Course = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleModule = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  const toggleNavbar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <div className="course-container">
-      <div className="course-navbar">
+      <button
+        className="course-hamburger"
+        onClick={toggleNavbar}
+      >
+        ☰
+      </button>
+
+      <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
         {courseModules.map((module, index) => (
           <div key={index} className="course-module-wrapper">
             <button
