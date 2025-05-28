@@ -15,8 +15,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/user/", userRouter);
-app.use("/api/admin/", adminRoutes);
+app.use("/api/user/:userid", userRouter);
+app.use("/api/admin/:adminid", adminRoutes);
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware);
 

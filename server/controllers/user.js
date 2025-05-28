@@ -6,7 +6,6 @@ const getAllCourses = async (req, res) => {
     const { userId } = req.params;
 
     try {
-        // Fetch user from UserDetails collection
         const user = await User.findOne({ userid: userId });
 
         if (!user) {
@@ -46,7 +45,11 @@ const getAllCourses = async (req, res) => {
         console.error("Error fetching courses:", error);
         return res
             .status(500)
-            .json({ success: false, message: "Server error" });
+            .json({
+                success: false,
+                message: "Server error",
+                errrorMessage: error.message,
+            });
     }
 };
 
@@ -92,7 +95,13 @@ const getCourseById = async (req, res) => {
 
     }catch(error){
         console.error('Error fetching course bmy ID:', error);
-        return res.status(500).json({ success: falsm, message: 'unable to get course details with id' });
+        return res
+            .status(500)
+            .json({
+                success: falsm,
+                message: "unable to get course details with id",
+                errrorMessage: error.message,
+            });
     }
 }
 
@@ -123,6 +132,43 @@ const getModuleByCourseId = async (req, res) => {
 
 const getSubModuleByCourseId = async (req, res) => {
     const { courseId, moduleNumber, subModuleNumber } = req.params;
+    try{
+        const course = await CourseContent.findOne({ courseId });
+    if (!course)
+        return res
+            .status(404)
+            .json({ success: false, message: "this error should never oocur. if it does, u messed up big time." });
+    
+    const moduleIndex = parseInt(moduleNumber);
+    const subModuleIndex = parseInt(subModuleNumber);
+    
+    if (
+        isNaN(moduleIndex) ||
+        moduleIndex < 0 ||
+        moduleIndex >= course.modules.length
+    ) {
+        return res
+            .status(400)
+            .json({ success: false, message: "Invalid module index" });
+    }
+
+    if (
+        isNaN(subModuleIndex) ||
+        subModuleIndex < 0 ||
+        subModuleIndex >= course.modules[moduleIndex].submodules.length
+    ) {
+        return res
+            .status(400)
+            .json({ success: false, message: "Invalid submodule index" });
+    }
+
+    const subModuleContent = course.modules[moduleIndex].submodules[subModuleIndex];
+    return res.status(200).json({ success: true, subModule: subModuleContent });
+    } catch(error){
+        console.error('Error fetching submodule by course ID:', error);
+        return res.status(500).json({ success: false, message: 'Unable to get submodule details' });
+    }
+    
 }
 
 
@@ -130,4 +176,5 @@ module.exports = {
     getAllCourses,
     getCourseById,
     getModuleByCourseId,
+    getSubModuleByCourseId,
 };
