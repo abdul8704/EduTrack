@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import { FullCourse } from './FullCourse';
 import '../styles/CoursePage.css';
 
 export const CoursePage = () => {
-  const courseData = {
-    name: "Internet of Things",
-    img: "https://www.youtube.com/embed/bTqVqk7FSmY", 
-    id: 1,
-  };
+  const { id } = useParams();
+  const [course, setCourse] = useState(null);
+  const [contents, setContents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/user/alice01/${id}`);
+        setCourse(response.data.data);
+        setContents(response.data.contents);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, [id]);
+
+  if (loading) return <div>Loading course...</div>;
+  if (!course) return <div>Course not found.</div>;
 
   return (
     <div className="course-page">
-      <FullCourse name={courseData.name} img={courseData.img} id={courseData.id} />
+      <FullCourse courseData={course} contentsData={contents} />
     </div>
   );
 };
