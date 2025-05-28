@@ -7,6 +7,8 @@
 
 .admnav-navbar {
   width: 30rem;
+  min-width: 15rem;
+  max-width: 15rem;
   background: #ffffff;
   border-right: 0.1rem solid #e0e0e0;
   display: flex;
@@ -14,23 +16,34 @@
   padding: 2rem 1rem;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  transition: width 0.3s ease, padding 0.3s ease;
+  transition: padding 0.3s ease;
   box-sizing: border-box;
   z-index: 10;
 }
 
+.admnav-navbar * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .admnav-navbar.admnav-collapsed {
-  width: 0rem;
+  min-width: 0;
+  max-width: 0;
   padding: 0;
-  border-right: none;
-  box-shadow: none;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+}
+
+.admnav-navbar.admnav-collapsed > *:not(.admnav-hamburger) {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  height: 0;
 }
 
 .admnav-module-wrapper {
   margin-bottom: 1rem;
   transition: opacity 0.3s ease;
+  flex-shrink: 0;
 }
 
 .admnav-nav-btn {
@@ -73,14 +86,6 @@
   transition: padding 0.3s ease;
 }
 
-/* COLLAPSED MODULE WRAPPER STYLING */
-.admnav-navbar.admnav-collapsed > *:not(.admnav-hamburger) {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-}
-
 /* HAMBURGER */
 .admnav-hamburger {
   background-color: #bada55;
@@ -94,25 +99,24 @@
 /* MOBILE */
 @media (max-width: 600px) {
   .admnav-navbar {
-    /* Do not collapse automatically */
     width: 15rem;
+    min-width: 15rem;
+    max-width: 15rem;
     padding: 2rem 1rem;
     border-right: 0.1rem solid #e0e0e0;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
   }
 
   .admnav-navbar.admnav-collapsed {
-    width: 0rem;
     padding: 0;
-    border-right: none;
-    box-shadow: none;
+    overflow: hidden;
   }
 
   .admnav-navbar.admnav-collapsed > *:not(.admnav-hamburger) {
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
     height: 0;
-    overflow: hidden;
   }
 
   .admnav-hamburger {
