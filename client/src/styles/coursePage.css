@@ -34,7 +34,7 @@
 }
 
 .text-corner h2 {
-  color: #228B22; /* Forest Green */
+  color: #000000; /* Forest Green */
   font-size: 28px;
   margin-bottom: 15px;
 }
@@ -50,7 +50,7 @@
   margin-top: 15px;
   padding: 10px 24px;
   font-size: 16px;
-  background-color: #708238; /* Olive */
+  background-color: #bada55; /* Olive */
   color: white;
   border: none;
   border-radius: 8px;
@@ -102,7 +102,7 @@
 }
 
 .download-button {
-  background-color: #708238;
+  background-color: #bada55;
   color: white;
   border: none;
   padding: 8px 18px;

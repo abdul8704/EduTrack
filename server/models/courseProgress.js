@@ -9,18 +9,24 @@ const courseProgressSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    progress: {
-        type: Map,
-        of: Number,
+    courseName: {
+        type: String,
+        required: true,
     },
-    percentComplete: {
+    percentComplete: { // no of true/ mat.length * mat[0].length 
         type: Number,
         default: 0,
     },
-    enrolledAt: {
-        type: Date,
-        default: Date.now,
-    },
+    moduleStatus:{
+        totalSubModules: {
+            type: Number,
+            default: 0,
+        },
+        completedModules: {
+            type: [[Boolean]], // row for each module, column for each submodule
+            default: []
+        },
+    }
 });
 
-module.exports = mongoose.model("EnrollmentData", courseProgressSchema);
+module.exports = mongoose.model("ProgressData", courseProgressSchema);
