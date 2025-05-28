@@ -104,9 +104,11 @@ export const Navbar = () => {
               <div className="navbar-search-mobile">
                 <NavbarInput />
               </div>
-              <a href="#">Home</a>
-              <a href="#">About</a>
-              <a href="#">Contact</a>
+              <div>
+              <Link to="/">Home</Link>
+              <Link to="/about">About</Link>
+              <Link to="/contact">Contact</Link>
+              </div>
               <div>
                 <Link to="/login" className="navbar-button">
                   Login
@@ -122,9 +124,11 @@ export const Navbar = () => {
         <div className="navbar-search-desktop">
           <NavbarInput />
         </div>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+              <div>
+              <Link to="/">Home</Link>
+              <Link to="/about">About</Link>
+              <Link to="/contact">Contact</Link>
+              </div>
         <Link to="/login" className="navbar-button">
           Login
         </Link>
