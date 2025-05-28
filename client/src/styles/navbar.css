@@ -48,7 +48,7 @@
 }
 
 /* Links in navbar */
-.navbar-right-section a {
+.navbar-right-section a{
   font-weight: 500;
   color: #0b0b0d;
   text-decoration: none;
@@ -225,6 +225,14 @@
   padding: 0.5rem 0;
   text-decoration: none;
   color: #0b0b0d;
+}
+
+.navbar-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
 }
 
 .navbar-mobile-menu a:hover {

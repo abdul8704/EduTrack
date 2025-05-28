@@ -104,10 +104,10 @@ export const Navbar = () => {
               <div className="navbar-search-mobile">
                 <NavbarInput />
               </div>
-              <div>
-              <Link to="/">Home</Link>
-              <Link to="/about">About</Link>
-              <Link to="/contact">Contact</Link>
+              <div className="navbar-mobile-links">
+                <Link to="/">Home</Link>
+                <Link to="/about">About</Link>
+                <Link to="/contact">Contact</Link>
               </div>
               <div>
                 <Link to="/login" className="navbar-button">
@@ -125,9 +125,9 @@ export const Navbar = () => {
           <NavbarInput />
         </div>
               <div>
-              <Link to="/">Home</Link>
-              <Link to="/about">About</Link>
-              <Link to="/contact">Contact</Link>
+              <Link  to="/">Home</Link>
+              <Link  to="/about">About</Link>
+              <Link  to="/contact">Contact</Link>
               </div>
         <Link to="/login" className="navbar-button">
           Login
