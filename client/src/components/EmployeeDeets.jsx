@@ -62,12 +62,10 @@ export const EmployeeDeets = () => {
     }
   ];
 
-  const scrollRef = useRef(null);
-
   return (
     <div className="enrolled-container">
       <div className="enrolled-title"></div>
-      <div className="available-courses-container" ref={scrollRef}>
+      <div className="available-courses-container">
         {users.map((user) => (
           <ProfileCard
             key={user.id}
