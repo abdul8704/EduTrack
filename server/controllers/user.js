@@ -172,6 +172,7 @@ const getSubModuleByCourseId = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Unable to get submodule details",
+            errorMessage: error.message,
         });
     }
 };
