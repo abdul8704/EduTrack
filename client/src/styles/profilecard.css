@@ -9,6 +9,10 @@
   margin: 1.25rem auto; /* 20px = 1.25rem */
 }
 
+.profile-card:hover {
+  transform: translateY(-0.6rem);
+}
+
 .profile-top {
   background: #27282749;
   height: 10vh; /* Use vh to make it height responsive */
@@ -43,18 +47,4 @@
   font-size: 0.9rem;
   color: #888;
   word-break: break-word;
-}
-
-.emp-download-button {
-  background-color: #bada55;
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  font-size: 15px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.emp-download-button:hover {
-  background-color: #5c6a2e;
 }

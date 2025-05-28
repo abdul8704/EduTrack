@@ -10,7 +10,6 @@ export const ProfileCard = ({ photo, name, designation, email }) => {
         <h2 className="profile-name">{name}</h2>
         <p className="profile-designation">{designation}</p>
         <p className="profile-email">{email}</p>
-        <button className="emp-download-button">View Profile</button>
       </div>
     </div>
   );
