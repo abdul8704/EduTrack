@@ -1,27 +1,17 @@
 import React from 'react';
 import '../styles/adminnavbar.css';
 
-export const AdminNavbar = ({ modules, activeIndex, toggleModule, isCollapsed }) => {
+export const AdminNavbar = ({ modules, toggleModule, isCollapsed }) => {
   return (
-    <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
+    <div className={`admnav-navbar ${isCollapsed ? 'admnav-collapsed' : ''}`}>
       {modules.map((module, index) => (
-        <div key={index} className="course-module-wrapper">
+        <div key={index} className="admnav-module-wrapper">
           <button
-            className="course-nav-btn"
+            className="admnav-nav-btn"
             onClick={() => toggleModule(index)}
           >
             {module.name}
           </button>
-
-          {activeIndex === index && (
-            <div className="course-submodule-list">
-              {module.submodules.map((sub, subIndex) => (
-                <div key={subIndex} className="course-submodule-item">
-                  {sub}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       ))}
     </div>

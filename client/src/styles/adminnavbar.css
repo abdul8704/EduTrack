@@ -1,4 +1,4 @@
-.course-container {
+.admnav-container {
   display: flex;
   min-height: 80vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,9 +6,8 @@
   overflow-x: hidden;
 }
 
-.course-navbar {
+.admnav-navbar {
   width: 15rem;
-  height: auto;
   background: #ffffff;
   border-right: 0.1rem solid #e0e0e0;
   display: flex;
@@ -22,20 +21,27 @@
   z-index: 10;
 }
 
-.course-navbar.collapsed {
+.admnav-navbar.admnav-collapsed {
   width: 0rem;
   padding: 0;
   border-right: none;
   box-shadow: none;
-  justify-content: center; /* center arrow vertically */
-  align-items: center;    /* center arrow horizontally */
+  justify-content: center;
+  align-items: center;
 }
 
-.course-module-wrapper {
+.admnav-navbar.admnav-collapsed > * {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+.admnav-module-wrapper {
   margin-bottom: 1rem;
 }
 
-.course-nav-btn {
+.admnav-nav-btn {
   background: #f5f5f5;
   color: #333333;
   border: 0.1rem solid #dddddd;
@@ -48,7 +54,7 @@
   transition: all 0.3s ease;
 }
 
-.course-nav-btn:hover:not(:disabled) {
+.admnav-nav-btn:hover:not(:disabled) {
   background: #bada55;
   color: #ffffff;
   border-color: #bada55;
@@ -56,100 +62,31 @@
   transform: translateX(0.2rem);
 }
 
-.course-nav-btn:disabled {
+.admnav-nav-btn:disabled {
   cursor: default;
   opacity: 0.6;
 }
 
-.course-submodule-list {
-  margin-top: 0.5rem;
-  padding-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  transition: opacity 0.3s ease;
-}
-
-.course-submodule-item {
-  font-size: 0.95rem;
-  padding: 0.5rem 1rem;
-  background: #f9f9f9;
-  border-radius: 0.4rem;
-  border-left: 0.3rem solid #bada55;
-  color: #555;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.course-submodule-item:hover {
-  background: #e9ffe0;
-  color: #222;
-}
-
-.course-module {
-  flex-grow: 1;
-  padding: 2rem;
-  background: #ffffff;
-  transition: padding 0.3s ease;
-}
-
-/* When collapsed, fade out module wrappers, buttons, submodules */
-.course-module-wrapper,
-.course-nav-btn,
-.course-submodule-list {
-  transition: opacity 0.3s ease;
-}
-
-.course-navbar.collapsed > *:not(.course-collapse-bar) {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-}
-
-/* MOBILE RESPONSIVE */
+/* Mobile Responsive */
 @media (max-width: 600px) {
-  .course-navbar {
+  .admnav-navbar {
     width: 1rem;
     padding: 0;
     border-right: none;
     box-shadow: none;
   }
 
-  .course-navbar.collapsed {
-    width: 0rem;
-  }
-
-  .course-navbar:not(.collapsed) {
+  .admnav-navbar:not(.admnav-collapsed) {
     width: 15rem;
     padding: 2rem 1rem;
     border-right: 0.1rem solid #e0e0e0;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
   }
 
-  /* Hide all except arrow when collapsed */
-  .course-navbar.collapsed > *:not(.course-collapse-bar) {
+  .admnav-navbar.admnav-collapsed > * {
     opacity: 0;
     pointer-events: none;
     height: 0;
     overflow: hidden;
   }
-
-  /* Show arrow only when collapsed */
-  .course-collapse-bar {
-    display: block;
-  }
-
-  .course-navbar:not(.collapsed) > .course-collapse-bar {
-    display: none;
-  }
-
-  .course-module {
-    padding: 1rem;
-  }
-}
-
-.course-hamburger{
-  background-color: #bada55;
-  border: 0px;
 }
