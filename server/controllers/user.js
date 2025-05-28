@@ -1,30 +1,55 @@
 const CourseDetails = require('../models/courseDetails');
 const CourseContent = require('../models/courseContent');
-const User = require('../models/userDetails');
-
-// TODO: write a funtion to fetch count of modules in a user, nu of submodules in  module.
+const User = require("../models/userDetails");
 
 const getAllCourses = async (req, res) => {
-    try{
-        const courses = await CourseDetails.find({}, {
-            courseName: 1,
-            courseRating: 1,
-            courseInstructor: 1,
-            courseImage: 1,
-            courseId: 1
-        });
-        return res.status(200).json({ success:true, enrolledCourses: courses, availableCourses: courses });
-    } catch (error) {
-        console.error('Error fetching courses:', error);
-        return res.status(500).json({ success: false, message: 'Server error' });
-    }
-    
-}
-
-// TODO: Implement getCurrentCourses to fetch courses for a user
-const getCurrentCourses = async (req, res) => {
     const { userId } = req.params;
-}
+
+    try {
+        // Fetch user from UserDetails collection
+        const user = await User.findOne({ userid: userId });
+
+        if (!user) {
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+        }
+
+        // Fetch all courses
+        const allCourses = await CourseDetails.find(
+            {},
+            {
+                courseName: 1,
+                courseRating: 1,
+                courseInstructor: 1,
+                courseImage: 1,
+                courseId: 1,
+            }
+        );
+
+        const currentCourseIds = user.currentCourses;
+
+        // Separate enrolled and available courses
+        const enrolledCourses = allCourses.filter((course) =>
+            currentCourseIds.includes(course.courseId)
+        );
+        const availableCourses = allCourses.filter(
+            (course) => !currentCourseIds.includes(course.courseId)
+        );
+
+        return res.status(200).json({
+            success: true,
+            enrolledCourses,
+            availableCourses,
+        });
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        return res
+            .status(500)
+            .json({ success: false, message: "Server error" });
+    }
+};
+
 
 const getCourseById = async (req, res) => {
     try{
@@ -64,8 +89,7 @@ const getCourseById = async (req, res) => {
             data: course,
             contents: formattedContents,
         });
-        
-        // return res.status(200).json({ success: true, data: course, contents: contents.modules  }); 
+
     }catch(error){
         console.error('Error fetching course bmy ID:', error);
         return res.status(500).json({ success: falsm, message: 'unable to get course details with id' });
