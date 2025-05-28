@@ -10,7 +10,7 @@ export const EmployeeDeets = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/');
+        const response = await axios.get('http://localhost:5000/api/admin/alice01');
         setUsers(response.data.allUsers || []);
         setLoading(false);
       } catch (error) {
