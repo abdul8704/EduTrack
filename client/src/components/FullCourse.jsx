@@ -1,10 +1,10 @@
 import React from 'react';
 import '../styles/CoursePage.css';
 
-// Helper to convert YouTube short URL to embed format
+// Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
-  const match = url.match(/(?:youtu\.be\/|v=)([^&?]+)/);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
 export const FullCourse = ({ courseData, contentsData }) => {
@@ -25,7 +25,7 @@ export const FullCourse = ({ courseData, contentsData }) => {
     <div className="fullcourse-container">
       <div className="course-card">
         <div className="course-info corner-layout">
-          {courseIntroVideo?.videoUrl && (
+          {embedUrl && (
             <div className="video-wrapper">
               {isValidEmbed ? (
                 <iframe
