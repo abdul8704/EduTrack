@@ -6,8 +6,8 @@ export const CourseNavbar = ({
   activeIndex,
   toggleModule,
   isCollapsed,
-  moduleNumber,      // active module number (number or string)
-  subModuleNumber    // active submodule number (number or string)
+  moduleNumber,
+  subModuleNumber
 }) => {
   return (
     <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
@@ -26,7 +26,7 @@ export const CourseNavbar = ({
 
             {showSubmodules && (
               <div className="course-submodule-list">
-                {module.submodules.map((sub, subIndex) => {
+                {module.submodules && Array.isArray(module.submodules) && module.submodules.map((sub, subIndex) => {
                   const isActiveSubmodule = isActiveModule && Number(subModuleNumber) === subIndex;
                   return (
                     <div
@@ -37,6 +37,7 @@ export const CourseNavbar = ({
                     </div>
                   );
                 })}
+
               </div>
             )}
           </div>

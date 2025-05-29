@@ -4,7 +4,7 @@ import '../styles/course.css';
 export const Module = ({ title, videoUrl, description, questions }) => {
   return (
     <div className="module-container">
-      <h1 className="module-title">Module Title: {title}</h1>
+      <h1 className="module-title">{title}</h1>
 
       <div className="module-video-wrapper">
         <iframe
