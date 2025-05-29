@@ -1,9 +1,12 @@
 import React from 'react';
 import '../styles/empprogress.css';
-
-export const EmpProgress = ({ profile }) => {
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from "axios";
+export const EmpProgress = () => {
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
-
+  const useremail = useParams();
+  console.log(useremail);
   const defaultProfile = {
     name: 'Mary Smith',
     designation: 'Software Engineer',
@@ -11,73 +14,28 @@ export const EmpProgress = ({ profile }) => {
     imageUrl: defaultImage,
   };
 
-  const user = profile || defaultProfile;
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const courses = [
-    {
-      id: 1,
-      name: 'React Basics',
-      instructor: 'John Smith',
-      progress: 80,
-      image: 'https://randomuser.me/api/portraits/women/34.jpg',
-    },
-    {
-      id: 2,
-      name: 'Python for Beginners',
-      instructor: 'Jane Doe',
-      progress: 50,
-      image: 'https://randomuser.me/api/portraits/women/24.jpg',
-    },
-    {
-      id: 3,
-      name: 'Machine Learning',
-      instructor: 'Alice Johnson',
-      progress: 30,
-      image: 'https://randomuser.me/api/portraits/women/14.jpg',
-    },
-       {
-      id: 1,
-      name: 'React Basics',
-      instructor: 'John Smith',
-      progress: 80,
-      image: 'https://randomuser.me/api/portraits/women/34.jpg',
-    },
-    {
-      id: 2,
-      name: 'Python for Beginners',
-      instructor: 'Jane Doe',
-      progress: 50,
-      image: 'https://randomuser.me/api/portraits/women/24.jpg',
-    },
-    {
-      id: 3,
-      name: 'Machine Learning',
-      instructor: 'Alice Johnson',
-      progress: 30,
-      image: 'https://randomuser.me/api/portraits/women/14.jpg',
-    },
-       {
-      id: 1,
-      name: 'React Basics',
-      instructor: 'John Smith',
-      progress: 80,
-      image: 'https://randomuser.me/api/portraits/women/34.jpg',
-    },
-    {
-      id: 2,
-      name: 'Python for Beginners',
-      instructor: 'Jane Doe',
-      progress: 50,
-      image: 'https://randomuser.me/api/portraits/women/24.jpg',
-    },
-    {
-      id: 3,
-      name: 'Machine Learning',
-      instructor: 'Alice Johnson',
-      progress: 30,
-      image: 'https://randomuser.me/api/portraits/women/14.jpg',
-    },
-  ];
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/progress/${useremail.userId}`);
+        setCourses(response.data.progress || []);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, [useremail]);
+  console.log(courses)
+  if (loading) return <div>Loading...</div>;
+  if (courses.length === 0) return <div>The person is very busy... not even one course enrolled</div>;
+
+
 
   return (
     <div className="empprog-container">
@@ -85,7 +43,7 @@ export const EmpProgress = ({ profile }) => {
       <aside className="empprog-navbar">
         <div className="empprog-profile-section">
           <div className="empprog-profile-image">
-            <img src={user.imageUrl} alt="Profile" />
+            <img src={} alt="Profile" />
           </div>
           <div className="empprog-profile-details">
             <div className="empprog-profile-name">{user.name}</div>
