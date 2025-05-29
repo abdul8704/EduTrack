@@ -2,8 +2,9 @@ const User = require("../models/userDetails");
 const Progress = require("../models/courseProgress");
 const Courses = require("../models/courseDetails"); // Assuming you have a model for course details
 
-const isAdmin = (adminid) => {
-    const userData = User.findOne({ userid: adminid });
+const isAdmin = async (adminid) => {
+    const userData = await User.findOne({ userid: adminid });
+    console.log("User Data:", userData);
     return userData && userData.role === "admin";
 }
 

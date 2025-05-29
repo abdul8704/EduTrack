@@ -20,7 +20,7 @@ const loginValidation = async (req, res) => {
             });
         }
 
-        if (user.password !== password) {
+        if (user.passwordHash !== password) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid password.",
