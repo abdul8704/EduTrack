@@ -25,7 +25,7 @@ export const Course = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/api/user/alice@example.com/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setLoading(false);
@@ -47,7 +47,7 @@ export const Course = () => {
     const fetchSubModuleData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
+          `http://localhost:5000/api/user/alice@example.com/${courseId}/module/${moduleNumber}/${subModuleNumber}`
         );
 
         setSubModuleVideo(response.data.subModule.video);
