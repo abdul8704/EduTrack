@@ -9,6 +9,7 @@
   overflow-y: auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
+    overflow-y: auto;
   z-index: 10;
 }
 
@@ -70,7 +71,7 @@
 /* Layout */
 .coursedeets-container {
   display: flex;
-  height: calc(100vh - 10.15rem);
+  height: calc(90vh);
   width: 100%;
   background-color: #f8f9fa;
   box-sizing: border-box;
@@ -83,7 +84,16 @@
   padding: 2rem 3rem;
   overflow-y: auto;
   background-color: rgb(241, 245, 229);
+
+  /* Hide scrollbar for WebKit (Chrome, Safari) */
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE and Edge */
 }
+
+.coursedeets-content::-webkit-scrollbar {
+  display: none;                   /* WebKit browsers */
+}
+
 
 .coursedeets-heading {
   font-size: 2rem;
