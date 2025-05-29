@@ -1,5 +1,6 @@
 const CourseDetails = require("../models/courseDetails");
 const CourseContent = require("../models/courseContent");
+const Progress = require("../models/courseProgress");
 const User = require("../models/userDetails");
 
 const getAllCourses = async (req, res) => {
@@ -157,8 +158,129 @@ const getSubModuleByCourseId = async (req, res) => {
     }
 };
 
+const updateProgress = async (req, res) => {
+    const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
+    try {
+        const user = await User.findOne({ userid });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "invalid user found" });
+        }
+        const course = await CourseContent.findOne({ courseId });
+        if (!course || course.length === 0) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+        const moduleIndex = parseInt(moduleNumber);
+        const subModuleIndex = parseInt(subModuleNumber);
+        if (
+            isNaN(moduleIndex) ||
+            moduleIndex < 0 ||
+            moduleIndex >= course.modules.length
+        ) {
+            return res.status(400).json({ success: false, message: "Invalid module index" });
+        }
+        if (
+            isNaN(subModuleIndex) ||
+            subModuleIndex < 0 ||
+            subModuleIndex >= course.modules[moduleIndex].submodules.length
+        ) {
+            return res.status(400).json({ success: false, message: "Invalid submodule index" });
+        }
+        const currentProgress = await Progress.findOne({
+            userId: userid,
+            courseId: courseId,
+        });
+
+        if (!currentProgress) {
+            return res.status(404).json({ success: false, message: "This user has not enrolled in this course" });
+        }
+
+        currentProgress.moduleStatus.completedModules[moduleIndex][subModuleIndex] = true;
+
+        let totalTrueCount = 0;
+        
+        for(let i = 0; i < currentProgress.moduleStatus.completedModules.length; i++) {
+            totalTrueCount += currentProgress.moduleStatus.completedModules[i].filter(Boolean).length;
+        }
+        const updatedPercentComplete = Math.round(totalTrueCount / (currentProgress.moduleStatus.totalSubModules) * 100);
+        currentProgress.percentComplete = updatedPercentComplete;
+        await currentProgress.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Progress updated successfully",
+            UpdatedPercentComplete: updatedPercentComplete,
+        });
+
+    }catch (error) {
+        console.error("Error updating progress:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to update progress",
+            errorMessage: error.message,
+        });
+    }
+} 
+
+const searchCourse = async (req, res) => {
+    let tags =
+        req.query.tags?.split(",").map((t) => t.trim().toLowerCase()) || [];
+    
+    try {
+        const courses = await CourseDetails.aggregate([
+            {
+                $addFields: {
+                    matchingTags: {
+                        $size: {
+                            $setIntersection: ["$tags", tags]
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    matchingTags: { $gt: 0 } // only courses with at least 1 matching tag
+                }
+            },
+            {
+                $sort: {
+                    matchingTags: -1 // most matches first
+                }
+            }
+        ]);
+
+        if (courses.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No courses found matching the provided tags",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            courses: courses.map(course => ({
+                courseId: course.courseId,
+                courseName: course.courseName,
+                courseRating: course.courseRating,
+                courseInstructor: course.courseInstructor,
+                courseImage: course.courseImage,
+                tags: course.tags,
+            })),
+        });
+
+    } catch (error) {
+            console.error("Error searching courses:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Server error while searching courses",
+                errorMessage: error.message,
+            });
+    }
+}
+
 module.exports = {
     getAllCourses,
     getCourseById,
     getSubModuleByCourseId,
+    updateProgress,
+    searchCourse,
 };

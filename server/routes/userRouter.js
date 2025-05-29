@@ -8,5 +8,10 @@ router.get(
     "/:userid/:courseId/module/:moduleNumber/:subModuleNumber",
     userController.getSubModuleByCourseId
 );
+router.patch(
+    "/:userid/:courseId/progress/:moduleNumber/:subModuleNumber",
+    userController.updateProgress
+);
+router.get("/:userid/course/search", userController.searchCourse);
 
 module.exports = router;
