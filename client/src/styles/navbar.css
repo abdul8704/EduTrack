@@ -1,3 +1,4 @@
+/* Footer */
 .footer {
   padding: .25em;
   background-color: #282c34;
@@ -6,12 +7,25 @@
   width: auto;
   z-index: 1000;
 }
+
 .navbar {
-  position: sticky;
   width: 100%;
-  height: 3rem;
+  position: sticky;
+  top: 0;              /* Sticky at top */
+  height: 5rem;        /* Match inner container height */
   z-index: 1000;
   background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Make room below fixed navbar */
+body {
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* Base navbar container */
@@ -25,7 +39,6 @@
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  overflow-x: hidden;
 }
 
 /* Left and right sections */
@@ -44,7 +57,7 @@
 }
 
 .navbar-logo {
-  height: 2.5rem; /* 40px */
+  height: 2.5rem;
   object-fit: contain;
 }
 
@@ -57,8 +70,7 @@
   flex-wrap: nowrap;
 }
 
-/* Links in navbar */
-.navbar-right-section a{
+.navbar-right-section a {
   font-weight: 500;
   color: #0b0b0d;
   text-decoration: none;
@@ -72,21 +84,17 @@
   color: #BADA55;
 }
 
-/* Login button */
+/* Button */
 .navbar-button {
-  border-radius: 0.5rem; /* 8px */
-  border: 0.0625rem solid transparent; /* 1px */
+  border-radius: 0.5rem;
+  border: 0.0625rem solid transparent;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 500;
-  font-family: inherit;
   background-color: #BADA55;
   color: white;
   cursor: pointer;
   transition: background-color 0.25s, border-color 0.25s;
-  text-align: center;
-  display: inline-block;
-  white-space: nowrap;
 }
 
 .navbar-button:hover {
@@ -96,35 +104,35 @@
 
 .navbar-button:focus,
 .navbar-button:focus-visible {
-  outline: 0.25rem auto -webkit-focus-ring-color; /* 4px */
+  outline: 0.25rem auto -webkit-focus-ring-color;
 }
 
-/* Search bar desktop wrapper */
+/* Search - desktop */
 .navbar-search-desktop {
   display: flex;
-  max-width: 15.625rem; /* 250px */
+  max-width: 15.625rem;
   width: 100%;
   margin-right: 1rem;
 }
 
-/* Search bar mobile wrapper (hidden by default) */
+/* Search - mobile */
 .navbar-search-mobile {
   display: none;
-  width: 100%; /* full width */
+  width: 100%;
   padding: 0 1rem;
   box-sizing: border-box;
 }
 
-/* Form styles */
+/* Form */
 .navbar-form {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  height: 2.25rem; /* 36px */
+  height: 2.25rem;
   background: #fff;
-  border: 0.125rem solid #2f2ee9; /* 2px */
-  border-radius: 1.25rem; /* 20px */
+  border: 0.125rem solid #2f2ee9;
+  border-radius: 1.25rem;
   padding: 0 0.75rem;
   transition: border 0.3s ease;
 }
@@ -139,23 +147,19 @@
   outline: none;
   background: transparent;
   font-size: 0.9rem;
-  padding: 0.25rem 2.5rem 0.25rem 0.5rem; /* right padding for icon */
+  padding: 0.25rem 2.5rem 0.25rem 0.5rem;
 }
 
-/* Search icon inside input aligned right */
 .navbar-search-button {
   position: absolute;
   right: 0.75rem;
   background: none;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   color: #666;
   padding: 0;
-  width: 1.5rem; /* 24px */
+  width: 1.5rem;
 }
 
 .navbar-reset {
@@ -183,7 +187,7 @@
   width: 1.5rem;
 }
 
-/* Hamburger styles */
+/* Hamburger */
 .navbar-hamburger-container {
   position: relative;
   display: flex;
@@ -193,7 +197,7 @@
 }
 
 .navbar-hamburger {
-  display: none; /* hidden on desktop */
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -204,18 +208,16 @@
   font-size: 1.5rem;
   color: #000;
   padding: 0.5rem 1rem;
-  line-height: 1;
 }
 
-/* Mobile dropdown menu */
+/* Mobile menu */
 .navbar-mobile-menu {
   position: fixed;
-  top: 3.75rem; /* 60px */
+  top: 3.75rem;
   right: 0;
   left: 0;
   background-color: rgb(220, 233, 237);
   width: 100vw;
-  height: auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -227,7 +229,6 @@
   box-sizing: border-box;
 }
 
-/* Mobile menu links */
 .navbar-mobile-menu a {
   width: 100%;
   text-align: center;
@@ -249,26 +250,22 @@
   color: #BADA55;
 }
 
-/* Mobile login button */
 .navbar-mobile-menu .navbar-button {
   width: 100%;
   text-align: center;
   margin-top: 1rem;
 }
 
-/* Fix for preventing horizontal scroll when mobile menu open */
 body.navbar-menu-open {
   overflow: hidden;
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 48rem) { /* 768px */
-  /* Show hamburger */
+/* Responsive */
+@media screen and (max-width: 48rem) {
   .navbar-hamburger {
     display: flex;
   }
 
-  /* Hide desktop search and links */
   .navbar-search-desktop,
   .navbar-right-section a,
   .navbar-button {
@@ -279,29 +276,24 @@ body.navbar-menu-open {
     display: none;
   }
 
-  /* Show mobile search inside menu */
   .navbar-search-mobile {
     display: flex;
     width: 100%;
-    max-width: none;
     padding: 0;
   }
 
-  /* Navbar left section */
   .navbar-left-section-row {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
+
   .navbar-mobile-menu .navbar-button {
     display: block;
   }
-   .navbar-button {
-    padding: 1.25rem 2.5rem; /* Increased padding for bigger button */
-    font-size: 1.125rem; /* 18px instead of default 16px */
+
+  .navbar-button {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
   }
 }
-
-
- 
-

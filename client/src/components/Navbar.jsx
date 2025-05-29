@@ -36,13 +36,11 @@ const NavbarInput = () => {
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const hamburgerRef = useRef(null);
   const dropdownRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -55,14 +53,10 @@ export const Navbar = () => {
         setMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [menuOpen]);
 
-  // Close menu on window resize if desktop and toggle body scroll lock
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768 && menuOpen) {
@@ -70,17 +64,11 @@ export const Navbar = () => {
       }
     };
     window.addEventListener('resize', handleResize);
-
     return () => window.removeEventListener('resize', handleResize);
   }, [menuOpen]);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
-    if (menuOpen) {
-      document.body.classList.add('navbar-menu-open');
-    } else {
-      document.body.classList.remove('navbar-menu-open');
-    }
+    document.body.classList.toggle('navbar-menu-open', menuOpen);
   }, [menuOpen]);
 
   return (
@@ -106,32 +94,17 @@ export const Navbar = () => {
               </div>
               <div className="navbar-mobile-links">
                 <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-              </div>
-              <div>
-                <Link to="/login" className="navbar-button">
-                  Login
-                </Link>
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Desktop right section */}
       <div className="navbar-right-section">
         <div className="navbar-search-desktop">
           <NavbarInput />
         </div>
-              <div>
-              <Link  to="/">Home</Link>
-              <Link  to="/about">About</Link>
-              <Link  to="/contact">Contact</Link>
-              </div>
-        <Link to="/login" className="navbar-button">
-          Login
-        </Link>
+        <Link to="/">Home</Link>
       </div>
     </nav>
   );
