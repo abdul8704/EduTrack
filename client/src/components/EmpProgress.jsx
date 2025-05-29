@@ -43,7 +43,7 @@ export const EmpProgress = () => {
       <aside className="empprog-navbar">
         <div className="empprog-profile-section">
           <div className="empprog-profile-image">
-            <img src={} alt="Profile" />
+            <img src={user.imageUrl} alt="Profile" />
           </div>
           <div className="empprog-profile-details">
             <div className="empprog-profile-name">{user.name}</div>
