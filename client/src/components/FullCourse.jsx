@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/CoursePage.css';
+import { useNavigate } from 'react-router-dom';
 
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
@@ -7,7 +8,7 @@ const getEmbedUrl = (url) => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
-export const FullCourse = ({ courseData, contentsData }) => {
+export const FullCourse = ({id, courseData, contentsData }) => {
   if (!courseData) return <div>No course data available</div>;
 
   const {
@@ -20,7 +21,10 @@ export const FullCourse = ({ courseData, contentsData }) => {
 
   const embedUrl = getEmbedUrl(courseIntroVideo?.videoUrl || '');
   const isValidEmbed = embedUrl.includes("youtube.com/embed");
-
+  const navigate = useNavigate();
+  const handleStartClick = () => {
+    navigate(`/course/alice@example/${id}/0/0`); // Replace with your actual route
+  };
   return (
     <div className="fullcourse-container">
       <div className="course-card">
@@ -48,7 +52,7 @@ export const FullCourse = ({ courseData, contentsData }) => {
             <p>{courseDescription}</p>
             <p><strong>Instructor:</strong> {courseInstructor}</p>
             <p><strong>Rating:</strong> ⭐ {courseRating}</p>
-            <button className="start-button">Start</button>
+            <button className="start-button" onClick={handleStartClick}>Start</button>
             <div className="progress-label">Learning Progress</div>
             <div className="progress-bar-bg">
               <div className="progress-bar-fill" style={{ width: '50%' }} />

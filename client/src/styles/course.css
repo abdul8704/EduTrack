@@ -3,34 +3,71 @@
   min-height: 80vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
+  overflow-x: hidden;
+  position: relative;
 }
 
+/* Sidebar */
 .course-navbar {
   width: 20%;
-  height: auto;
   background: #ffffff;
   border-right: 0.1rem solid #e0e0e0;
   display: flex;
   flex-direction: column;
-  /* ↑ bumped left padding from 1rem to 2rem */
   padding: 2rem 1rem 2rem 2rem;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  position: relative;
-  transition: width 0.3s ease;
   box-sizing: border-box;
-  z-index: 10;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1000;
 }
 
+/* Collapsed state */
 .course-navbar.collapsed {
-  width: 0rem;
-  padding: 0;
+  width: 3rem;
+  padding: 1rem 0;
   border-right: none;
   box-shadow: none;
-  justify-content: center;
   align-items: center;
 }
 
+/* Hide all content inside sidebar except toggle icon */
+.course-navbar.collapsed > *:not(.course-collapse-bar) {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Sidebar toggle arrow */
+.course-navbar::after {
+  content: '▶';
+  position: absolute;
+  top: 1rem;
+  right: -1.6rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: #bada55;
+  color: black;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+  z-index: 1100;
+}
+
+/* Arrow rotates when expanded */
+.course-navbar.expanded::after {
+  transform: rotate(180deg);
+}
+
+/* Navbar content sections */
 .course-module-wrapper {
   margin-bottom: 1rem;
 }
@@ -63,7 +100,6 @@
 
 .course-submodule-list {
   margin-top: 0.5rem;
-  /* ↑ bumped indent from 1rem to 1.5rem */
   padding-left: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -98,53 +134,6 @@
 .course-nav-btn,
 .course-submodule-list {
   transition: opacity 0.3s ease;
-}
-
-.course-navbar.collapsed > *:not(.course-collapse-bar) {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-}
-
-@media (max-width: 600px) {
-  .course-navbar {
-    width: 1rem;
-    padding: 0;
-    border-right: none;
-    box-shadow: none;
-  }
-
-  .course-navbar.collapsed {
-    width: 0rem;
-  }
-
-  .course-navbar:not(.collapsed) {
-    width: 15rem;
-    /* keep the same left padding on mobile expanded */
-    padding: 2rem 1rem 2rem 2rem;
-    border-right: 0.1rem solid #e0e0e0;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .course-navbar.collapsed > *:not(.course-collapse-bar) {
-    opacity: 0;
-    pointer-events: none;
-    height: 0;
-    overflow: hidden;
-  }
-
-  .course-collapse-bar {
-    display: block;
-  }
-
-  .course-navbar:not(.collapsed) > .course-collapse-bar {
-    display: none;
-  }
-
-  .course-module {
-    padding: 1rem;
-  }
 }
 
 .course-hamburger {
@@ -189,7 +178,8 @@
 
 /* Rectangular video like YouTube */
 .module-video {
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
   height: 360px;
   border-radius: 8px;
   object-fit: cover;
@@ -270,4 +260,24 @@
 
 .module-quiz-submit-btn:hover {
   background-color: #0056b3;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .course-navbar {
+    width: 3rem;
+    padding: 1rem 0;
+    overflow-y: hidden;
+  }
+
+  .course-navbar.expanded {
+    width: 80vw;
+    padding: 2rem 1rem 2rem 2rem;
+    overflow-y: auto;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+  }
+
+  .course-module {
+    padding: 1rem;
+  }
 }
