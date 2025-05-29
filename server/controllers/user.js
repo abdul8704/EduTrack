@@ -161,13 +161,6 @@ const getSubModuleByCourseId = async (req, res) => {
 const updateProgress = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
-        // const pro = await Progress.find({
-        //     userId: userid,
-        //     courseId: courseId
-        // })
-        // console.log("Progress Data:", pro[0].moduleStatus.completedModules);
-       
-
         const user = await User.findOne({ userid });
         if (!user) {
             return res.status(404).json({ success: false, message: "invalid user found" });
