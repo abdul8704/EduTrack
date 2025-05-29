@@ -31,7 +31,7 @@ export const CoursePage = () => {
 
   return (
     <div className="course-page">
-      <FullCourse courseData={course} contentsData={contents} />
+      <FullCourse id={courseId} courseData={course} contentsData={contents} />
     </div>
   );
 };
