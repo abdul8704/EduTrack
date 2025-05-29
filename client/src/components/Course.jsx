@@ -5,29 +5,6 @@ import { Module } from './Module';
 import { useParams } from 'react-router-dom';
 import axios from "axios"
 
-const courseModules = [
-  {
-    name: "Module 1",
-    submodules: ["Part A", "Part B", "Assignment"]
-  },
-  {
-    name: "Module 2",
-    submodules: ["Lecture 1", "Lecture 2", "Assignment"]
-  },
-  {
-    name: "Module 3",
-    submodules: ["Part A", "Part B", "Assignment"]
-  },
-  {
-    name: "Module 4",
-    submodules: ["Reading", "Video", "Test"]
-  },
-  {
-    name: "Module 5",
-    submodules: ["Final Project", "Resources", "FAQ"]
-  }
-];
-
 // Define assignmentQuestions here
 const assignmentQuestions = [
   'What are the key takeaways from the video?',
@@ -68,8 +45,39 @@ export const Course = () => {
 
     fetchCourseData();
   }, [courseId]);
+  const [subModuleVideo, setSubModuleVideo] = useState([]);
+  const [subModuleQuiz, setSubModuleQuiz] = useState([]);
+  const [subModuleTitle, setSubModuleTitle] = useState(null);
+  const [subModuleDesc, setSubModuleDesc] = useState(null);
+  const [subModuleLoading, setSubModuleLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchSubModuleData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
+        );
+
+        setSubModuleVideo(response.data.subModule.video);
+        setSubModuleQuiz(response.data.subModule.quiz);
+        setSubModuleTitle(response.data.subModule.submoduleTitle);
+        setSubModuleDesc(response.data.subModule.description);
+        setSubModuleLoading(false);
+      } catch (error) {
+        console.error('Error fetching submodule data:', error);
+        setSubModuleLoading(false); // corrected
+      }
+    };
+
+    if (courseId && moduleNumber !== null && subModuleNumber !== null) {
+      fetchSubModuleData(); // corrected
+    }
+  }, [userId, courseId, moduleNumber, subModuleNumber]);
+
+  if (subModuleLoading) return <div>Loading course...</div>;
   if (navLoading) return <div>Loading course...</div>;
   if (!navCourse) return <div>Course not found.</div>;
+  console.log("Title:",subModuleTitle);
   return (
     <div className="course-container">
       <CourseNavbar
@@ -84,10 +92,10 @@ export const Course = () => {
         {isCollapsed ? '>' : '<'}
       </button>
       <Module
-        title="Introduction to Machine Learning"
-        videoUrl="https://www.youtube.com/embed/ukzFI9rgwfU"
-        description="In this module, we explore the foundational ideas behind Machine Learning, including the distinction between supervised and unsupervised learning, real-world use cases, and the intuition behind model training and testing."
-        questions={assignmentQuestions}
+        title={subModuleTitle}
+        videoUrl="https://www.youtube.com/embed/1CViJDo_YGk?si=qcTBuL77FfFpIqqu"
+        description={subModuleDesc}
+        questions={subModuleQuiz.questions}
       />
     </div>
   );
