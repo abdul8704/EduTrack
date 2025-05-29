@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/addcourse.css";
 
 export const AddCourse = () => {
+  const introRef = useRef(null);
+  const moduleRef = useRef(null);
+  const quizRef = useRef(null);
+
+  const scrollTo = (ref) => ref.current.scrollIntoView({ behavior: "smooth" });
+
   const [courseData, setCourseData] = useState({
     courseName: "",
     instructorName: "",
@@ -10,17 +16,11 @@ export const AddCourse = () => {
     modules: [
       {
         name: "",
-        lectures: [
-          { title: "", description: "", videoLink: "" },
-        ],
-        assignments: [
-          { question: "", choices: [""] },
-        ],
+        lectures: [{ title: "", description: "", videoLink: "" }],
+        assignments: [{ question: "", choices: [""] }],
       },
     ],
-    quiz: [
-      { question: "", choices: [""] },
-    ],
+    quiz: [{ question: "", choices: [""] }],
   });
 
   const handleCourseChange = (e) => {
@@ -102,180 +102,103 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, quiz: newQuiz });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (window.confirm("Are you sure to complete the submission?")) {
       window.location.reload();
     }
   };
 
   return (
-    <form className="addcourse-form">
-      <h1 className="addcourse-title">Create New Course</h1>
+    <div style={{ display: "flex" }}>
+      <aside style={{
+        width: "200px",
+        background: "rgb(220, 233, 237)",
+        padding: "20px",
+        height: "100vh",
+        position: "sticky",
+        top: 0,
+        color: "white"
+      }}>
+        <div className="sidebar">
+          <button onClick={() => scrollTo(introRef)}>Intro</button>
+          <button onClick={() => scrollTo(moduleRef)}>Modules</button>
+          <button onClick={() => scrollTo(quizRef)}>Final Quiz</button>
+        </div>
+      </aside>
+      <div style={{ flex: 1 }}>
+        <form className="addcourse-form" onSubmit={handleSubmit}>
+          <h1 className="addcourse-title">Create New Course</h1>
 
-      <input
-        type="text"
-        name="courseName"
-        placeholder="Course Name"
-        className="addcourse-input"
-        value={courseData.courseName}
-        onChange={handleCourseChange}
-      />
-      <input
-        type="text"
-        name="instructorName"
-        placeholder="Instructor Name"
-        className="addcourse-input"
-        value={courseData.instructorName}
-        onChange={handleCourseChange}
-      />
-      <textarea
-        name="description"
-        placeholder="Course Description"
-        className="addcourse-textarea"
-        value={courseData.description}
-        onChange={handleCourseChange}
-      ></textarea>
-      <input
-        type="text"
-        name="introVideo"
-        placeholder="Intro Video Link"
-        className="addcourse-input"
-        value={courseData.introVideo}
-        onChange={handleCourseChange}
-      />
+          {/* Intro Section */}
+          <div ref={introRef} className="addcourse-section">
+            <input type="text" name="courseName" placeholder="Course Name" className="addcourse-input" value={courseData.courseName} onChange={handleCourseChange} />
+            <input type="text" name="instructorName" placeholder="Instructor Name" className="addcourse-input" value={courseData.instructorName} onChange={handleCourseChange} />
+            <textarea name="description" placeholder="Course Description" className="addcourse-textarea" value={courseData.description} onChange={handleCourseChange}></textarea>
+            <input type="text" name="introVideo" placeholder="Intro Video Link" className="addcourse-input" value={courseData.introVideo} onChange={handleCourseChange} />
+          </div>
 
-      <div className="addcourse-modules">
-        <h2>Modules</h2>
-        {courseData.modules.map((module, moduleIndex) => (
-          <div key={moduleIndex} className="addcourse-module">
-            <input
-              type="text"
-              placeholder="Module Name"
-              className="addcourse-input"
-              value={module.name}
-              onChange={(e) => handleModuleChange(moduleIndex, "name", e.target.value)}
-            />
+          {/* Modules Section */}
+          <div className="addcourse-modules addcourse-section" ref={moduleRef}>
+            <h2>Modules</h2>
+            {courseData.modules.map((module, moduleIndex) => (
+              <div key={moduleIndex} className="addcourse-module">
+                <input type="text" placeholder="Module Name" className="addcourse-input" value={module.name} onChange={(e) => handleModuleChange(moduleIndex, "name", e.target.value)} />
 
-            <div className="addcourse-lectures">
-              <h3>Lectures</h3>
-              {module.lectures.map((lecture, lectureIndex) => (
-                <div key={lectureIndex} className="addcourse-lecture">
-                  <input
-                    type="text"
-                    placeholder="Lecture Title"
-                    className="addcourse-input"
-                    value={lecture.title}
-                    onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "title", e.target.value)}
-                  />
-                  <textarea
-                    placeholder="Lecture Description"
-                    className="addcourse-textarea"
-                    value={lecture.description}
-                    onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "description", e.target.value)}
-                  ></textarea>
-                  <input
-                    type="text"
-                    placeholder="Video Link"
-                    className="addcourse-input"
-                    value={lecture.videoLink}
-                    onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoLink", e.target.value)}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                className="addcourse-button-small"
-                onClick={() => addLecture(moduleIndex)}
-              >
-                + Add Lecture
-              </button>
-            </div>
-
-            <div className="addcourse-assignments">
-              <h3>Assignments</h3>
-              {module.assignments.map((assignment, assignmentIndex) => (
-                <div key={assignmentIndex} className="addcourse-assignment">
-                  <textarea
-                    placeholder="Assignment Question"
-                    className="addcourse-textarea"
-                    value={assignment.question}
-                    onChange={(e) => handleAssignmentChange(moduleIndex, assignmentIndex, "question", e.target.value)}
-                  ></textarea>
-                  {assignment.choices.map((choice, choiceIndex) => (
-                    <input
-                      key={choiceIndex}
-                      type="text"
-                      placeholder={`Choice ${choiceIndex + 1}`}
-                      className="addcourse-input"
-                      value={choice}
-                      onChange={(e) => {
-                        const newModules = [...courseData.modules];
-                        newModules[moduleIndex].assignments[assignmentIndex].choices[choiceIndex] = e.target.value;
-                        setCourseData({ ...courseData, modules: newModules });
-                      }}
-                    />
+                <div className="addcourse-lectures">
+                  <h3>Lectures</h3>
+                  {module.lectures.map((lecture, lectureIndex) => (
+                    <div key={lectureIndex} className="addcourse-lecture">
+                      <input type="text" placeholder="Lecture Title" className="addcourse-input" value={lecture.title} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "title", e.target.value)} />
+                      <textarea placeholder="Lecture Description" className="addcourse-textarea" value={lecture.description} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "description", e.target.value)}></textarea>
+                      <input type="text" placeholder="Video Link" className="addcourse-input" value={lecture.videoLink} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoLink", e.target.value)} />
+                    </div>
                   ))}
-                  <button
-                    type="button"
-                    className="addcourse-button-small"
-                    onClick={() => addAssignmentChoice(moduleIndex, assignmentIndex)}
-                  >
-                    + Add Choice
-                  </button>
+                  <button type="button" className="addcourse-button-small" onClick={() => addLecture(moduleIndex)}>+ Add Lecture</button>
                 </div>
-              ))}
-              <button
-                type="button"
-                className="addcourse-button-small"
-                onClick={() => addAssignment(moduleIndex)}
-              >
-                + Add Assignment
-              </button>
-            </div>
-          </div>
-        ))}
-        <button type="button" className="addcourse-button" onClick={addModule}>
-          + Add Module
-        </button>
-      </div>
 
-      <div className="addcourse-final-quiz">
-        <h2>Final Quiz</h2>
-        {courseData.quiz.map((q, qIndex) => (
-          <div key={qIndex} className="addcourse-quiz-question-block">
-            <textarea
-              placeholder="Quiz Question"
-              className="addcourse-textarea"
-              value={q.question}
-              onChange={(e) => handleQuizChange(qIndex, "question", e.target.value)}
-            ></textarea>
-            {q.choices.map((choice, cIndex) => (
-              <input
-                key={cIndex}
-                type="text"
-                placeholder={`Choice ${cIndex + 1}`}
-                className="addcourse-input"
-                value={choice}
-                onChange={(e) => handleChoiceChange("quiz", null, qIndex, cIndex, e.target.value)}
-              />
+                <div className="addcourse-assignments">
+                  <h3>Assignments</h3>
+                  {module.assignments.map((assignment, assignmentIndex) => (
+                    <div key={assignmentIndex} className="addcourse-assignment">
+                      <textarea placeholder="Assignment Question" className="addcourse-textarea" value={assignment.question} onChange={(e) => handleAssignmentChange(moduleIndex, assignmentIndex, "question", e.target.value)}></textarea>
+                      {assignment.choices.map((choice, choiceIndex) => (
+                        <input key={choiceIndex} type="text" placeholder={`Choice ${choiceIndex + 1}`} className="addcourse-input" value={choice} onChange={(e) => {
+                          const newModules = [...courseData.modules];
+                          newModules[moduleIndex].assignments[assignmentIndex].choices[choiceIndex] = e.target.value;
+                          setCourseData({ ...courseData, modules: newModules });
+                        }} />
+                      ))}
+                      <button type="button" className="addcourse-button-small" onClick={() => addAssignmentChoice(moduleIndex, assignmentIndex)}>+ Add Choice</button>
+                    </div>
+                  ))}
+                  <button type="button" className="addcourse-button-small" onClick={() => addAssignment(moduleIndex)}>+ Add Assignment</button>
+                </div>
+              </div>
             ))}
-            <button
-              type="button"
-              className="addcourse-button-small"
-              onClick={() => addQuizChoice(qIndex)}
-            >
-              + Add Choice
-            </button>
+            <button type="button" className="addcourse-button" onClick={addModule}>+ Add Module</button>
           </div>
-        ))}
-        <button type="button" className="addcourse-button" onClick={addQuizQuestion}>
-          + Add Quiz Question
-        </button>
-      </div>
 
-      <div className="addcourse-submit-container">
-        <button type="submit" className="addcourse-submit-button">Submit Course</button>
+          {/* Final Quiz Section */}
+          <div className="addcourse-final-quiz addcourse-section" ref={quizRef}>
+            <h2>Final Quiz</h2>
+            {courseData.quiz.map((q, qIndex) => (
+              <div key={qIndex} className="addcourse-quiz-question-block">
+                <textarea placeholder="Quiz Question" className="addcourse-textarea" value={q.question} onChange={(e) => handleQuizChange(qIndex, "question", e.target.value)}></textarea>
+                {q.choices.map((choice, cIndex) => (
+                  <input key={cIndex} type="text" placeholder={`Choice ${cIndex + 1}`} className="addcourse-input" value={choice} onChange={(e) => handleChoiceChange("quiz", null, qIndex, cIndex, e.target.value)} />
+                ))}
+                <button type="button" className="addcourse-button-small" onClick={() => addQuizChoice(qIndex)}>+ Add Choice</button>
+              </div>
+            ))}
+            <button type="button" className="addcourse-button" onClick={addQuizQuestion}>+ Add Quiz Question</button>
+          </div>
+
+          <div className="addcourse-submit-container">
+            <button type="submit" className="addcourse-submit-button">Submit Course</button>
+          </div>
+        </form>
+      </div>
     </div>
-    </form>
   );
 };

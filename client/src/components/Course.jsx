@@ -1,29 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/course.css';
 import { CourseNavbar } from './CourseNavbar';
 import { Module } from './Module';
-const courseModules = [
-  {
-    name: "Module 1",
-    submodules: ["Part A", "Part B", "Assignment"]
-  },
-  {
-    name: "Module 2",
-    submodules: ["Lecture 1", "Lecture 2", "Assignment"]
-  },
-  {
-    name: "Module 3",
-    submodules: ["Part A", "Part B", "Assignment"]
-  },
-  {
-    name: "Module 4",
-    submodules: ["Reading", "Video", "Test"]
-  },
-  {
-    name: "Module 5",
-    submodules: ["Final Project", "Resources", "FAQ"]
-  }
-];
+import { useParams } from 'react-router-dom';
+import axios from "axios"
 
 export const Course = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -37,18 +17,78 @@ export const Course = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  const { userId, courseId, moduleNumber, subModuleNumber } = useParams();
+  const [navCourse, setCourse] = useState(null);
+  const [navContents, setContents] = useState([]);
+  const [navLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
+        setCourse(response.data.data);
+        setContents(response.data.contents);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, [courseId]);
+  const [subModuleVideo, setSubModuleVideo] = useState([]);
+  const [subModuleQuiz, setSubModuleQuiz] = useState([]);
+  const [subModuleTitle, setSubModuleTitle] = useState(null);
+  const [subModuleDesc, setSubModuleDesc] = useState(null);
+  const [subModuleLoading, setSubModuleLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchSubModuleData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
+        );
+
+        setSubModuleVideo(response.data.subModule.video);
+        setSubModuleQuiz(response.data.subModule.quiz);
+        setSubModuleTitle(response.data.subModule.submoduleTitle);
+        setSubModuleDesc(response.data.subModule.description);
+        setSubModuleLoading(false);
+      } catch (error) {
+        console.error('Error fetching submodule data:', error);
+        setSubModuleLoading(false); // corrected
+      }
+    };
+
+    if (courseId && moduleNumber !== null && subModuleNumber !== null) {
+      fetchSubModuleData(); // corrected
+    }
+  }, [userId, courseId, moduleNumber, subModuleNumber]);
+
+  if (subModuleLoading) return <div>Loading course...</div>;
+  if (navLoading) return <div>Loading course...</div>;
+  if (!navCourse) return <div>Course not found.</div>;
+  console.log("Title:",subModuleTitle);
   return (
     <div className="course-container">
       <CourseNavbar
-        modules={courseModules}
+        modules={navContents}
         activeIndex={activeIndex}
         toggleModule={toggleModule}
         isCollapsed={isCollapsed}
+        moduleNumber={moduleNumber}
+        subModuleNumber={subModuleNumber}
       />
       <button className="course-hamburger" onClick={toggleNavbar}>
         {isCollapsed ? '>' : '<'}
       </button>
-      <Module/>
+      <Module
+        title={subModuleTitle}
+        videoUrl="https://www.youtube.com/embed/1CViJDo_YGk?si=qcTBuL77FfFpIqqu"
+        description={subModuleDesc}
+        questions={subModuleQuiz.questions}
+      />
     </div>
   );
 };

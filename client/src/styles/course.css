@@ -3,11 +3,10 @@
   min-height: 80vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
-  overflow-x: hidden;
 }
 
 .course-navbar {
-  width: 15rem;
+  width: 20%;
   height: auto;
   background: #ffffff;
   border-right: 0.1rem solid #e0e0e0;
@@ -139,11 +138,11 @@
   .course-collapse-bar {
     display: block;
   }
-
+  
   .course-navbar:not(.collapsed) > .course-collapse-bar {
     display: none;
   }
-
+  
   .course-module {
     padding: 1rem;
   }
@@ -153,3 +152,16 @@
   background-color: #bada55;
   border: 0px;
 }
+.course-active-module{
+  background: #bada55;
+  color: #000000;
+  border-color: #bada55;
+  box-shadow: 0 0 0.5rem #bada55aa;
+}
+.course-active-submodule{
+  background: #bada55;
+  color: #000000;
+  border-left: 0.3rem solid #adb68f;
+  box-shadow: 0 0 0.5rem #bada55aa;
+}
+

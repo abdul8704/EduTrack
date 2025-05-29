@@ -5,7 +5,7 @@ import '../styles/EnrolledCourses.css'
 export const CoursesCard = ({ id, title, image, instructor, rating }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/coursepage/alice01/${id}`);
+    navigate(`/coursepage/alice@example.com/${id}`);
   };
 
   return (

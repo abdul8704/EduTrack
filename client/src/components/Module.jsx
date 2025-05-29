@@ -1,40 +1,90 @@
-import React from 'react';
+import React, { useState } from 'react';
+import '../styles/course.css';
 
-export const Module = () => {
-  const assignmentQuestions = [
-    'What are the key takeaways from the video?',
-    'Explain the main concept discussed using your own words.',
-    'List any real-world applications related to this module.',
-    'Create a summary diagram or mind map based on the video.',
-  ];
+export const Module = ({ title, videoUrl, description, questions }) => {
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [results, setResults] = useState({});
+
+  const handleOptionChange = (questionIndex, option) => {
+    setSelectedAnswers(prev => ({
+      ...prev,
+      [questionIndex]: option,
+    }));
+  };
+
+  const validateAnswers = () => {
+    const newResults = {};
+    questions.forEach((question, idx) => {
+      newResults[idx] = selectedAnswers[idx] === question.correctAnswer;
+    });
+    setResults(newResults);
+  };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto', fontFamily: 'sans-serif' }}>
-      <h1 style={{ marginBottom: '1rem' }}>Module Title: Introduction to Machine Learning</h1>
+    <div className="module-container">
+      <h1 className="module-title">{title}</h1>
 
-      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, marginBottom: '2rem' }}>
+      <div className="module-video-wrapper">
         <iframe
-          src="https://www.youtube.com/embed/ukzFI9rgwfU"
+          src={videoUrl}
           title="Module Video"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          className="module-video"
         />
       </div>
 
       <h2>Description</h2>
-      <p style={{ marginBottom: '2rem' }}>
-        In this module, we explore the foundational ideas behind Machine Learning, including the distinction between supervised
-        and unsupervised learning, real-world use cases, and the intuition behind model training and testing.
-      </p>
+      <p className="module-description">{description}</p>
 
-      <h2>Assignment Questions</h2>
-      <ul>
-        {assignmentQuestions.map((q, index) => (
-          <li key={index} style={{ marginBottom: '0.5rem' }}>{q}</li>
+      <h2>Quiz</h2>
+      <form className="quiz-form">
+        {questions.map((question, idx) => (
+          <div key={question._id} className="quiz-question-card">
+            <p className="quiz-question-text">{question.questionText}</p>
+            <div className="quiz-options">
+              {question.options.map((option, oidx) => (
+                <label
+                  key={oidx}
+                  className={`quiz-option-label ${
+                    selectedAnswers[idx] === option ? 'selected' : ''
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name={`question-${idx}`}
+                    value={option}
+                    checked={selectedAnswers[idx] === option}
+                    onChange={() => handleOptionChange(idx, option)}
+                    className="quiz-option-input"
+                  />
+                  <span className="custom-radio" />
+                  {option}
+                </label>
+              ))}
+            </div>
+
+            {results.hasOwnProperty(idx) && (
+              <p
+                className={`quiz-feedback ${
+                  results[idx] ? 'correct' : 'incorrect'
+                }`}
+              >
+                {results[idx] ? '✔ Correct!' : `✘ Incorrect! Correct answer: ${question.correctAnswer}`}
+              </p>
+            )}
+          </div>
         ))}
-      </ul>
+
+        <button
+          type="button"
+          onClick={validateAnswers}
+          className="quiz-submit-btn"
+        >
+          Submit Answers
+        </button>
+      </form>
     </div>
   );
 };

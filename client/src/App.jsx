@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} />
-        <Route path="/course" element={<Course />} />
+        <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} />
         <Route path="/" element={<Home />} />
         <Route path="/empdeets" element={<EmployeeDeets/>}/>
         <Route path="/empprogress" element={<EmpProgress/>}/>
