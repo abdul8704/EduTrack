@@ -13,7 +13,7 @@ export const CoursePage = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/alice01/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/api/user/alice@example.com/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setLoading(false);

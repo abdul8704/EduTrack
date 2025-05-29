@@ -15,7 +15,7 @@ export const Home = () => {
     const fetchCourseData = async () => {
       try {
         // "bobsmith92"
-        const response = await axios.get('http://localhost:5000/api/user/alice@gmail.com');
+        const response = await axios.get('http://localhost:5000/api/user/alice@example.com/');
         setCourses({
           enrolledCourses: response.data.enrolledCourses,
           availableCourses: response.data.availableCourses

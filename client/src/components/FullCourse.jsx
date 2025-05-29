@@ -18,23 +18,28 @@ export const FullCourse = ({ courseData, contentsData }) => {
     courseInstructor
   } = courseData;
 
+  const embedUrl = getEmbedUrl(courseIntroVideo?.videoUrl || '');
+  const isValidEmbed = embedUrl.includes("youtube.com/embed");
+
   return (
     <div className="fullcourse-container">
       <div className="course-card">
         <div className="course-info corner-layout">
           {courseIntroVideo?.videoUrl && (
             <div className="video-wrapper">
-              {/* <iframe
-                src="BPfdv6PXMx8?si=htubqUHBunrFRp3f"
-                // src={getEmbedUrl(courseIntroVideo.videoUrl)}
-                title={courseIntroVideo.videoTitle}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe> */}
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/BPfdv6PXMx8?si=htubqUHBunrFRp3f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              
-
+              {isValidEmbed ? (
+                <iframe
+                  width="560"
+                  height="315"
+                  src={embedUrl}
+                  title={courseIntroVideo.videoTitle || "Course Introduction"}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <p>Invalid video URL provided</p>
+              )}
             </div>
           )}
 

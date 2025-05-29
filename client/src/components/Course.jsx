@@ -5,14 +5,6 @@ import { Module } from './Module';
 import { useParams } from 'react-router-dom';
 import axios from "axios"
 
-// Define assignmentQuestions here
-const assignmentQuestions = [
-  'What are the key takeaways from the video?',
-  'Explain the main concept discussed using your own words.',
-  'List any real-world applications related to this module.',
-  'Create a summary diagram or mind map based on the video.',
-];
-
 export const Course = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -33,7 +25,7 @@ export const Course = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/api/user/alice@example.com/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setLoading(false);
@@ -55,7 +47,7 @@ export const Course = () => {
     const fetchSubModuleData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
+          `http://localhost:5000/api/user/alice@example.com/${courseId}/module/${moduleNumber}/${subModuleNumber}`
         );
 
         setSubModuleVideo(response.data.subModule.video);
