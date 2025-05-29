@@ -79,10 +79,10 @@ export const EmpProgress = () => {
             <div>The person is very busy... not even one course enrolled...</div>
           ) : courses.map(course => (
             <div className="empprog-course-card" key={course._id}>
-              <img className="empprog-course-image" src={course.image} alt={course.courseName} />
+              <img className="empprog-course-image" src={course.courseImage} alt={course.courseName} />
               <div className="empprog-course-details">
                 <div className="empprog-course-name">{course.courseName}</div>
-                <div className="empprog-course-instructor">Instructor: Keerthika N</div>
+                <div className="empprog-course-instructor">Instructor: {course.courseInstructor}</div>
                 <div className="empprog-progress-bar">
                   <div
                     className="empprog-progress-fill"

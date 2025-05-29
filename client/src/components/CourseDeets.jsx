@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/coursedeets.css';
-import defaultImage from '../assets/reactjs.jpg'; // Adjust the path as necessary
+import defaultImage from '../assets/react.svg'; // Adjust the path as necessary
 
 export const CourseDeets = ({ profile }) => {
   // const defaultImage = '../assets/reactjs.jpg'; // Path to your default image

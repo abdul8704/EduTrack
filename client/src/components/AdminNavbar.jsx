@@ -1,7 +1,7 @@
 import '../styles/adminnavbar.css';
 import { Users, BookOpen } from 'lucide-react';
 import { EmployeeDeets } from './EmployeeDeets.jsx'
-import { AvailableCourses } from './AvailableCourses.jsx';
+import { AdminAvailableCourse } from './AdminAvailableCourse.jsx';
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios'; 
 
@@ -92,7 +92,7 @@ export const AdminNavbar = () => {
 
       <div className="admnav-module">
         {activeIndex === 0 && <div><EmployeeDeets profile={users}/></div>}
-        {activeIndex === 1 && <div><AvailableCourses available={courses.availableCourses} /></div>}
+        {activeIndex === 1 && <div><AdminAvailableCourse available={courses.availableCourses} /></div>}
       </div>
     </div>
   );
