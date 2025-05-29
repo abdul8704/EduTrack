@@ -9,6 +9,7 @@ import { EmployeeDeets } from './components/EmployeeDeets';
 import { EmpProgress } from './components/EmpProgress';
 import { AdminNavbar } from './components/AdminNavbar';
 import {AddCourse} from './components/AddCourse'; 
+import { CourseDeets } from './components/CourseDeets';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/empprogress" element={<EmpProgress/>}/>
         <Route path="/adminnav" element={<AdminNavbar/>}/>
         <Route path="/addcourse" element={<AddCourse />} />
+        <Route path="/coursedeets" element={<CourseDeets />} />
       </Routes>
       <Footer />
     </BrowserRouter>

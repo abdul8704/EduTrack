@@ -39,15 +39,15 @@ export const Module = ({ title, videoUrl, description, questions }) => {
       <p className="module-description">{description}</p>
 
       <h2>Quiz</h2>
-      <form className="quiz-form">
+      <form className="module-quiz-form">
         {questions.map((question, idx) => (
           <div key={question._id} className="quiz-question-card">
-            <p className="quiz-question-text">{question.questionText}</p>
-            <div className="quiz-options">
+            <p className="module-quiz-question-text">{question.questionText}</p>
+            <div className="module-quiz-options">
               {question.options.map((option, oidx) => (
                 <label
                   key={oidx}
-                  className={`quiz-option-label ${
+                  className={`module-quiz-option-label ${
                     selectedAnswers[idx] === option ? 'selected' : ''
                   }`}
                 >
@@ -57,9 +57,9 @@ export const Module = ({ title, videoUrl, description, questions }) => {
                     value={option}
                     checked={selectedAnswers[idx] === option}
                     onChange={() => handleOptionChange(idx, option)}
-                    className="quiz-option-input"
+                    className="module-quiz-option-input"
                   />
-                  <span className="custom-radio" />
+                  <span className="module-custom-radio" />
                   {option}
                 </label>
               ))}
@@ -67,7 +67,7 @@ export const Module = ({ title, videoUrl, description, questions }) => {
 
             {results.hasOwnProperty(idx) && (
               <p
-                className={`quiz-feedback ${
+                className={`module-quiz-feedback ${
                   results[idx] ? 'correct' : 'incorrect'
                 }`}
               >
@@ -80,7 +80,7 @@ export const Module = ({ title, videoUrl, description, questions }) => {
         <button
           type="button"
           onClick={validateAnswers}
-          className="quiz-submit-btn"
+          className="module-quiz-submit-btn"
         >
           Submit Answers
         </button>

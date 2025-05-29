@@ -18,8 +18,8 @@ export const FullCourse = ({ courseData, contentsData }) => {
     courseInstructor
   } = courseData;
 
-  // TEMP: Force a working video for testing
-  const embedUrl = 'https://www.youtube.com/embed/BPfdv6PXMx8';
+  const embedUrl = getEmbedUrl(courseIntroVideo?.videoUrl || '');
+  const isValidEmbed = embedUrl.includes("youtube.com/embed");
 
   return (
     <div className="fullcourse-container">
@@ -27,16 +27,19 @@ export const FullCourse = ({ courseData, contentsData }) => {
         <div className="course-info corner-layout">
           {embedUrl && (
             <div className="video-wrapper">
-              <iframe
-                width="560"
-                height="315"
-                src={embedUrl}
-                title={courseIntroVideo?.videoTitle || 'Course Intro Video'}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
+              {isValidEmbed ? (
+                <iframe
+                  width="560"
+                  height="315"
+                  src={embedUrl}
+                  title={courseIntroVideo.videoTitle || "Course Introduction"}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <p>Invalid video URL provided</p>
+              )}
             </div>
           )}
 
