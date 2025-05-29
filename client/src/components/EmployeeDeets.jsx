@@ -13,7 +13,6 @@ export const EmployeeDeets = ({ profile }) => {
       <div className="available-courses-container">
         {profile.map((user) => (
           <ProfileCard
-            key={user._id}
             photo={user.profilePicture}
             name={user.username}
             designation={user.position}

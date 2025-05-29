@@ -1,9 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/ProfileCard.css';
 
 export const ProfileCard = ({ photo, name, designation, email }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/empprogress/${email}`);
+  };
+
   return (
-    <div className="profile-card">
+    <div className="profile-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
       <div className="profile-top"></div>
       <img src={photo} alt={name} className="profile-photo" />
       <div className="profile-details">
