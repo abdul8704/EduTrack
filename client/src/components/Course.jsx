@@ -69,7 +69,6 @@ export const Course = () => {
   if (subModuleLoading) return <div>Loading course...</div>;
   if (navLoading) return <div>Loading course...</div>;
   if (!navCourse) return <div>Course not found.</div>;
-  console.log("Title:",subModuleTitle);
   return (
     <div className="course-container">
       <CourseNavbar
