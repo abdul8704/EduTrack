@@ -1,33 +1,31 @@
 import React from 'react';
 import '../styles/coursedeets.css';
 import defaultImage from '../assets/react.svg'; // Adjust the path as necessary
-
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from "axios"
 export const CourseDeets = ({ profile }) => {
-  // const defaultImage = '../assets/reactjs.jpg'; // Path to your default image
+  const {courseId} = useParams()
+  const [navCourse, setCourse] = useState(null);
+  const [navContents, setContents] = useState([]);
+  const [navLoading, setLoading] = useState(true);
 
- const defaultProfile = {
-  courseName: 'React Basics',
-  instructor: 'John Smith',
-  ratings: 5,
-  imageUrl: defaultImage,
-  tableOfContents: [
-    {
-      title: 'Getting Started with Python',
-      submodules: ['Introduction to Python', 'Installing Python'],
-    },
-    {
-      title: 'Python Basics',
-      submodules: ['Variables and Data Types', 'Operators'],
-    },
-    {
-      title: 'Control Structures',
-      submodules: ['Conditional Statements', 'Loops'],
-    },
-  ],
-};
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/${courseId}`);
+        setCourse(response.data.data);
+        setContents(response.data.contents);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
 
-
-  const user = profile || defaultProfile;
+    fetchCourseData();
+  }, [courseId]);
+  
 
   const enrolledPeople = [
     {
@@ -121,33 +119,33 @@ export const CourseDeets = ({ profile }) => {
       {/* Sidebar */}
       <aside className="coursedeets-navbar">
         <button className="coursedeets-back-button" onClick={() => window.history.back()}>
-  ←
-</button>
+          ←
+        </button>
         <div className="coursedeets-profile-section">
           <div className="coursedeets-profile-image">
-            <img src={user.imageUrl} alt="Course" />
+            <img src="https://st2.depositphotos.com/1350793/8441/i/450/depositphotos_84415820-stock-photo-hand-drawing-online-courses-concept.jpg" alt="Course" />
           </div>
           <div className="coursedeets-profile-details">
-            <div className="coursedeets-profile-name">{user.courseName}</div>
-            <div className="coursedeets-profile-email">{user.instructor}</div>
-            <div className="coursedeets-profile-designation">{user.ratings} ⭐</div>
+            <div className="coursedeets-profile-name">{navCourse.courseName}</div>
+            <div className="coursedeets-profile-email">{navCourse.courseInstructor}</div>
+            <div className="coursedeets-profile-designation">{navCourse.courseRating} ⭐</div>
           </div>
         </div>
         <div className="coursedeets-divider">
-        <div className="coursedeets-toc">
-  <h3>Table of Contents</h3>
-  {user.tableOfContents && user.tableOfContents.map((module, index) => (
-    <div key={index} className="coursedeets-module">
-      <strong >{module.title}</strong>
-      <ul>
-        {module.submodules.map((item, idx) => (
-          <li key={idx}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  ))}
-</div>
-</div>
+          <div className="coursedeets-toc">
+            <h3>Table of Contents</h3>
+            {navContents.map((module, index) => (
+              <div key={index} className="coursedeets-module">
+                <strong >{module.moduleTitle}</strong>
+                <ul>
+                  {module.submodules.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </aside>
 
       {/* Content */}
