@@ -17,7 +17,7 @@
 
 /* Styled Sidebar Buttons */
 .sidebar button {
-  background-color: #bada55;
+  background-color: rgb(220, 233, 237);
   color: white;
   border: none;
   padding: 0.75rem 1.25rem;
@@ -29,7 +29,7 @@
 }
 
 .sidebar button:hover {
-  background-color: #8aa41f;
+  background-color: rgb(220, 233, 237);
 }
 
 .addcourse-form {
@@ -44,7 +44,7 @@
 /* Titles */
 .addcourse-title {
   text-align: center;
-  color: #bada55;
+  color: rgb(73, 72, 72);
   margin-bottom: 1.5625rem;
   font-weight: 700;
   font-size: 2rem;
@@ -52,9 +52,9 @@
 
 .addcourse-modules h2,
 .addcourse-final-quiz h2 {
-  color: #bada55;
+  color: rgb(73, 72, 72);
   margin-bottom: 0.9375rem;
-  border-bottom: 0.125rem solid #bada55;
+  border-bottom: 0.125rem solid rgb(220, 233, 237);
   padding-bottom: 0.375rem;
 }
 
@@ -65,7 +65,7 @@
   box-sizing: border-box;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border: 0.125rem solid #bada55;
+  border: 0.125rem solid rgb(220, 233, 237);
   border-radius: 0.5rem;
   font-size: 1rem;
   resize: vertical;
@@ -86,15 +86,15 @@
 .addcourse-quiz-question-block {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  border: 0.0625rem solid #bada55;
+  border: 0.0625rem solid rgb(220, 233, 237);
   border-radius: 0.5rem;
-  background: #e9f1be;
+  background: rgb(220, 233, 237);
 }
 
 /* Sub-headings */
 .addcourse-lectures h3,
 .addcourse-assignments h3 {
-  color: #7a8a00;
+  color: rgb(220, 233, 237);
   margin-bottom: 0.625rem;
   font-weight: 600;
 }
@@ -103,7 +103,7 @@
 .addcourse-button,
 .addcourse-button-small,
 .addcourse-submit-button {
-  background-color: #bada55;
+  background-color: rgb(220, 233, 237);
   border: none;
   color: white;
   padding: 0.625rem 1.125rem;
@@ -118,7 +118,7 @@
 .addcourse-button:hover,
 .addcourse-button-small:hover,
 .addcourse-submit-button:hover {
-  background-color: #8aa41f;
+  background-color: rgb(220, 233, 237);
 }
 
 .addcourse-button-small {

@@ -113,7 +113,7 @@ export const AddCourse = () => {
     <div style={{ display: "flex" }}>
       <aside style={{
         width: "200px",
-        background: "#bada55",
+        background: "rgb(220, 233, 237)",
         padding: "20px",
         height: "100vh",
         position: "sticky",
