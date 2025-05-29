@@ -1,10 +1,10 @@
 import React from 'react';
 import '../styles/CoursePage.css';
 
-// Helper to convert YouTube short URL to embed format
+// Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
-  const match = url.match(/(?:youtu\.be\/|v=)([^&?]+)/);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
 export const FullCourse = ({ courseData, contentsData }) => {
@@ -18,23 +18,25 @@ export const FullCourse = ({ courseData, contentsData }) => {
     courseInstructor
   } = courseData;
 
+  // TEMP: Force a working video for testing
+  const embedUrl = 'https://www.youtube.com/embed/BPfdv6PXMx8';
+
   return (
     <div className="fullcourse-container">
       <div className="course-card">
         <div className="course-info corner-layout">
-          {courseIntroVideo?.videoUrl && (
+          {embedUrl && (
             <div className="video-wrapper">
-              {/* <iframe
-                src="BPfdv6PXMx8?si=htubqUHBunrFRp3f"
-                // src={getEmbedUrl(courseIntroVideo.videoUrl)}
-                title={courseIntroVideo.videoTitle}
+              <iframe
+                width="560"
+                height="315"
+                src={embedUrl}
+                title={courseIntroVideo?.videoTitle || 'Course Intro Video'}
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-              ></iframe> */}
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/BPfdv6PXMx8?si=htubqUHBunrFRp3f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              
-
+              ></iframe>
             </div>
           )}
 
