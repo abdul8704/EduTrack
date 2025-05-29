@@ -77,8 +77,8 @@ export const Course = () => {
         activeIndex={activeIndex}
         toggleModule={toggleModule}
         isCollapsed={isCollapsed}
-        moduleNumber={moduleNumber}
-        subModuleNumber={subModuleNumber}
+        moduleNo={moduleNumber}
+        subModuleNo={subModuleNumber}
       />
       <button className="course-hamburger" onClick={toggleNavbar}>
         {isCollapsed ? '>' : '<'}
