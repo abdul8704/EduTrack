@@ -124,12 +124,40 @@ export const AddCourse = () => {
           <form className="addcourse-form" onSubmit={handleSubmit}>
             <h1 className="addcourse-title">Create New Course</h1>
             {/* Intro Section */}
-            <div ref={introRef} className="addcourse-section">
-              <input type="text" name="courseName" placeholder="Course Name" className="addcourse-input" value={courseData.courseName} onChange={handleCourseChange} />
-              <input type="text" name="instructorName" placeholder="Instructor Name" className="addcourse-input" value={courseData.instructorName} onChange={handleCourseChange} />
-              <textarea name="description" placeholder="Course Description" className="addcourse-textarea" value={courseData.description} onChange={handleCourseChange}></textarea>
-              <input type="text" name="introVideo" placeholder="Intro Video Link" className="addcourse-input" value={courseData.introVideo} onChange={handleCourseChange} />
-            </div>
+            <div ref={introRef} className="addcourse-intro-section" id="intro">
+  <h2>Course Introduction</h2>
+  <input
+    type="text"
+    name="courseName"
+    placeholder="Course Name"
+    className="addcourse-input"
+    value={courseData.courseName}
+    onChange={handleCourseChange}
+  />
+  <input
+    type="text"
+    name="instructorName"
+    placeholder="Instructor Name"
+    className="addcourse-input"
+    value={courseData.instructorName}
+    onChange={handleCourseChange}
+  />
+  <textarea
+    name="description"
+    placeholder="Course Description"
+    className="addcourse-textarea"
+    value={courseData.description}
+    onChange={handleCourseChange}
+  ></textarea>
+  <input
+    type="text"
+    name="introVideo"
+    placeholder="Intro Video Link"
+    className="addcourse-input"
+    value={courseData.introVideo}
+    onChange={handleCourseChange}
+  />
+</div>
 
             {/* Modules */}
             <div className="addcourse-modules addcourse-section" ref={moduleRef}>
