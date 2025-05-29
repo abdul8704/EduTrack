@@ -8,5 +8,9 @@ router.get(
     "/:userid/:courseId/module/:moduleNumber/:subModuleNumber",
     userController.getSubModuleByCourseId
 );
+router.patch(
+    "/:userid/:courseId/progress/:moduleNumber/:subModuleNumber",
+    userController.updateProgress
+);
 
 module.exports = router;
