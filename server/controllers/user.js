@@ -221,9 +221,66 @@ const updateProgress = async (req, res) => {
     }
 } 
 
+const searchCourse = async (req, res) => {
+    let tags =
+        req.query.tags?.split(",").map((t) => t.trim().toLowerCase()) || [];
+    
+    try {
+        const courses = await CourseDetails.aggregate([
+            {
+                $addFields: {
+                    matchingTags: {
+                        $size: {
+                            $setIntersection: ["$tags", tags]
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    matchingTags: { $gt: 0 } // only courses with at least 1 matching tag
+                }
+            },
+            {
+                $sort: {
+                    matchingTags: -1 // most matches first
+                }
+            }
+        ]);
+
+        if (courses.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No courses found matching the provided tags",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            courses: courses.map(course => ({
+                courseId: course.courseId,
+                courseName: course.courseName,
+                courseRating: course.courseRating,
+                courseInstructor: course.courseInstructor,
+                courseImage: course.courseImage,
+                tags: course.tags,
+            })),
+        });
+
+    } catch (error) {
+            console.error("Error searching courses:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Server error while searching courses",
+                errorMessage: error.message,
+            });
+    }
+}
+
 module.exports = {
     getAllCourses,
     getCourseById,
     getSubModuleByCourseId,
     updateProgress,
+    searchCourse,
 };
