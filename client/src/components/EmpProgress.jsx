@@ -52,7 +52,6 @@ export const EmpProgress = () => {
 
   if (loading) return <div>Loading...</div>;
   if (Uloading) return <div>Loading...</div>;
-  if (courses.length === 0) return <div>The person is very busy... not even one course enrolled</div>;
 
 
 
@@ -76,7 +75,9 @@ export const EmpProgress = () => {
       <main className="empprog-content">
         <h2 className="empprog-heading">Progress</h2>
         <div className="empprog-courses">
-          {courses.map(course => (
+          {courses.length === 0 ? (
+            <div>The person is very busy... not even one course enrolled...</div>
+          ) : courses.map(course => (
             <div className="empprog-course-card" key={course._id}>
               <img className="empprog-course-image" src={course.image} alt={course.courseName} />
               <div className="empprog-course-details">
