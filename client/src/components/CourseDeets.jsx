@@ -75,7 +75,6 @@ export const CourseDeets = ({ profile }) => {
         </div>
         <div className="coursedeets-toc">
   <h3>Table of Contents</h3>
-  <p>Contents as follows</p>
   {user.tableOfContents && user.tableOfContents.map((module, index) => (
     <div key={index} className="coursedeets-module">
       <strong>{module.title}</strong>
