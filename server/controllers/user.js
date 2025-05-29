@@ -104,33 +104,13 @@ const getCourseById = async (req, res) => {
     }
 };
 
-const getModuleByCourseId = async (req, res) => {
-    const { courseId, moduleNumber } = req.params;
-    const course = await CourseContent.findOne({ courseId });
-    if (!course)
-        return res
-            .status(404)
-            .json({ success: false, message: "Course content not found" });
-    const moduleIndex = parseInt(moduleNumber);
-
-    if (
-        isNaN(moduleIndex) ||
-        moduleIndex < 0 ||
-        moduleIndex >= course.modules.length
-    ) {
-        return res
-            .status(400)
-            .json({ success: false, message: "Invalid module index" });
-    }
-
-    const moduleContent = course.modules[moduleIndex].length;
-
-    return res.status(200).json({ success: true, module: moduleContent });
-};
-
 const getSubModuleByCourseId = async (req, res) => {
-    const { courseId, moduleNumber, subModuleNumber } = req.params;
+    const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
+        const userExists = await User.findOne({userid})
+        if(!userExists)
+                return res.status(404).json({success: false, message: "invalid user"});
+        
         const course = await CourseContent.findOne({ courseId });
         if (!course)
             return res.status(404).json({
@@ -180,6 +160,5 @@ const getSubModuleByCourseId = async (req, res) => {
 module.exports = {
     getAllCourses,
     getCourseById,
-    getModuleByCourseId,
     getSubModuleByCourseId,
 };
