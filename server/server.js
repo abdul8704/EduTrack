@@ -7,6 +7,7 @@ const errorHandlerMiddleware = require("./middlewares/error-handler");
 const notFoundMiddleware = require("./middlewares/not-found");
 const userRouter  = require("./routes/userRouter");
 const adminRoutes = require("./routes/adminRouter");
+const loginRouter = require("./routes/loginRouter");
 const cors = require("cors");
 
 const app = express();
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use("/api/login/", loginRouter);
 app.use("/api/user/", userRouter);
 app.use("/api/admin/", adminRoutes);
 app.use(errorHandlerMiddleware)
