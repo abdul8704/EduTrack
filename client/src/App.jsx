@@ -24,7 +24,6 @@ function App() {
         <Route path="/addcourse" element={<AddCourse />} />
         <Route path="/coursedeets" element={<CourseDeets />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
