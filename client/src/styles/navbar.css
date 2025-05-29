@@ -1,12 +1,9 @@
 .footer {
-  padding: 1rem;
+  padding: .25em;
   background-color: #282c34;
   color: white;
   text-align: center;
-  position: sticky;
-  bottom: 0rem;
   width: auto;
-  height: 3rem;
   z-index: 1000;
 }
 .navbar {

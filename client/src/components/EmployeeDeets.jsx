@@ -1,34 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../styles/empdeets.css';
 import { ProfileCard } from './ProfileCard';
-import axios from 'axios';
 
-export const EmployeeDeets = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/admin/alice01');
-        setUsers(response.data.allUsers || []);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
+export const EmployeeDeets = ({ profile }) => {
+  if (!profile || profile.length === 0) {
+    return <div>No employee data available.</div>;
+  }
 
   return (
     <div className="enrolled-container">
-      <div className="enrolled-title">Employee Details</div>
+      <h2 className="enrolled-title">Employee Details</h2>
       <div className="available-courses-container">
-        {users.map((user) => (
+        {profile.map((user) => (
           <ProfileCard
             key={user._id}
             photo={user.profilePicture}
