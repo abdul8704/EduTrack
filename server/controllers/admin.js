@@ -2,15 +2,17 @@ const User = require("../models/userDetails");
 const Progress = require("../models/courseProgress");
 const Courses = require("../models/courseDetails"); // Assuming you have a model for course details
 
-const isAdmin = (adminid) => {
-    const userData = User.findOne({ userid: adminid });
+const isAdmin = async (adminid) => {
+    const userData = await User.findOne({ userid: adminid });
     return userData && userData.role === "admin";
-}
+};
 
 const getAllUsers = async (req, res) => {
-    if(!isAdmin(req.params.adminid))
-        return res.status(403).json({success: false, message: "Access denied. Admins only."});
-    
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+
     const userData = await User.find(
         {},
         {
@@ -51,9 +53,13 @@ const getUserById = async (req, res) => {
         res.status(200).json({ success: true, user: user });
     } catch (error) {
         console.error("Error fetching user:", error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
     }
-}
+};
 
 const getProgressByUserId = async (req, res) => {
     if (!isAdmin(req.params.adminid))
@@ -70,7 +76,7 @@ const getProgressByUserId = async (req, res) => {
                 courseName: 1,
                 percentComplete: 1,
             }
-        );
+        ).lean();
 
         if (!userProgress || userProgress.length === 0) {
             return res.status(404).json({
@@ -78,10 +84,30 @@ const getProgressByUserId = async (req, res) => {
                 message: "No progress found for this user",
             });
         }
+
+        const courseDetails = await Courses.find(
+            { courseId: { $in: userProgress.map((p) => p.courseId) } },
+            { courseName: 1, courseId: 1, courseImage: 1, courseInstructor: 1 }
+        );
+
+        for (let i = 0; i < userProgress.length; i++) {
+            const course = courseDetails.find(
+                (c) => c.courseId === userProgress[i].courseId
+            );
+            if (course) {
+                userProgress[i].courseImage = course.courseImage;
+                userProgress[i].courseInstructor = course.courseInstructor;
+            }
+        }
+
         res.status(200).json({ success: true, progress: userProgress });
     } catch (error) {
         console.error("Error fetching progress:", error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
     }
 };
 
@@ -114,7 +140,11 @@ const addNewUser = async (req, res) => {
         });
     } catch (error) {
         console.error("Unable to create new user", error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
     }
 };
 
@@ -164,7 +194,11 @@ const getUserForCourse = async (req, res) => {
         res.status(200).json({ success: true, data: data });
     } catch (error) {
         console.error("Error fetching user:", error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
     }
 };
 

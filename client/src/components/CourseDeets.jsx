@@ -1,8 +1,9 @@
 import React from 'react';
 import '../styles/coursedeets.css';
+import defaultImage from '../assets/reactjs.jpg'; // Adjust the path as necessary
 
 export const CourseDeets = ({ profile }) => {
-  const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
+  // const defaultImage = '../assets/reactjs.jpg'; // Path to your default image
 
  const defaultProfile = {
   courseName: 'React Basics',
@@ -57,6 +58,62 @@ export const CourseDeets = ({ profile }) => {
       progress: 90,
       imageUrl: 'https://randomuser.me/api/portraits/women/47.jpg',
     },
+    {
+      id: 5,
+      name: 'Olivia Brown',
+      designation: 'Software Engineer',
+      progress: 70,
+      imageUrl: 'https://randomuser.me/api/portraits/women/29.jpg',
+    },
+    {
+      id: 6,
+      name: 'Sophia Green',
+      designation: 'Full Stack Developer',
+      progress: 60,
+      imageUrl: 'https://randomuser.me/api/portraits/men/20.jpg',
+    },
+    {
+      id: 7,
+      name: 'Lily White',
+      designation: 'Python Developer',
+      progress: 40,
+      imageUrl: 'https://randomuser.me/api/portraits/men/30.jpg',
+    },
+    {
+      id: 8,
+      name: 'Mia Black',
+      designation: 'Data Analyst',
+      progress: 20,
+      imageUrl: 'https://randomuser.me/api/portraits/men/40.jpg',
+    },
+    {
+      id: 5,
+      name: 'Olivia Brown',
+      designation: 'Software Engineer',
+      progress: 70,
+      imageUrl: 'https://randomuser.me/api/portraits/women/29.jpg',
+    },
+    {
+      id: 6,
+      name: 'Sophia Green',
+      designation: 'Full Stack Developer',
+      progress: 60,
+      imageUrl: 'https://randomuser.me/api/portraits/men/20.jpg',
+    },
+    {
+      id: 7,
+      name: 'Lily White',
+      designation: 'Python Developer',
+      progress: 40,
+      imageUrl: 'https://randomuser.me/api/portraits/men/30.jpg',
+    },
+    {
+      id: 8,
+      name: 'Mia Black',
+      designation: 'Data Analyst',
+      progress: 20,
+      imageUrl: 'https://randomuser.me/api/portraits/men/40.jpg',
+    },
   ];
 
   return (
@@ -73,11 +130,12 @@ export const CourseDeets = ({ profile }) => {
             <div className="coursedeets-profile-designation">{user.ratings} ⭐</div>
           </div>
         </div>
+        <div className="coursedeets-divider">
         <div className="coursedeets-toc">
   <h3>Table of Contents</h3>
   {user.tableOfContents && user.tableOfContents.map((module, index) => (
     <div key={index} className="coursedeets-module">
-      <strong>{module.title}</strong>
+      <strong >{module.title}</strong>
       <ul>
         {module.submodules.map((item, idx) => (
           <li key={idx}>{item}</li>
@@ -85,6 +143,7 @@ export const CourseDeets = ({ profile }) => {
       </ul>
     </div>
   ))}
+</div>
 </div>
       </aside>
 
