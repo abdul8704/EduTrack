@@ -8,13 +8,15 @@
   z-index: 1000;
 }
 
+/* Sticky Top Navbar */
 .navbar {
-  width: 100%;
   position: sticky;
-  top: 0;              /* Sticky at top */
-  height: 5rem;        /* Match inner container height */
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
   background-color: white;
+  z-index: 100000;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,10 +24,10 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Make room below fixed navbar */
-body {
-  margin: 0;
-  box-sizing: border-box;
+
+/* Push page content below navbar */
+.empprog-container {
+  padding-top: 5rem; /* same as navbar height, no extra */
 }
 
 /* Base navbar container */
@@ -34,11 +36,11 @@ body {
   height: 5rem;
   margin: 0 auto;
   background-color: rgb(220, 233, 237);
-  padding: 0rem 2rem;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
+  border-bottom: 2px solid #000;
 }
 
 /* Left and right sections */
@@ -213,7 +215,7 @@ body {
 /* Mobile menu */
 .navbar-mobile-menu {
   position: fixed;
-  top: 3.75rem;
+  top: 5rem; /* matches navbar height */
   right: 0;
   left: 0;
   background-color: rgb(220, 233, 237);
