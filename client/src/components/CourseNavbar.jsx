@@ -13,6 +13,8 @@ export const CourseNavbar = ({
     <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
       {modules.map((module, index) => {
         const isActiveModule = Number(moduleNumber) === index;
+        const showSubmodules = activeIndex === index || isActiveModule;  // <-- updated condition
+
         return (
           <div key={module.moduleTitle} className="course-module-wrapper">
             <button
@@ -22,7 +24,7 @@ export const CourseNavbar = ({
               {module.moduleTitle}
             </button>
 
-            {activeIndex === index && (
+            {showSubmodules && (
               <div className="course-submodule-list">
                 {module.submodules.map((sub, subIndex) => {
                   const isActiveSubmodule = isActiveModule && Number(subModuleNumber) === subIndex;
