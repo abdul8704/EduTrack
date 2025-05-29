@@ -93,7 +93,7 @@ export const Course = () => {
       </button>
       <Module
         title={subModuleTitle}
-        videoUrl={subModuleVideo.videoUrl}
+        videoUrl="https://www.youtube.com/embed/1CViJDo_YGk?si=qcTBuL77FfFpIqqu"
         description={subModuleDesc}
         questions={subModuleQuiz.questions}
       />

@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/course.css';
 
 export const Module = ({ title, videoUrl, description, questions }) => {
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [results, setResults] = useState({});
+
+  const handleOptionChange = (questionIndex, option) => {
+    setSelectedAnswers(prev => ({
+      ...prev,
+      [questionIndex]: option,
+    }));
+  };
+
+  const validateAnswers = () => {
+    const newResults = {};
+    questions.forEach((question, idx) => {
+      newResults[idx] = selectedAnswers[idx] === question.correctAnswer;
+    });
+    setResults(newResults);
+  };
+
   return (
     <div className="module-container">
       <h1 className="module-title">{title}</h1>
@@ -20,12 +38,53 @@ export const Module = ({ title, videoUrl, description, questions }) => {
       <h2>Description</h2>
       <p className="module-description">{description}</p>
 
-      <h2>Assignment Questions</h2>
-      <ul className="module-assignment-list">
-        {questions.map((q, index) => (
-          <li key={index} className="module-assignment-item">{q}</li>
+      <h2>Quiz</h2>
+      <form className="quiz-form">
+        {questions.map((question, idx) => (
+          <div key={question._id} className="quiz-question-card">
+            <p className="quiz-question-text">{question.questionText}</p>
+            <div className="quiz-options">
+              {question.options.map((option, oidx) => (
+                <label
+                  key={oidx}
+                  className={`quiz-option-label ${
+                    selectedAnswers[idx] === option ? 'selected' : ''
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name={`question-${idx}`}
+                    value={option}
+                    checked={selectedAnswers[idx] === option}
+                    onChange={() => handleOptionChange(idx, option)}
+                    className="quiz-option-input"
+                  />
+                  <span className="custom-radio" />
+                  {option}
+                </label>
+              ))}
+            </div>
+
+            {results.hasOwnProperty(idx) && (
+              <p
+                className={`quiz-feedback ${
+                  results[idx] ? 'correct' : 'incorrect'
+                }`}
+              >
+                {results[idx] ? '✔ Correct!' : `✘ Incorrect! Correct answer: ${question.correctAnswer}`}
+              </p>
+            )}
+          </div>
         ))}
-      </ul>
+
+        <button
+          type="button"
+          onClick={validateAnswers}
+          className="quiz-submit-btn"
+        >
+          Submit Answers
+        </button>
+      </form>
     </div>
   );
 };
