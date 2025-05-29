@@ -17,21 +17,36 @@
 /* Image and text layout */
 .course-info {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch; /* Ensures same height */
   gap: 30px;
   margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
-.big-image {
-  width: 45%;
-  height: 350px;
-  border-radius: 12px;
-  object-fit: cover;
+.video-wrapper {
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #000;
+  margin-bottom: 1.5rem;
+  min-width: 300px;
 }
 
-/* Text beside image */
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Text beside video */
 .text-corner {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 300px;
 }
 
 .text-corner h2 {
@@ -124,13 +139,13 @@
 
   .course-info {
     flex-direction: column;
+    align-items: stretch;
     gap: 20px;
   }
 
-  .big-image {
+  .video-wrapper,
+  .text-corner {
     width: 100%;
-    height: auto;
-    max-height: 300px;
   }
 
   .text-corner h2 {
@@ -157,8 +172,8 @@
     border-radius: 16px;
   }
 
-  .big-image {
-    max-height: 220px;
+  .video-wrapper {
+    aspect-ratio: 16 / 9;
   }
 
   .text-corner h2 {
