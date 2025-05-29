@@ -2,7 +2,15 @@ const User = require("../models/userDetails");
 const Progress = require("../models/courseProgress");
 const Courses = require("../models/courseDetails"); // Assuming you have a model for course details
 
+const isAdmin = (adminid) => {
+    const userData = User.findOne({ userid: adminid });
+    return userData && userData.role === "admin";
+}
+
 const getAllUsers = async (req, res) => {
+    if(!isAdmin(req.params.adminid))
+        return res.status(403).json({success: false, message: "Access denied. Admins only."});
+    
     const userData = await User.find(
         {},
         {
@@ -17,7 +25,41 @@ const getAllUsers = async (req, res) => {
     res.status(200).json({ success: true, allUsers: userData });
 };
 
+const getUserById = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    const { userid } = req.params;
+    try {
+        const user = await User.findOne(
+            { userid: userid },
+            {
+                username: 1,
+                email: 1,
+                profilePicture: 1,
+                position: 1,
+            }
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        res.status(200).json({ success: true, user: user });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ success: false, message: "Server error", error: error.message });
+    }
+}
+
 const getProgressByUserId = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
     const { employeeid } = req.params;
     try {
         const userProgress = await Progress.find(
@@ -44,6 +86,10 @@ const getProgressByUserId = async (req, res) => {
 };
 
 const addNewUser = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
     try {
         const { username, emailHash, passwordHash } = req.body;
         const existingUser = await User.findOne({ email: emailHash });
@@ -73,6 +119,10 @@ const addNewUser = async (req, res) => {
 };
 
 const getUserForCourse = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
     const { courseId } = req.params;
     try {
         const courseExists = await Courses.findOne({ courseId: courseId });
@@ -123,4 +173,5 @@ module.exports = {
     addNewUser,
     getUserForCourse,
     getProgressByUserId,
+    getUserById,
 };

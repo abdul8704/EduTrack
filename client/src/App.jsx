@@ -19,7 +19,7 @@ function App() {
         <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} />
         <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} />
         <Route path="/" element={<Home />} />
-        <Route path="/empprogress" element={<EmpProgress/>}/>
+        <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
         <Route path="/adminnav" element={<AdminNavbar/>}/>
         <Route path="/addcourse" element={<AddCourse />} />
         <Route path="/coursedeets" element={<CourseDeets />} />

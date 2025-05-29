@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const courseContent = require("./courseContent");
 
 const courseDetailsSchema = new mongoose.Schema({
     courseId: {
