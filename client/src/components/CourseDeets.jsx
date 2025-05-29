@@ -120,6 +120,9 @@ export const CourseDeets = ({ profile }) => {
     <div className="coursedeets-container">
       {/* Sidebar */}
       <aside className="coursedeets-navbar">
+        <button className="coursedeets-back-button" onClick={() => window.history.back()}>
+  ←
+</button>
         <div className="coursedeets-profile-section">
           <div className="coursedeets-profile-image">
             <img src={user.imageUrl} alt="Course" />
