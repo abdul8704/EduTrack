@@ -4,7 +4,9 @@ import defaultImage from '../assets/react.svg'; // Adjust the path as necessary
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios"
-export const CourseDeets = ({ profile }) => {
+import { useNavigate } from 'react-router-dom';
+
+export const CourseDeets = () => {
   const { courseId } = useParams()
   const [navCourse, setCourse] = useState(null);
   const [navContents, setContents] = useState([]);
@@ -42,6 +44,13 @@ export const CourseDeets = ({ profile }) => {
 
     fetchEnrolledUsers();
   }, [courseId]);
+  const navigate = useNavigate();
+
+  const handleCardClick = (userEmail) => {
+    if (userEmail) {
+      navigate(`/empprogress/${userEmail}`);
+    }
+  };
   if (navLoading || !navCourse) return <div>Loading...</div>;
   if (usersLoading || !enrolledUsers) return <div>Loading users...</div>;
 
@@ -87,7 +96,7 @@ export const CourseDeets = ({ profile }) => {
         <h2 className="coursedeets-heading">Enrolled</h2>
         <div className="coursedeets-courses">
           {enrolledUsers.map(person => (
-            <div className="coursedeets-course-card" key={person.Userid}>
+            <div className="coursedeets-course-card" key={person.Userid} onClick={()=> handleCardClick(person.userId)}>
               <img className="coursedeets-course-image" src={person.imageUrl} alt={person.username} />
               <div className="coursedeets-course-details">
                 <div className="coursedeets-course-name">{person.username}</div>

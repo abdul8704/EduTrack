@@ -6,7 +6,7 @@ import axios from "axios";
 export const EmpProgress = () => {
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
   const useremail = useParams();
-  console.log(useremail);
+
   const defaultProfile = {
     name: 'Mary Smith',
     designation: 'Software Engineer',
