@@ -88,7 +88,7 @@ export const EmpProgress = () => {
                     style={{ width: `${course.percentComplete}%` }}
                   />
                 </div>
-                <div className="empprog-progress-percent">{course.precentComplete}%</div>
+                <div className="empprog-progress-percent">{course.percentComplete}%</div>
               </div>
             </div>
           ))}
