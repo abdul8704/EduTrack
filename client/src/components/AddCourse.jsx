@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/addcourse.css";
+import axios from "axios";
 
 export const AddCourse = () => {
   const [courseData, setCourseData] = useState({
@@ -166,10 +167,12 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
       console.log("Submitted data:", courseData);
-    setCourseData({
+      const res = await axios.post("http://localhost:5000/api/admin/bob@example.com/course/addnewcourse", courseData, {})
+      console.log(res.data);
+      setCourseData({
       courseName: "",
     courseId: "",
     instructorName: "",

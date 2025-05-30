@@ -265,6 +265,49 @@ const updateUserRole = async (req, res) => {
     }
 };
 
+const addNewCourse = async (req, res) => {
+    console.log(req.body)
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    const { courseId, courseName, courseImage, courseInstructor } = req.body;
+
+    try {
+        const existingCourse = await Courses.findOne({ courseId: courseId });
+        if (existingCourse) {
+            return res.status(400).json({
+                success: false,
+                message: "Course already exists",
+            });
+        }
+        res.status(201).json({
+            success: true,
+            data: req.body,
+            message: "New course added successfully",
+        });
+        // const newCourse = new Courses({
+        //     courseId,
+        //     courseName,
+        //     courseImage,
+        //     courseInstructor,
+        // });
+
+        // await newCourse.save();
+        // res.status(201).json({
+        //     success: true,
+        //     message: "Course created successfully",
+        // });
+    } catch (error) {
+        console.error("Unable to create new course", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+}
+
 module.exports = {
     getAllUsers,
     getAllCourses,
@@ -273,4 +316,5 @@ module.exports = {
     getProgressByUserId,
     getUserById,
     updateUserRole,
+    addNewCourse,
 };
