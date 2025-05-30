@@ -7,6 +7,7 @@ router.get("/:adminid/userdata/:userid", adminController.getUserById);
 router.get("/:adminid/:courseId", userController.getCourseById);
 router.get("/:adminid/", adminController.getAllUsers);
 router.get("/:adminid/allusers/:courseId", adminController.getUserForCourse);
+router.get("/:adminid/course/allcourses", adminController.getAllCourses);
 router.post("/:adminid/add", adminController.addNewUser);
 router.get(
     "/:adminid/progress/:employeeid",
