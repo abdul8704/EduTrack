@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -13,10 +15,21 @@ export const Login = () => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log("Login credentials:", loginData);
-    // Send loginData to server via fetch/axios
+    const response = await axios.post("http://localhost:5000/api/login/login", loginData);
+    console.log("Response from server:", response.data.userDetails.role);
+    if(response.status === 200) {
+      if(response.data.userDetails.role === "admin") {
+        const navigate = useNavigate();
+        navigate("/adminnav");
+      }
+      else if(response.data.userDetails.role === "user") {
+        const navigate = useNavigate();
+        navigate("/user");
+      }
+    }
   };
 
   const handleSignupSubmit = (e) => {
