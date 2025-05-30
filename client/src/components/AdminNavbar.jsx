@@ -23,21 +23,14 @@ export const AdminNavbar = () => {
   const toggleNavbar = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const [courses, setCourses] = useState({
-    enrolledCourses: [],
-    availableCourses: []
-  });
-
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/alice@example.com');
-        setCourses({
-          enrolledCourses: response.data.enrolledCourses,
-          availableCourses: response.data.availableCourses
-        });
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/course/allcourses`);
+        setCourses(response.data.allCourses);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -93,7 +86,7 @@ export const AdminNavbar = () => {
 
       <div className="admnav-module">
         {activeIndex === 0 && <div><EmployeeDeets profile={users}/></div>}
-        {activeIndex === 1 && <div><AdminAvailableCourse available={courses.availableCourses} /></div>}
+        {activeIndex === 1 && <div><AdminAvailableCourse available={courses} /></div>}
       </div>
     </div>
   );
