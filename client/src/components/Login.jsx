@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signupData, setSignupData] = useState({ name: "", email: "", password: "" });
+  const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
+  const [isOtpPhase, setIsOtpPhase] = useState(false);
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -31,11 +32,22 @@ export const Login = () => {
     }
   };
 
-  const handleSignupSubmit = (e) => {
-    e.preventDefault();
+const handleSignupSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!isOtpPhase) {
     console.log("Signup credentials:", signupData);
-    // Send signupData to server via fetch/axios
-  };
+    // Send signupData to backend and trigger OTP sending here
+    setIsOtpPhase(true);
+
+    // Clear the confirmpassword field when switching to OTP phase
+    setSignupData({ ...signupData, confirmpassword: "" });
+  } else {
+    // OTP submission phase
+    console.log("OTP entered:", signupData.confirmpassword);
+    // Submit OTP to server for verification
+  }
+};
 
   return (
     <div className="login-main">
@@ -95,6 +107,14 @@ export const Login = () => {
                     placeholder="Password"
                     type="password"
                     value={signupData.password}
+                    onChange={handleSignupChange}
+                  />
+                  <input
+                    className="login-flip-card__input"
+                    name="confirmpassword"
+                    placeholder={isOtpPhase ? "Enter OTP" : "Confirm Password"}
+                    type={isOtpPhase ? "text" : "password"}
+                    value={signupData.confirmpassword}
                     onChange={handleSignupChange}
                   />
                   <button className="login-flip-card__btn" type="submit">
