@@ -70,16 +70,6 @@ export const EnrolledCourses = ({ enrolled }) => {
                 rating={course.courseRating}
               />
             ))}
-          {Array.isArray(enrolled) &&
-            enrolled.map((course) => (
-              <CoursesCard
-                id={course.courseId}
-                title={course.courseName}
-                image={course.courseImage}
-                instructor={course.courseInstructor}
-                rating={course.courseRating}
-              />
-            ))}
         </div>
         {isOverflowing && (
           <div className="enrolled-arrow enrolled-right-arrow" onClick={handleRightClick}>
