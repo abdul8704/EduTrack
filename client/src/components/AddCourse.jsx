@@ -156,12 +156,7 @@ export const AddCourse = () => {
                         <textarea placeholder="Lecture Description" className="addcourse-textarea" value={lecture.description} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "description", e.target.value)}></textarea>
                         <input type="text" placeholder="Video Title" className="addcourse-input" value={lecture.videoTitle} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoTitle", e.target.value)} />
                         <input type="text" placeholder="Video Link" className="addcourse-input" value={lecture.videoLink} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoLink", e.target.value)} />
-                      </div>
-                    ))}
-                    <button type="button" className="addcourse-button-small" onClick={() => addLecture(moduleIndex)}>+ Add Lecture</button>
-                  </div>
-
-                  <div className="addcourse-assignments">
+                        <div className="addcourse-assignments">
                     <h3>Assignments</h3>
                     {module.assignments.map((assignment, assignmentIndex) => (
                       <div key={assignmentIndex} className="addcourse-assignment">
@@ -178,6 +173,13 @@ export const AddCourse = () => {
                     ))}
                     <button type="button" className="addcourse-button-small" onClick={() => addAssignment(moduleIndex)}>+ Add Assignment</button>
                   </div>
+                      </div>
+                    ))}
+                    <button type="button" className="addcourse-button-small" onClick={() => addLecture(moduleIndex)}>+ Add Lecture</button>
+                    
+                  </div>
+
+                  
                 </div>
               ))}
 
