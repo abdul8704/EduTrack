@@ -14,6 +14,7 @@ export const Login = () => {
   const handleSignupChange = (e) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -22,12 +23,10 @@ export const Login = () => {
     console.log("Response from server:", response.data.userDetails.role);
     if(response.status === 200) {
       if(response.data.userDetails.role === "admin") {
-        const navigate = useNavigate();
         navigate("/adminnav");
       }
       else if(response.data.userDetails.role === "user") {
-        const navigate = useNavigate();
-        navigate("/user");
+        navigate(`/${response.data.userDetails.userId}`);
       }
     }
   };
