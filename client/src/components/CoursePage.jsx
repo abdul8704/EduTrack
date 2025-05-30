@@ -8,6 +8,7 @@ export const CoursePage = () => {
   const { userId, courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [contents, setContents] = useState([]);
+  const [perc, setPerc] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export const CoursePage = () => {
         const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
+        setPerc(response.data.percentComplete);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -29,7 +31,7 @@ export const CoursePage = () => {
 
   return (
     <div className="course-page">
-      <FullCourse uId={userId} id={courseId} courseData={course} contentsData={contents} />
+      <FullCourse uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
     </div>
   );
 };

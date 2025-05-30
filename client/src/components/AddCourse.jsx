@@ -2,36 +2,38 @@ import React, { useState } from "react";
 import "../styles/addcourse.css";
 import axios from "axios";
 
+const initialCourseData = {
+  courseName: "",
+  courseId: "",
+  instructorName: "",
+  description: "",
+  courseImage: "",
+  introVideoTitle: "",
+  introVideo: "",
+  tags: "",
+  modules: [
+    {
+      name: "",
+      lectures: [
+        {
+          title: "",
+          description: "",
+          videoTitle: "",
+          videoLink: "",
+          assignments: [
+            {
+              question: "",
+              choices: ["", ""],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 export const AddCourse = () => {
-  const [courseData, setCourseData] = useState({
-    courseName: "",
-    courseId: "",
-    instructorName: "",
-    description: "",
-    courseImage: "",
-    introVideoTitle: "",
-    introVideo: "",
-    tags: "",
-    modules: [
-      {
-        name: "",
-        lectures: [
-          {
-            title: "",
-            description: "",
-            videoTitle: "",
-            videoLink: "",
-            assignments: [
-              {
-                question: "",
-                choices: ["", ""],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  });
+  const [courseData, setCourseData] = useState(initialCourseData);
 
   const handleCourseChange = (e) =>
     setCourseData({ ...courseData, [e.target.name]: e.target.value });
@@ -105,9 +107,11 @@ export const AddCourse = () => {
   };
 
   const deleteModule = (index) => {
-    const newModules = [...courseData.modules];
-    newModules.splice(index, 1);
-    setCourseData({ ...courseData, modules: newModules });
+    if (window.confirm("Are you sure you want to delete this module?")) {
+      const newModules = [...courseData.modules];
+      newModules.splice(index, 1);
+      setCourseData({ ...courseData, modules: newModules });
+    }
   };
 
   const addLecture = (moduleIndex) => {
@@ -123,9 +127,11 @@ export const AddCourse = () => {
   };
 
   const deleteLecture = (moduleIndex, lectureIndex) => {
-    const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures.splice(lectureIndex, 1);
-    setCourseData({ ...courseData, modules: newModules });
+    if (window.confirm("Are you sure you want to delete this lecture?")) {
+      const newModules = [...courseData.modules];
+      newModules[moduleIndex].lectures.splice(lectureIndex, 1);
+      setCourseData({ ...courseData, modules: newModules });
+    }
   };
 
   const addAssignment = (moduleIndex, lectureIndex) => {
@@ -138,12 +144,14 @@ export const AddCourse = () => {
   };
 
   const deleteAssignment = (moduleIndex, lectureIndex, assignmentIndex) => {
-    const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments.splice(
-      assignmentIndex,
-      1
-    );
-    setCourseData({ ...courseData, modules: newModules });
+    if (window.confirm("Are you sure you want to delete this assignment?")) {
+      const newModules = [...courseData.modules];
+      newModules[moduleIndex].lectures[lectureIndex].assignments.splice(
+        assignmentIndex,
+        1
+      );
+      setCourseData({ ...courseData, modules: newModules });
+    }
   };
 
   const addAssignmentChoice = (moduleIndex, lectureIndex, assignmentIndex) => {
@@ -160,48 +168,25 @@ export const AddCourse = () => {
     assignmentIndex,
     choiceIndex
   ) => {
-    const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments[
-      assignmentIndex
-    ].choices.splice(choiceIndex, 1);
-    setCourseData({ ...courseData, modules: newModules });
+    if (window.confirm("Are you sure you want to delete this choice?")) {
+      const newModules = [...courseData.modules];
+      newModules[moduleIndex].lectures[lectureIndex].assignments[
+        assignmentIndex
+      ].choices.splice(choiceIndex, 1);
+      setCourseData({ ...courseData, modules: newModules });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      console.log("Submitted data:", courseData);
-      const res = await axios.post("http://localhost:5000/api/admin/bob@example.com/course/addnewcourse", courseData, {})
-      console.log(res.data);
-      setCourseData({
-      courseName: "",
-    courseId: "",
-    instructorName: "",
-    description: "",
-    courseImage: "",
-    introVideoTitle: "",
-    introVideo: "",
-    tags: "",
-    modules: [
-      {
-        name: "",
-        lectures: [
-          {
-            title: "",
-            description: "",
-            videoTitle: "",
-            videoLink: "",
-            assignments: [
-              {
-                question: "",
-                choices: ["", ""],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    })    
+    if (!courseData.tags.trim()) {
+      alert("Tags cannot be empty!");
+      return;
+    }
+    console.log("Submitted data:", courseData);
+    setCourseData(initialCourseData);
   };
+
 
   return (
     <div className="addcourse-wrapper">
@@ -221,6 +206,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.courseName}
               onChange={handleCourseChange}
+              required
             />
             <input
               name="courseId"
@@ -228,6 +214,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.courseId}
               onChange={handleCourseChange}
+              required
             />
             <input
               name="instructorName"
@@ -235,6 +222,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.instructorName}
               onChange={handleCourseChange}
+              required
             />
             <textarea
               name="description"
@@ -242,6 +230,7 @@ export const AddCourse = () => {
               className="addcourse-textarea"
               value={courseData.description}
               onChange={handleCourseChange}
+              required
             ></textarea>
             <input
               name="courseImage"
@@ -249,6 +238,8 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.courseImage}
               onChange={handleCourseChange}
+              required
+              pattern="https?://.+"
             />
             <input
               name="introVideoTitle"
@@ -256,6 +247,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.introVideoTitle}
               onChange={handleCourseChange}
+              required
             />
             <input
               name="introVideo"
@@ -263,6 +255,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.introVideo}
               onChange={handleCourseChange}
+              required
             />
             <input
               name="tags"
@@ -270,6 +263,7 @@ export const AddCourse = () => {
               className="addcourse-input"
               value={courseData.tags}
               onChange={handleCourseChange}
+              required
             />
           </div>
 
@@ -302,6 +296,7 @@ export const AddCourse = () => {
                   onChange={(e) =>
                     handleModuleChange(moduleIndex, "name", e.target.value)
                   }
+                  required
                 />
 
                 <div className="addcourse-lectures">
@@ -329,6 +324,7 @@ export const AddCourse = () => {
                             e.target.value
                           )
                         }
+                        required
                       />
                       <textarea
                         placeholder="Lecture Description"
@@ -342,6 +338,7 @@ export const AddCourse = () => {
                             e.target.value
                           )
                         }
+                        required
                       />
                       <input
                         placeholder="Video Title"
@@ -355,6 +352,7 @@ export const AddCourse = () => {
                             e.target.value
                           )
                         }
+                        required
                       />
                       <input
                         placeholder="Video Link"
@@ -404,6 +402,7 @@ export const AddCourse = () => {
                                     e.target.value
                                   )
                                 }
+                                required
                               />
                               {assignment.choices.map(
                                 (choice, choiceIndex) => (
@@ -425,6 +424,7 @@ export const AddCourse = () => {
                                           e.target.value
                                         )
                                       }
+                                      required
                                     />
                                     <button
                                       type="button"
