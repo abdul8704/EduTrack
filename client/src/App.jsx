@@ -15,7 +15,7 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} />
         <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} />
         <Route path="/:userId" element={<Home />} />
