@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { EnrolledCourses } from './EnrolledCourses';
 import { AvailableCourses } from './AvailableCourses';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export const Home = () => {
@@ -10,12 +11,12 @@ export const Home = () => {
   });
 
   const [loading, setLoading] = useState(true);
-
+  const { userId } = useParams();
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
         // "bobsmith92"
-        const response = await axios.get('http://localhost:5000/api/user/alice@example.com/');
+        const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
         setCourses({
           enrolledCourses: response.data.enrolledCourses,
           availableCourses: response.data.availableCourses
