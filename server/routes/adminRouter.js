@@ -4,7 +4,7 @@ const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
 
 router.get("/:adminid/userdata/:userid", adminController.getUserById);
-router.get("/:adminid/:courseId", userController.getCourseById);
+router.get("/:adminid/courseinfo/:courseId", adminController.getCourseInfoById);
 router.get("/:adminid/", adminController.getAllUsers);
 router.get("/:adminid/allusers/:courseId", adminController.getUserForCourse);
 router.get("/:adminid/course/allcourses", adminController.getAllCourses);

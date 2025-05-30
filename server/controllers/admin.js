@@ -308,6 +308,39 @@ const addNewCourse = async (req, res) => {
     }
 }
 
+const getCourseInfoById = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    const { courseId } = req.params;
+    try {
+        const course = await Courses.findOne(
+            { courseId: courseId },
+            {
+                courseName: 1,
+                courseImage: 1,
+                courseInstructor: 1,
+                courseRating: 1,
+            }
+        );
+
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found",
+            });
+        }
+        res.status(200).json({ success: true, course: course });
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+}
 module.exports = {
     getAllUsers,
     getAllCourses,
@@ -317,4 +350,5 @@ module.exports = {
     getUserById,
     updateUserRole,
     addNewCourse,
+    getCourseInfoById,
 };
