@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FullCourse } from './FullCourse';
+import { FullCourse } from '../components/FullCourse';
 import '../styles/CoursePage.css';
 
 export const CoursePage = () => {

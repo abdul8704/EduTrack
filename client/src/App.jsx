@@ -3,12 +3,12 @@ import { Login } from './components/Login';
 import { Navbar } from './components/Navbar';
 import { Home } from './components/Home';
 import { Footer } from './components/Footer';
-import { CoursePage } from './components/CoursePage';
+import { CoursePage } from './pages/CoursePage';
 import { Course } from './components/Course';
-import { EmpProgress } from './components/EmpProgress';
+import { EmpProgress } from './pages/EmpProgress';
 import { AdminNavbar } from './components/AdminNavbar';
 import {AddCourse} from './components/AddCourse'; 
-import { CourseDeets } from './components/CourseDeets';
+import { CourseDeets } from './pages/CourseDeets';
 
 function App() {
   return (

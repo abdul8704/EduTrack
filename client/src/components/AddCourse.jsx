@@ -1,39 +1,31 @@
 import React, { useState } from "react";
 import "../styles/addcourse.css";
-import axios from "axios";
-
-const initialCourseData = {
-  courseName: "",
-  courseId: "",
-  instructorName: "",
-  description: "",
-  courseImage: "",
-  introVideoTitle: "",
-  introVideo: "",
-  tags: "",
-  modules: [
-    {
-      name: "",
-      lectures: [
-        {
-          title: "",
-          description: "",
-          videoTitle: "",
-          videoLink: "",
-          assignments: [
-            {
-              question: "",
-              choices: ["", ""],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
 
 export const AddCourse = () => {
-  const [courseData, setCourseData] = useState(initialCourseData);
+  const [courseData, setCourseData] = useState({
+    courseName: "",
+    courseId: "",
+    instructorName: "",
+    description: "",
+    courseImage: "",
+    introVideoTitle: "",
+    introVideo: "",
+    tags: "",
+    modules: [
+      {
+        name: "",
+        lectures: [
+          {
+            title: "",
+            description: "",
+            videoTitle: "",
+            videoLink: "",
+          },
+        ],
+        assignments: [{ question: "", choices: [""] }],
+      },
+    ],
+  });
 
   const handleCourseChange = (e) =>
     setCourseData({ ...courseData, [e.target.name]: e.target.value });
@@ -50,31 +42,9 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const handleAssignmentChange = (
-    moduleIndex,
-    lectureIndex,
-    assignmentIndex,
-    field,
-    value
-  ) => {
+  const handleAssignmentChange = (moduleIndex, assignmentIndex, field, value) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments[
-      assignmentIndex
-    ][field] = value;
-    setCourseData({ ...courseData, modules: newModules });
-  };
-
-  const handleChoiceChange = (
-    moduleIndex,
-    lectureIndex,
-    assignmentIndex,
-    choiceIndex,
-    value
-  ) => {
-    const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments[
-      assignmentIndex
-    ].choices[choiceIndex] = value;
+    newModules[moduleIndex].assignments[assignmentIndex][field] = value;
     setCourseData({ ...courseData, modules: newModules });
   };
 
@@ -91,9 +61,9 @@ export const AddCourse = () => {
               description: "",
               videoTitle: "",
               videoLink: "",
-              assignments: [{ question: "", choices: ["", ""] }],
             },
           ],
+          assignments: [{ question: "", choices: [""] }],
         },
       ],
     });
@@ -106,14 +76,6 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const deleteModule = (index) => {
-    if (window.confirm("Are you sure you want to delete this module?")) {
-      const newModules = [...courseData.modules];
-      newModules.splice(index, 1);
-      setCourseData({ ...courseData, modules: newModules });
-    }
-  };
-
   const addLecture = (moduleIndex) => {
     const newModules = [...courseData.modules];
     newModules[moduleIndex].lectures.push({
@@ -121,381 +83,116 @@ export const AddCourse = () => {
       description: "",
       videoTitle: "",
       videoLink: "",
-      assignments: [{ question: "", choices: ["", ""] }],
     });
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const deleteLecture = (moduleIndex, lectureIndex) => {
-    if (window.confirm("Are you sure you want to delete this lecture?")) {
-      const newModules = [...courseData.modules];
-      newModules[moduleIndex].lectures.splice(lectureIndex, 1);
-      setCourseData({ ...courseData, modules: newModules });
-    }
-  };
-
-  const addAssignment = (moduleIndex, lectureIndex) => {
+  const addAssignment = (moduleIndex) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments.push({
-      question: "",
-      choices: ["", ""],
-    });
+    newModules[moduleIndex].assignments.push({ question: "", choices: [""] });
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const deleteAssignment = (moduleIndex, lectureIndex, assignmentIndex) => {
-    if (window.confirm("Are you sure you want to delete this assignment?")) {
-      const newModules = [...courseData.modules];
-      newModules[moduleIndex].lectures[lectureIndex].assignments.splice(
-        assignmentIndex,
-        1
-      );
-      setCourseData({ ...courseData, modules: newModules });
-    }
-  };
-
-  const addAssignmentChoice = (moduleIndex, lectureIndex, assignmentIndex) => {
+  const addAssignmentChoice = (moduleIndex, assignmentIndex) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].lectures[lectureIndex].assignments[
-      assignmentIndex
-    ].choices.push("");
+    newModules[moduleIndex].assignments[assignmentIndex].choices.push("");
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const deleteChoice = (
-    moduleIndex,
-    lectureIndex,
-    assignmentIndex,
-    choiceIndex
-  ) => {
-    if (window.confirm("Are you sure you want to delete this choice?")) {
-      const newModules = [...courseData.modules];
-      newModules[moduleIndex].lectures[lectureIndex].assignments[
-        assignmentIndex
-      ].choices.splice(choiceIndex, 1);
-      setCourseData({ ...courseData, modules: newModules });
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!courseData.tags.trim()) {
-      alert("Tags cannot be empty!");
-      return;
+    if (window.confirm("Are you sure to complete the submission?")) {
+      window.location.reload();
     }
-    console.log("Submitted data:", courseData);
-    setCourseData(initialCourseData);
   };
-
 
   return (
     <div className="addcourse-wrapper">
       <div className="page-container">
-        <form className="addcourse-form" onSubmit={handleSubmit}>
-          <h1 className="addcourse-title">Create New Course</h1>
+        <div className="scrollable-content">
+          <form className="addcourse-form" onSubmit={handleSubmit}>
+            <h1 className="addcourse-title">Create New Course</h1>
 
-          {/* Course Intro */}
-          <div className="addcourse-section">
-            <div className="addcourse-section-header">
-              <h2>Course Introduction</h2>
-              <hr />
-            </div>
-            <input
-              name="courseName"
-              placeholder="Course Name"
-              className="addcourse-input"
-              value={courseData.courseName}
-              onChange={handleCourseChange}
-              required
-            />
-            <input
-              name="courseId"
-              placeholder="Course ID"
-              className="addcourse-input"
-              value={courseData.courseId}
-              onChange={handleCourseChange}
-              required
-            />
-            <input
-              name="instructorName"
-              placeholder="Instructor Name"
-              className="addcourse-input"
-              value={courseData.instructorName}
-              onChange={handleCourseChange}
-              required
-            />
-            <textarea
-              name="description"
-              placeholder="Course Description"
-              className="addcourse-textarea"
-              value={courseData.description}
-              onChange={handleCourseChange}
-              required
-            ></textarea>
-            <input
-              name="courseImage"
-              placeholder="Course Image URL"
-              className="addcourse-input"
-              value={courseData.courseImage}
-              onChange={handleCourseChange}
-              required
-              pattern="https?://.+"
-            />
-            <input
-              name="introVideoTitle"
-              placeholder="Intro Video Title"
-              className="addcourse-input"
-              value={courseData.introVideoTitle}
-              onChange={handleCourseChange}
-              required
-            />
-            <input
-              name="introVideo"
-              placeholder="Intro Video URL"
-              className="addcourse-input"
-              value={courseData.introVideo}
-              onChange={handleCourseChange}
-              required
-            />
-            <input
-              name="tags"
-              placeholder="Tags (e.g: reactjs,javascript)"
-              className="addcourse-input"
-              value={courseData.tags}
-              onChange={handleCourseChange}
-              required
-            />
-          </div>
-
-          {/* Modules */}
-          <div className="addcourse-section">
-            <div className="addcourse-section-header">
-              <h2>Modules</h2>
-              <button
-                type="button"
-                className="addcourse-button-small"
-                onClick={addModule}
-              >
-                + Add Module
-              </button>
-            </div>
-            <hr />
-            {courseData.modules.map((module, moduleIndex) => (
-              <div key={moduleIndex} className="addcourse-module">
-                <button
-                  type="button"
-                  className="delete-button"
-                  onClick={() => deleteModule(moduleIndex)}
-                >
-                  ✕
-                </button>
-                <input
-                  placeholder="Module Name"
-                  className="addcourse-input"
-                  value={module.name}
-                  onChange={(e) =>
-                    handleModuleChange(moduleIndex, "name", e.target.value)
-                  }
-                  required
-                />
-
-                <div className="addcourse-lectures">
-                  <h3>Lectures</h3>
-                  {module.lectures.map((lecture, lectureIndex) => (
-                    <div key={lectureIndex} className="addcourse-lecture">
-                      <button
-                        type="button"
-                        className="delete-button"
-                        onClick={() =>
-                          deleteLecture(moduleIndex, lectureIndex)
-                        }
-                      >
-                        ✕
-                      </button>
-                      <input
-                        placeholder="Lecture Title"
-                        className="addcourse-input"
-                        value={lecture.title}
-                        onChange={(e) =>
-                          handleLectureChange(
-                            moduleIndex,
-                            lectureIndex,
-                            "title",
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
-                      <textarea
-                        placeholder="Lecture Description"
-                        className="addcourse-textarea"
-                        value={lecture.description}
-                        onChange={(e) =>
-                          handleLectureChange(
-                            moduleIndex,
-                            lectureIndex,
-                            "description",
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
-                      <input
-                        placeholder="Video Title"
-                        className="addcourse-input"
-                        value={lecture.videoTitle}
-                        onChange={(e) =>
-                          handleLectureChange(
-                            moduleIndex,
-                            lectureIndex,
-                            "videoTitle",
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
-                      <input
-                        placeholder="Video Link"
-                        className="addcourse-input"
-                        value={lecture.videoLink}
-                        onChange={(e) =>
-                          handleLectureChange(
-                            moduleIndex,
-                            lectureIndex,
-                            "videoLink",
-                            e.target.value
-                          )
-                        }
-                      />
-
-                      <div className="addcourse-assignments">
-                        <h4>Assignments</h4>
-                        {lecture.assignments.map(
-                          (assignment, assignmentIndex) => (
-                            <div
-                              key={assignmentIndex}
-                              className="addcourse-assignment"
-                            >
-                              <button
-                                type="button"
-                                className="delete-button"
-                                onClick={() =>
-                                  deleteAssignment(
-                                    moduleIndex,
-                                    lectureIndex,
-                                    assignmentIndex
-                                  )
-                                }
-                              >
-                                ✕
-                              </button>
-                              <textarea
-                                placeholder="Assignment Question"
-                                className="addcourse-textarea"
-                                value={assignment.question}
-                                onChange={(e) =>
-                                  handleAssignmentChange(
-                                    moduleIndex,
-                                    lectureIndex,
-                                    assignmentIndex,
-                                    "question",
-                                    e.target.value
-                                  )
-                                }
-                                required
-                              />
-                              {assignment.choices.map(
-                                (choice, choiceIndex) => (
-                                  <div
-                                    key={choiceIndex}
-                                    className="choice-container"
-                                  >
-                                    <input
-                                      type="text"
-                                      placeholder={`Choice ${choiceIndex + 1}`}
-                                      className="addcourse-input"
-                                      value={choice}
-                                      onChange={(e) =>
-                                        handleChoiceChange(
-                                          moduleIndex,
-                                          lectureIndex,
-                                          assignmentIndex,
-                                          choiceIndex,
-                                          e.target.value
-                                        )
-                                      }
-                                      required
-                                    />
-                                    <button
-                                      type="button"
-                                      className="delete-button"
-                                      onClick={() =>
-                                        deleteChoice(
-                                          moduleIndex,
-                                          lectureIndex,
-                                          assignmentIndex,
-                                          choiceIndex
-                                        )
-                                      }
-                                    >
-                                      ✕
-                                    </button>
-                                  </div>
-                                )
-                              )}
-                              <button
-                                type="button"
-                                className="addcourse-button-small"
-                                onClick={() =>
-                                  addAssignmentChoice(
-                                    moduleIndex,
-                                    lectureIndex,
-                                    assignmentIndex
-                                  )
-                                }
-                              >
-                                + Add Choice
-                              </button>
-                            </div>
-                          )
-                        )}
-                        <button
-                          type="button"
-                          className="addcourse-button-small"
-                          onClick={() =>
-                            addAssignment(moduleIndex, lectureIndex)
-                          }
-                        >
-                          + Add Assignment
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="addcourse-button-small"
-                    onClick={() => addLecture(moduleIndex)}
-                  >
-                    + Add Lecture
-                  </button>
-                </div>
+            {/* Intro Section */}
+            <div className="addcourse-section">
+              <div className="addcourse-section-header">
+                <h2>Course Introduction</h2>
+                <hr />
               </div>
-            ))}
-            <button
-              type="button"
-              className="addcourse-button-small"
-              onClick={addModule}
-            >
-              + Add Module
-            </button>
-          </div>
+              <input type="text" name="courseName" placeholder="Course Name" className="addcourse-input" value={courseData.courseName} onChange={handleCourseChange} />
+              <input type="text" name="courseId" placeholder="Course ID" className="addcourse-input" value={courseData.courseId} onChange={handleCourseChange} />
+              <input type="text" name="instructorName" placeholder="Instructor Name" className="addcourse-input" value={courseData.instructorName} onChange={handleCourseChange} />
+              <textarea name="description" placeholder="Course Description" className="addcourse-textarea" value={courseData.description} onChange={handleCourseChange}></textarea>
+              <input type="text" name="courseImage" placeholder="Course Image URL" className="addcourse-input" value={courseData.courseImage} onChange={handleCourseChange} />
+              <input type="text" name="introVideoTitle" placeholder="Intro Video Title" className="addcourse-input" value={courseData.introVideoTitle} onChange={handleCourseChange} />
+              <input type="text" name="introVideo" placeholder="Intro Video URL" className="addcourse-input" value={courseData.introVideo} onChange={handleCourseChange} />
+              <input type="text" name="tags" placeholder="Tags (comma separated)" className="addcourse-input" value={courseData.tags} onChange={handleCourseChange} />
+            </div>
 
-          <div className="addcourse-submit-container">
-            <button type="submit" className="addcourse-submit-button">
-              Submit Course
-            </button>
-          </div>
-        </form>
+            {/* Modules Section */}
+            <div className="addcourse-section">
+              <div className="addcourse-section-header">
+                <h2>Modules</h2>
+                <button type="button" className="addcourse-button-small module-header-button" onClick={addModule}>
+                  + Add Module
+                </button>
+              </div>
+              <hr />
+              {courseData.modules.map((module, moduleIndex) => (
+                <div key={moduleIndex} className="addcourse-module">
+                  <input
+                    type="text"
+                    placeholder="Module Name"
+                    className="addcourse-input"
+                    value={module.name}
+                    onChange={(e) => handleModuleChange(moduleIndex, "name", e.target.value)}
+                  />
+
+                  <div className="addcourse-lectures">
+                    <h3>Lectures</h3>
+                    {module.lectures.map((lecture, lectureIndex) => (
+                      <div key={lectureIndex} className="addcourse-lecture">
+                        <input type="text" placeholder="Lecture Title" className="addcourse-input" value={lecture.title} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "title", e.target.value)} />
+                        <textarea placeholder="Lecture Description" className="addcourse-textarea" value={lecture.description} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "description", e.target.value)}></textarea>
+                        <input type="text" placeholder="Video Title" className="addcourse-input" value={lecture.videoTitle} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoTitle", e.target.value)} />
+                        <input type="text" placeholder="Video Link" className="addcourse-input" value={lecture.videoLink} onChange={(e) => handleLectureChange(moduleIndex, lectureIndex, "videoLink", e.target.value)} />
+                      </div>
+                    ))}
+                    <button type="button" className="addcourse-button-small" onClick={() => addLecture(moduleIndex)}>+ Add Lecture</button>
+                  </div>
+
+                  <div className="addcourse-assignments">
+                    <h3>Assignments</h3>
+                    {module.assignments.map((assignment, assignmentIndex) => (
+                      <div key={assignmentIndex} className="addcourse-assignment">
+                        <textarea placeholder="Assignment Question" className="addcourse-textarea" value={assignment.question} onChange={(e) => handleAssignmentChange(moduleIndex, assignmentIndex, "question", e.target.value)}></textarea>
+                        {assignment.choices.map((choice, choiceIndex) => (
+                          <input key={choiceIndex} type="text" placeholder={`Choice ${choiceIndex + 1}`} className="addcourse-input" value={choice} onChange={(e) => {
+                            const newModules = [...courseData.modules];
+                            newModules[moduleIndex].assignments[assignmentIndex].choices[choiceIndex] = e.target.value;
+                            setCourseData({ ...courseData, modules: newModules });
+                          }} />
+                        ))}
+                        <button type="button" className="addcourse-button-small" onClick={() => addAssignmentChoice(moduleIndex, assignmentIndex)}>+ Add Choice</button>
+                      </div>
+                    ))}
+                    <button type="button" className="addcourse-button-small" onClick={() => addAssignment(moduleIndex)}>+ Add Assignment</button>
+                  </div>
+                </div>
+              ))}
+
+              <div className="addcourse-bottom-addmodule">
+                <button type="button" className="addcourse-button-small" onClick={addModule}>
+                  + Add Module
+                </button>
+              </div>
+            </div>
+
+            <div className="addcourse-submit-container">
+              <button type="submit" className="addcourse-submit-button">Submit Course</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

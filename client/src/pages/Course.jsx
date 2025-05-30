@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/course.css';
-import { CourseNavbar } from './CourseNavbar';
-import { Module } from './Module';
+import { CourseNavbar } from '../components/CourseNavbar';
+import { Module } from '../components/Module';
 import { useParams } from 'react-router-dom';
 import axios from "axios"
 
