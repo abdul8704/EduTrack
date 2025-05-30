@@ -1,15 +1,18 @@
+// CourseDeets.jsx
 import React from 'react';
 import '../styles/coursedeets.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 export const CourseDeets = () => {
-  const { courseId } = useParams()
+  const { courseId } = useParams();
   const [navCourse, setCourse] = useState(null);
   const [navContents, setContents] = useState([]);
   const [navLoading, setLoading] = useState(true);
+  const [enrolledUsers, setEnrolledUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -23,11 +26,8 @@ export const CourseDeets = () => {
         setLoading(false);
       }
     };
-
     fetchCourseData();
   }, [courseId]);
-  const [enrolledUsers, setEnrolledUsers] = useState([]);
-  const [usersLoading, setUsersLoading] = useState(true);
 
   useEffect(() => {
     const fetchEnrolledUsers = async () => {
@@ -40,25 +40,21 @@ export const CourseDeets = () => {
         setUsersLoading(false);
       }
     };
-
     fetchEnrolledUsers();
   }, [courseId]);
-  const navigate = useNavigate();
 
   const handleCardClick = (userEmail) => {
     if (userEmail) {
       navigate(`/empprogress/${userEmail}`);
     }
   };
-  if (navLoading || !navCourse) return <div>Loading...</div>;
-  if (usersLoading || !enrolledUsers) return <div>Loading users...</div>;
 
-
-
+  if (navLoading || usersLoading || !navCourse || !enrolledUsers) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="coursedeets-container">
-      {/* Sidebar */}
       <aside className="coursedeets-navbar">
         <button className="coursedeets-back-button" onClick={() => window.history.back()}>
           ←
@@ -78,7 +74,7 @@ export const CourseDeets = () => {
             <h3>Table of Contents</h3>
             {navContents.map((module, index) => (
               <div key={index} className="coursedeets-module">
-                <strong >{module.moduleTitle}</strong>
+                <strong>{module.moduleTitle}</strong>
                 <ul>
                   {module.submodules.map((item, idx) => (
                     <li key={idx}>{item}</li>
@@ -90,13 +86,17 @@ export const CourseDeets = () => {
         </div>
       </aside>
 
-      {/* Content */}
       <main className="coursedeets-content">
         <h2 className="coursedeets-heading">Enrolled</h2>
         <div className="coursedeets-courses">
           {enrolledUsers.map(person => (
-            <div className="coursedeets-course-card" key={person.Userid} onClick={()=> handleCardClick(person.userId)}>
-              <img className="coursedeets-course-image" src={person.imageUrl} alt={person.username} />
+            <div className="coursedeets-course-card" key={person.userId} onClick={() => handleCardClick(person.userId)}>
+              <img
+                className="coursedeets-course-image"
+                src={person.imageUrl || '/default-user.png'}
+                onError={(e) => (e.target.src = '/default-user.png')}
+                alt={person.username}
+              />
               <div className="coursedeets-course-details">
                 <div className="coursedeets-course-name">{person.username}</div>
                 <div className="coursedeets-course-instructor">software engineer</div>
