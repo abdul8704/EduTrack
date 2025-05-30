@@ -7,7 +7,7 @@ const getEmbedUrl = (url) => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
-export const FullCourse = ({uId, id, courseData, contentsData }) => {
+export const FullCourse = ({uId, id, courseData, contentsData, percent }) => {
   if (!courseData) return <div>No course data available</div>;
   const {
     courseIntroVideo,
@@ -53,7 +53,8 @@ export const FullCourse = ({uId, id, courseData, contentsData }) => {
             <button className="start-button" onClick={handleStartClick}>Start</button>
             <div className="progress-label">Learning Progress</div>
             <div className="progress-bar-bg">
-              <div className="progress-bar-fill" style={{ width: '50%' }} />
+              <div className="progress-bar-fill" style={{ width: `${percent}%` }}
+ />
             </div>
           </div>
         </div>
