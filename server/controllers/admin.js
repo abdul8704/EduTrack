@@ -202,6 +202,7 @@ const getUserForCourse = async (req, res) => {
             {
                 username: 1,
                 userid: 1,
+                profilePicture: 1,
             }
         );
 
@@ -215,6 +216,7 @@ const getUserForCourse = async (req, res) => {
                 username: user ? user.username : "Unknown User",
                 userId: progress.userId,
                 completion: progress.percentComplete,
+                profilePicture: user ? user.profilePicture : null
             });
         });
         res.status(200).json({ success: true, data: data });
