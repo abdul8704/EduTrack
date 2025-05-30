@@ -20,9 +20,14 @@ export const AddCourse = () => {
             description: "",
             videoTitle: "",
             videoLink: "",
+            assignments: [
+              {
+                question: "",
+                choices: ["", ""],
+              },
+            ],
           },
         ],
-        assignments: [{ question: "", choices: [""] }],
       },
     ],
   });
@@ -42,9 +47,31 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const handleAssignmentChange = (moduleIndex, assignmentIndex, field, value) => {
+  const handleAssignmentChange = (
+    moduleIndex,
+    lectureIndex,
+    assignmentIndex,
+    field,
+    value
+  ) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].assignments[assignmentIndex][field] = value;
+    newModules[moduleIndex].lectures[lectureIndex].assignments[
+      assignmentIndex
+    ][field] = value;
+    setCourseData({ ...courseData, modules: newModules });
+  };
+
+  const handleChoiceChange = (
+    moduleIndex,
+    lectureIndex,
+    assignmentIndex,
+    choiceIndex,
+    value
+  ) => {
+    const newModules = [...courseData.modules];
+    newModules[moduleIndex].lectures[lectureIndex].assignments[
+      assignmentIndex
+    ].choices[choiceIndex] = value;
     setCourseData({ ...courseData, modules: newModules });
   };
 
@@ -61,9 +88,9 @@ export const AddCourse = () => {
               description: "",
               videoTitle: "",
               videoLink: "",
+              assignments: [{ question: "", choices: ["", ""] }],
             },
           ],
-          assignments: [{ question: "", choices: [""] }],
         },
       ],
     });
@@ -76,6 +103,12 @@ export const AddCourse = () => {
     setCourseData({ ...courseData, modules: newModules });
   };
 
+  const deleteModule = (index) => {
+    const newModules = [...courseData.modules];
+    newModules.splice(index, 1);
+    setCourseData({ ...courseData, modules: newModules });
+  };
+
   const addLecture = (moduleIndex) => {
     const newModules = [...courseData.modules];
     newModules[moduleIndex].lectures.push({
@@ -83,27 +116,88 @@ export const AddCourse = () => {
       description: "",
       videoTitle: "",
       videoLink: "",
+      assignments: [{ question: "", choices: ["", ""] }],
     });
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const addAssignment = (moduleIndex) => {
+  const deleteLecture = (moduleIndex, lectureIndex) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].assignments.push({ question: "", choices: [""] });
+    newModules[moduleIndex].lectures.splice(lectureIndex, 1);
     setCourseData({ ...courseData, modules: newModules });
   };
 
-  const addAssignmentChoice = (moduleIndex, assignmentIndex) => {
+  const addAssignment = (moduleIndex, lectureIndex) => {
     const newModules = [...courseData.modules];
-    newModules[moduleIndex].assignments[assignmentIndex].choices.push("");
+    newModules[moduleIndex].lectures[lectureIndex].assignments.push({
+      question: "",
+      choices: ["", ""],
+    });
+    setCourseData({ ...courseData, modules: newModules });
+  };
+
+  const deleteAssignment = (moduleIndex, lectureIndex, assignmentIndex) => {
+    const newModules = [...courseData.modules];
+    newModules[moduleIndex].lectures[lectureIndex].assignments.splice(
+      assignmentIndex,
+      1
+    );
+    setCourseData({ ...courseData, modules: newModules });
+  };
+
+  const addAssignmentChoice = (moduleIndex, lectureIndex, assignmentIndex) => {
+    const newModules = [...courseData.modules];
+    newModules[moduleIndex].lectures[lectureIndex].assignments[
+      assignmentIndex
+    ].choices.push("");
+    setCourseData({ ...courseData, modules: newModules });
+  };
+
+  const deleteChoice = (
+    moduleIndex,
+    lectureIndex,
+    assignmentIndex,
+    choiceIndex
+  ) => {
+    const newModules = [...courseData.modules];
+    newModules[moduleIndex].lectures[lectureIndex].assignments[
+      assignmentIndex
+    ].choices.splice(choiceIndex, 1);
     setCourseData({ ...courseData, modules: newModules });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("Are you sure to complete the submission?")) {
-      window.location.reload();
-    }
+      console.log("Submitted data:", courseData);
+    setCourseData({
+      courseName: "",
+    courseId: "",
+    instructorName: "",
+    description: "",
+    courseImage: "",
+    introVideoTitle: "",
+    introVideo: "",
+    tags: "",
+    modules: [
+      {
+        name: "",
+        lectures: [
+          {
+            title: "",
+            description: "",
+            videoTitle: "",
+            videoLink: "",
+            assignments: [
+              {
+                question: "",
+                choices: ["", ""],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    })    
   };
 
   return (
@@ -119,7 +213,6 @@ export const AddCourse = () => {
               <hr />
             </div>
             <input
-              type="text"
               name="courseName"
               placeholder="Course Name"
               className="addcourse-input"
@@ -127,7 +220,6 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             />
             <input
-              type="text"
               name="courseId"
               placeholder="Course ID"
               className="addcourse-input"
@@ -135,7 +227,6 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             />
             <input
-              type="text"
               name="instructorName"
               placeholder="Instructor Name"
               className="addcourse-input"
@@ -150,7 +241,6 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             ></textarea>
             <input
-              type="text"
               name="courseImage"
               placeholder="Course Image URL"
               className="addcourse-input"
@@ -158,7 +248,6 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             />
             <input
-              type="text"
               name="introVideoTitle"
               placeholder="Intro Video Title"
               className="addcourse-input"
@@ -166,7 +255,6 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             />
             <input
-              type="text"
               name="introVideo"
               placeholder="Intro Video URL"
               className="addcourse-input"
@@ -174,9 +262,8 @@ export const AddCourse = () => {
               onChange={handleCourseChange}
             />
             <input
-              type="text"
               name="tags"
-              placeholder="Tags (comma separated)"
+              placeholder="Tags (e.g: reactjs,javascript)"
               className="addcourse-input"
               value={courseData.tags}
               onChange={handleCourseChange}
@@ -200,12 +287,12 @@ export const AddCourse = () => {
               <div key={moduleIndex} className="addcourse-module">
                 <button
                   type="button"
-                  className="delete-button-top-right"
+                  className="delete-button"
+                  onClick={() => deleteModule(moduleIndex)}
                 >
-                  x
+                  ✕
                 </button>
                 <input
-                  type="text"
                   placeholder="Module Name"
                   className="addcourse-input"
                   value={module.name}
@@ -220,12 +307,14 @@ export const AddCourse = () => {
                     <div key={lectureIndex} className="addcourse-lecture">
                       <button
                         type="button"
-                        className="delete-button-top-right"
+                        className="delete-button"
+                        onClick={() =>
+                          deleteLecture(moduleIndex, lectureIndex)
+                        }
                       >
-                        x
+                        ✕
                       </button>
                       <input
-                        type="text"
                         placeholder="Lecture Title"
                         className="addcourse-input"
                         value={lecture.title}
@@ -250,9 +339,8 @@ export const AddCourse = () => {
                             e.target.value
                           )
                         }
-                      ></textarea>
+                      />
                       <input
-                        type="text"
                         placeholder="Video Title"
                         className="addcourse-input"
                         value={lecture.videoTitle}
@@ -266,7 +354,6 @@ export const AddCourse = () => {
                         }
                       />
                       <input
-                        type="text"
                         placeholder="Video Link"
                         className="addcourse-input"
                         value={lecture.videoLink}
@@ -279,6 +366,106 @@ export const AddCourse = () => {
                           )
                         }
                       />
+
+                      <div className="addcourse-assignments">
+                        <h4>Assignments</h4>
+                        {lecture.assignments.map(
+                          (assignment, assignmentIndex) => (
+                            <div
+                              key={assignmentIndex}
+                              className="addcourse-assignment"
+                            >
+                              <button
+                                type="button"
+                                className="delete-button"
+                                onClick={() =>
+                                  deleteAssignment(
+                                    moduleIndex,
+                                    lectureIndex,
+                                    assignmentIndex
+                                  )
+                                }
+                              >
+                                ✕
+                              </button>
+                              <textarea
+                                placeholder="Assignment Question"
+                                className="addcourse-textarea"
+                                value={assignment.question}
+                                onChange={(e) =>
+                                  handleAssignmentChange(
+                                    moduleIndex,
+                                    lectureIndex,
+                                    assignmentIndex,
+                                    "question",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              {assignment.choices.map(
+                                (choice, choiceIndex) => (
+                                  <div
+                                    key={choiceIndex}
+                                    className="choice-container"
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder={`Choice ${choiceIndex + 1}`}
+                                      className="addcourse-input"
+                                      value={choice}
+                                      onChange={(e) =>
+                                        handleChoiceChange(
+                                          moduleIndex,
+                                          lectureIndex,
+                                          assignmentIndex,
+                                          choiceIndex,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                    <button
+                                      type="button"
+                                      className="delete-button"
+                                      onClick={() =>
+                                        deleteChoice(
+                                          moduleIndex,
+                                          lectureIndex,
+                                          assignmentIndex,
+                                          choiceIndex
+                                        )
+                                      }
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
+                                )
+                              )}
+                              <button
+                                type="button"
+                                className="addcourse-button-small"
+                                onClick={() =>
+                                  addAssignmentChoice(
+                                    moduleIndex,
+                                    lectureIndex,
+                                    assignmentIndex
+                                  )
+                                }
+                              >
+                                + Add Choice
+                              </button>
+                            </div>
+                          )
+                        )}
+                        <button
+                          type="button"
+                          className="addcourse-button-small"
+                          onClick={() =>
+                            addAssignment(moduleIndex, lectureIndex)
+                          }
+                        >
+                          + Add Assignment
+                        </button>
+                      </div>
                     </div>
                   ))}
                   <button
@@ -289,74 +476,15 @@ export const AddCourse = () => {
                     + Add Lecture
                   </button>
                 </div>
-
-                <div className="addcourse-assignments">
-                  <h3>Assignments</h3>
-                  {module.assignments.map((assignment, assignmentIndex) => (
-                    <div key={assignmentIndex} className="addcourse-assignment">
-                      <button
-                        type="button"
-                        className="delete-button-top-right"
-                      >
-                        x
-                      </button>
-                      <textarea
-                        placeholder="Assignment Question"
-                        className="addcourse-textarea"
-                        value={assignment.question}
-                        onChange={(e) =>
-                          handleAssignmentChange(
-                            moduleIndex,
-                            assignmentIndex,
-                            "question",
-                            e.target.value
-                          )
-                        }
-                      ></textarea>
-                      {assignment.choices.map((choice, choiceIndex) => (
-                        <input
-                          key={choiceIndex}
-                          type="text"
-                          placeholder={`Choice ${choiceIndex + 1}`}
-                          className="addcourse-input"
-                          value={choice}
-                          onChange={(e) => {
-                            const newModules = [...courseData.modules];
-                            newModules[moduleIndex].assignments[
-                              assignmentIndex
-                            ].choices[choiceIndex] = e.target.value;
-                            setCourseData({ ...courseData, modules: newModules });
-                          }}
-                        />
-                      ))}
-                      <button
-                        type="button"
-                        className="addcourse-button-small"
-                        onClick={() => addAssignmentChoice(moduleIndex, assignmentIndex)}
-                      >
-                        + Add Choice
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="addcourse-button-small"
-                    onClick={() => addAssignment(moduleIndex)}
-                  >
-                    + Add Assignment
-                  </button>
-                </div>
               </div>
             ))}
-            <div className="addcourse-bottom-addmodule">
-              <button
-                type="button"
-                className="addcourse-button-small"
-                onClick={addModule}
-              >
-                + Add Module
-              </button>
-            </div>
+            <button
+              type="button"
+              className="addcourse-button-small"
+              onClick={addModule}
+            >
+              + Add Module
+            </button>
           </div>
 
           <div className="addcourse-submit-container">
