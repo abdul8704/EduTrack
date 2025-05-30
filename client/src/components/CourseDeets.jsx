@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/coursedeets.css';
-import defaultImage from '../assets/react.svg'; // Adjust the path as necessary
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios"
