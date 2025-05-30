@@ -1,30 +1,56 @@
 import React, { useState } from 'react';
 import '../styles/course.css';
+import { useParams } from 'react-router-dom';
 
 export const Module = ({ title, videoUrl, description, questions }) => {
+  const { useremail, courseId, moduleNumber, subModuleNumber } = useParams();
+  console.log(useremail, courseId, moduleNumber, subModuleNumber )
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [results, setResults] = useState({});
 
   const handleOptionChange = (questionIndex, option) => {
-    setSelectedAnswers(prev => ({
+    setSelectedAnswers((prev) => ({
       ...prev,
       [questionIndex]: option,
     }));
   };
 
-  const validateAnswers = () => {
+  const validateAnswers = async () => {
     const newResults = {};
     questions.forEach((question, idx) => {
       newResults[idx] = selectedAnswers[idx] === question.correctAnswer;
     });
     setResults(newResults);
 
-    const allCorrect = questions.every((question, idx) =>
-      selectedAnswers[idx] === question.correctAnswer
+    const allCorrect = questions.every(
+      (question, idx) => selectedAnswers[idx] === question.correctAnswer
     );
 
     if (allCorrect) {
-      console.log("all answer correct");
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/user/${useremail}/${courseId}/progress/${moduleNumber}/${subModuleNumber}`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to update progress');
+        }
+
+        console.log('Progress updated:', data);
+        alert(`✅ Progress updated: ${data.UpdatedPercentComplete}% complete`);
+      } catch (err) {
+        console.error('Error updating progress:', err);
+        alert(`❌ Failed to update progress: ${err.message}`);
+      }
     }
   };
 
@@ -55,8 +81,9 @@ export const Module = ({ title, videoUrl, description, questions }) => {
               {question.options.map((option, oidx) => (
                 <label
                   key={oidx}
-                  className={`module-quiz-option-label ${selectedAnswers[idx] === option ? 'selected' : ''
-                    }`}
+                  className={`module-quiz-option-label ${
+                    selectedAnswers[idx] === option ? 'selected' : ''
+                  }`}
                 >
                   <input
                     type="radio"
@@ -74,10 +101,13 @@ export const Module = ({ title, videoUrl, description, questions }) => {
 
             {results.hasOwnProperty(idx) && (
               <p
-                className={`module-quiz-feedback ${results[idx] ? 'correct' : 'incorrect'
-                  }`}
+                className={`module-quiz-feedback ${
+                  results[idx] ? 'correct' : 'incorrect'
+                }`}
               >
-                {results[idx] ? '✔ Correct!' : `✘ Incorrect! Correct answer: ${question.correctAnswer}`}
+                {results[idx]
+                  ? '✔ Correct!'
+                  : `✘ Incorrect! Correct answer: ${question.correctAnswer}`}
               </p>
             )}
           </div>
