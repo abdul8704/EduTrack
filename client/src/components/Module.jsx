@@ -18,6 +18,14 @@ export const Module = ({ title, videoUrl, description, questions }) => {
       newResults[idx] = selectedAnswers[idx] === question.correctAnswer;
     });
     setResults(newResults);
+
+    const allCorrect = questions.every((question, idx) =>
+      selectedAnswers[idx] === question.correctAnswer
+    );
+
+    if (allCorrect) {
+      console.log("all answer correct");
+    }
   };
 
   return (
@@ -47,9 +55,8 @@ export const Module = ({ title, videoUrl, description, questions }) => {
               {question.options.map((option, oidx) => (
                 <label
                   key={oidx}
-                  className={`module-quiz-option-label ${
-                    selectedAnswers[idx] === option ? 'selected' : ''
-                  }`}
+                  className={`module-quiz-option-label ${selectedAnswers[idx] === option ? 'selected' : ''
+                    }`}
                 >
                   <input
                     type="radio"
@@ -67,9 +74,8 @@ export const Module = ({ title, videoUrl, description, questions }) => {
 
             {results.hasOwnProperty(idx) && (
               <p
-                className={`module-quiz-feedback ${
-                  results[idx] ? 'correct' : 'incorrect'
-                }`}
+                className={`module-quiz-feedback ${results[idx] ? 'correct' : 'incorrect'
+                  }`}
               >
                 {results[idx] ? '✔ Correct!' : `✘ Incorrect! Correct answer: ${question.correctAnswer}`}
               </p>
