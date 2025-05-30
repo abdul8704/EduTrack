@@ -4,12 +4,13 @@ import { EmployeeDeets } from './EmployeeDeets.jsx'
 import { AdminAvailableCourse } from './AdminAvailableCourse.jsx';
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios'; 
+import { useParams } from 'react-router-dom';
 
 
 export const AdminNavbar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const { userId } = useParams();
   const options = [
     { label: 'Employee Progress', icon: <Users size={18} className="admnav-icon" /> },
     { label: 'Manage Course', icon: <BookOpen size={18} className="admnav-icon" /> }
@@ -22,21 +23,14 @@ export const AdminNavbar = () => {
   const toggleNavbar = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const [courses, setCourses] = useState({
-    enrolledCourses: [],
-    availableCourses: []
-  });
-
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/alice@example.com');
-        setCourses({
-          enrolledCourses: response.data.enrolledCourses,
-          availableCourses: response.data.availableCourses
-        });
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/course/allcourses`);
+        setCourses(response.data.allCourses);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -92,7 +86,7 @@ export const AdminNavbar = () => {
 
       <div className="admnav-module">
         {activeIndex === 0 && <div><EmployeeDeets profile={users}/></div>}
-        {activeIndex === 1 && <div><AdminAvailableCourse available={courses.availableCourses} /></div>}
+        {activeIndex === 1 && <div><AdminAvailableCourse available={courses} /></div>}
       </div>
     </div>
   );
