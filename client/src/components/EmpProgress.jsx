@@ -1,19 +1,11 @@
 import React from 'react';
 import '../styles/empprogress.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios";
 export const EmpProgress = () => {
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
   const useremail = useParams();
-  console.log(useremail);
-  const defaultProfile = {
-    name: 'Mary Smith',
-    designation: 'Software Engineer',
-    email: 'mary.smith@example.com',
-    imageUrl: defaultImage,
-  };
-
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,6 +41,13 @@ export const EmpProgress = () => {
 
     fetchUserData();
   }, [useremail]);
+  const navigate = useNavigate();
+
+  const handleCardClick = (courseId) => {
+    if (courseId) {
+      navigate(`/coursedeets/${courseId}`);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (Uloading) return <div>Loading...</div>;
@@ -78,11 +77,11 @@ export const EmpProgress = () => {
           {courses.length === 0 ? (
             <div>The person is very busy... not even one course enrolled...</div>
           ) : courses.map(course => (
-            <div className="empprog-course-card" key={course._id}>
-              <img className="empprog-course-image" src={course.image} alt={course.courseName} />
+            <div className="empprog-course-card" key={course._id} onClick={()=> handleCardClick(course.courseId)}>
+              <img className="empprog-course-image" src={course.courseImage} alt={course.courseName} />
               <div className="empprog-course-details">
                 <div className="empprog-course-name">{course.courseName}</div>
-                <div className="empprog-course-instructor">Instructor: Keerthika N</div>
+                <div className="empprog-course-instructor">Instructor: {course.courseInstructor}</div>
                 <div className="empprog-progress-bar">
                   <div
                     className="empprog-progress-fill"

@@ -23,8 +23,7 @@ function App() {
         <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
         <Route path="/adminnav" element={<AdminNavbar/>}/>
         <Route path="/addcourse" element={<AddCourse />} />
-        <Route path="/coursedeets" element={<CourseDeets />} />
-        <Route path="*" element={<Page404/>} />
+        <Route path="/coursedeets/:courseId" element={<CourseDeets />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
