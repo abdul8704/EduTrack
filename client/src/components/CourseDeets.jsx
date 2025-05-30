@@ -65,7 +65,7 @@ export const CourseDeets = () => {
         </button>
         <div className="coursedeets-profile-section">
           <div className="coursedeets-profile-image">
-            <img src="https://st2.depositphotos.com/1350793/8441/i/450/depositphotos_84415820-stock-photo-hand-drawing-online-courses-concept.jpg" alt="Course" />
+            <img src={navCourse.courseImage} alt="Course" />
           </div>
           <div className="coursedeets-profile-details">
             <div className="coursedeets-profile-name">{navCourse.courseName}</div>
