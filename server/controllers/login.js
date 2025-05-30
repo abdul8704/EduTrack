@@ -51,6 +51,54 @@ const loginValidation = async (req, res) => {
     }
 }
 
+const signupValidation = async (req, res) => {
+    const { username, email, password } = req.body;
+    console.log("Received signup request:", req.body);
+    if (!username || !email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Username, email, and password are required.",
+        });
+    }
+    try {
+        const existingUser = await User.findOne({ email: email });
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
+                message: "User already exists with this email.",
+            });
+        }
+        const newUser = new User({
+            username: username,
+            userid: email,
+            email: email,
+            passwordHash: password, // In a real application, hash the password
+            profilePicture: "https://static-00.iconduck.com/assets.00/avatar-default-icon-988x1024-zsfboql5.png", // Default or placeholder image
+            role: "user", // Default role
+        });
+
+        await newUser.save();
+        return res.status(201).json({
+            success: true,
+            message: "User registered successfully.",
+            userDetails: {
+                username: newUser.username,
+                userid: newUser.userid,
+                email: newUser.email,
+                profilePicture: newUser.profilePicture,
+                role: newUser.role,
+            },
+        });
+    }catch (error) {
+        console.error("Error during signup:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error.",
+            errorMessage: error.message,
+        });
+    }
+}
 module.exports = {
     loginValidation,
+    signupValidation
 };
