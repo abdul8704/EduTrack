@@ -70,8 +70,9 @@
 /* Layout */
 .empprog-container {
   display: flex;
-  height: calc(100vh - 10.15rem);
-  width: 100%;
+  height: 89vh;
+  width: auto;
+  padding: 0;
   background-color: #f8f9fa;
   box-sizing: border-box;
 }

@@ -7,6 +7,32 @@ const isAdmin = async (adminid) => {
     return userData && userData.role === "admin";
 };
 
+const getAllCourses = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    
+    try{
+        const allCourses = await Courses.find({}, {
+            courseId: 1,
+            courseName: 1,
+            courseImage: 1,
+            courseInstructor: 1,
+            courseRating: 1,
+        });
+
+        res.status(200).json({ success: true, allCourses: allCourses });
+    }catch (error) {
+        console.error("Error fetching courses:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+}
+
 const getAllUsers = async (req, res) => {
     if (!isAdmin(req.params.adminid))
         return res
@@ -239,6 +265,7 @@ const updateUserRole = async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getAllCourses,
     addNewUser,
     getUserForCourse,
     getProgressByUserId,
