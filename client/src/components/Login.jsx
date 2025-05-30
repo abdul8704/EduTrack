@@ -26,7 +26,7 @@ export const Login = () => {
         navigate("/adminnav");
       }
       else if(response.data.userDetails.role === "user") {
-        navigate(`/${response.data.userDetails.userId}`);
+        navigate(`/${response.data.userDetails.userid}`);
       }
     }
   };

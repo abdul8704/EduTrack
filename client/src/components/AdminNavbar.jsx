@@ -4,12 +4,13 @@ import { EmployeeDeets } from './EmployeeDeets.jsx'
 import { AdminAvailableCourse } from './AdminAvailableCourse.jsx';
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios'; 
+import { useParams } from 'react-router-dom';
 
 
 export const AdminNavbar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const { userId } = useParams();
   const options = [
     { label: 'Employee Progress', icon: <Users size={18} className="admnav-icon" /> },
     { label: 'Manage Course', icon: <BookOpen size={18} className="admnav-icon" /> }
