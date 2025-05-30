@@ -210,6 +210,29 @@
   cursor: pointer;
 }
 
+/* Ensure space for top-right delete buttons */
+.addcourse-module,
+.addcourse-lecture,
+.addcourse-assignment {
+  position: relative;
+  padding-top: 2.5rem; /* space for the delete button */
+}
+
+/* Position delete buttons neatly */
+.delete-button-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffdddd;
+  color: #a00;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 1;
+}
+
 
 /* Responsive */
 @media (max-width: 48rem) {
