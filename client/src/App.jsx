@@ -9,7 +9,6 @@ import { EmpProgress } from './components/EmpProgress';
 import { AdminNavbar } from './components/AdminNavbar';
 import {AddCourse} from './components/AddCourse'; 
 import { CourseDeets } from './components/CourseDeets';
-import { Page404 } from './components/Page404';
 
 function App() {
   return (
