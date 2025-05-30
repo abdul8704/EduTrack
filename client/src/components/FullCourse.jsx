@@ -1,16 +1,14 @@
 import React from 'react';
 import '../styles/CoursePage.css';
 import { useNavigate } from 'react-router-dom';
-
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/);
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
-export const FullCourse = ({id, courseData, contentsData }) => {
+export const FullCourse = ({uId, id, courseData, contentsData }) => {
   if (!courseData) return <div>No course data available</div>;
-
   const {
     courseIntroVideo,
     courseName,
@@ -23,7 +21,7 @@ export const FullCourse = ({id, courseData, contentsData }) => {
   const isValidEmbed = embedUrl.includes("youtube.com/embed");
   const navigate = useNavigate();
   const handleStartClick = () => {
-    navigate(`/course/alice@example/${id}/0/0`); // Replace with your actual route
+    navigate(`/course/${uId}/${id}/0/0`);
   };
   return (
     <div className="fullcourse-container">

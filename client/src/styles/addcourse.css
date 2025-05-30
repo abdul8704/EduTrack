@@ -219,7 +219,7 @@
 }
 
 /* Position delete buttons neatly */
-.delete-button-top-right {
+.delete-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -233,7 +233,34 @@
   z-index: 1;
 }
 
+.delete-button-small {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+  margin-left: 8px;
+}
 
+.choice-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+
+}
+.addcourse-assignment {
+  position: relative;
+  padding-right: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
 /* Responsive */
 @media (max-width: 48rem) {
   .addcourse-form {

@@ -53,7 +53,7 @@ const getAllCourses = async (req, res) => {
 
 const getCourseById = async (req, res) => {
     try {
-        const { courseId } = req.params;
+        const { userid, courseId } = req.params;
         const course = await CourseDetails.findOne(
             { courseId },
             {
@@ -66,6 +66,15 @@ const getCourseById = async (req, res) => {
                 courseId: 1,
             }
         );
+        const progress = await Progress.findOne(
+            { userId: userid, courseId: courseId },
+            {
+                percentComplete: 1,
+            }
+        )
+        if(!progress)
+            return res.status(404).json({ success: false, message: "Progress not found for this user and course" });
+    
         if (!course)
             return res.status(404).json({
                 success: false,
@@ -95,12 +104,15 @@ const getCourseById = async (req, res) => {
         return res.status(200).json({
             success: true,
             data: course,
+            percentComplete: progress.percentComplete
+                ? progress.percentComplete
+                : 0,
             contents: formattedContents,
         });
     } catch (error) {
         console.error("Error fetching course bmy ID:", error);
         return res.status(500).json({
-            success: falsm,
+            success: false,
             message: "unable to get course details with id",
             errrorMessage: error.message,
         });
