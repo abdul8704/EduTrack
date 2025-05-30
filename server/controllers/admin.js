@@ -1,5 +1,6 @@
 const User = require("../models/userDetails");
 const Progress = require("../models/courseProgress");
+const ContentsOfCourse = require("../models/courseContent"); // Assuming you have a model for course content
 const Courses = require("../models/courseDetails"); // Assuming you have a model for course details
 
 const isAdmin = async (adminid) => {
@@ -309,12 +310,16 @@ const addNewCourse = async (req, res) => {
 }
 
 const getCourseInfoById = async (req, res) => {
-    if (!isAdmin(req.params.adminid))
+    if (!isAdmin(req.params.adminid)) {
         return res
             .status(403)
             .json({ success: false, message: "Access denied. Admins only." });
+    }
+
     const { courseId } = req.params;
+
     try {
+        // Fetch basic course info
         const course = await Courses.findOne(
             { courseId: courseId },
             {
@@ -331,7 +336,28 @@ const getCourseInfoById = async (req, res) => {
                 message: "Course not found",
             });
         }
-        res.status(200).json({ success: true, course: course });
+
+        // Fetch module titles and submodule titles
+        const courseContent = await ContentsOfCourse.findOne(
+            { courseId: courseId },
+            { modules: 1 }
+        );
+
+        let tableOfContents = [];
+
+        if (courseContent && courseContent.modules.length > 0) {
+            tableOfContents = courseContent.modules.map((module) => ({
+                moduleTitle: module.moduleTitle,
+                submodules: module.submodules.map((sub) => sub.submoduleTitle),
+            }));
+        }
+
+        // Return course info and table of contents
+        res.status(200).json({
+            success: true,
+            course: course,
+            tableOfContents: tableOfContents,
+        });
     } catch (error) {
         console.error("Error fetching course:", error);
         res.status(500).json({
@@ -340,7 +366,8 @@ const getCourseInfoById = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
+
 module.exports = {
     getAllUsers,
     getAllCourses,
