@@ -62,6 +62,8 @@ const getCourseById = async (req, res) => {
                 courseRating: 1,
                 courseInstructor: 1,
                 courseIntroVideo: 1,
+                courseImage: 1,
+                courseId: 1,
             }
         );
         if (!course)

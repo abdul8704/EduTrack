@@ -202,10 +202,46 @@ const getUserForCourse = async (req, res) => {
     }
 };
 
+const updateUserRole = async (req, res) => {
+    if (!isAdmin(req.params.adminid))
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    const { userid, newRole } = req.body;
+
+    try {
+        const user = await User.findOneAndUpdate(
+            { userid: userid },
+            { role: newRole },
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "User role updated successfully",
+            user: user,
+        });
+    } catch (error) {
+        console.error("Error updating user role:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+};
+
 module.exports = {
     getAllUsers,
     addNewUser,
     getUserForCourse,
     getProgressByUserId,
     getUserById,
+    updateUserRole,
 };

@@ -12,4 +12,8 @@ router.get(
     "/:adminid/progress/:employeeid",
     adminController.getProgressByUserId
 );
+router.patch(
+    "/:adminid/updateuserrole",
+    adminController.updateUserRole
+);
 module.exports = router;
