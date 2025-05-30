@@ -19,7 +19,7 @@ export const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log("Login credentials:", loginData);
-    const response = await axios.post("http://localhost:5000/api/login/login", loginData);
+    const response = await axios.post("http://localhost:5000/api/login/existinguser", loginData);
     console.log("Response from server:", response.data.userDetails.role);
     if(response.status === 200) {
       if(response.data.userDetails.role === "admin") {
