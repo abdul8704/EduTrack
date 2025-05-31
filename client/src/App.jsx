@@ -24,6 +24,7 @@ function App() {
         <Route path="/user/profile/:userId" element={<Profile/>}/>
         <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
         <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
+        {/* <Route path="/course/learn/:userId/:courseId/feedback" element={<Feedback/>}/> */}
         <Route path="/course/search/:userId/tags/:tags" element={<SearchResult/>} />
         <Route path="/admin/dashboard/:userId/:navId/details" element={<AdminDashboard/>}/>
         <Route path="/admin/dashboard/:userId/course/addcourse" element={<AddCourse />} />

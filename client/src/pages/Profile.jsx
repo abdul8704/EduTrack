@@ -3,12 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Download, RotateCcw } from 'lucide-react';
 import '../styles/profile.css';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const fetchUserData = async (userId) => {
   try {
     const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
-    console.log("User data fetched:", response.data.username);
     return response.data.username;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -19,7 +18,6 @@ const fetchUserData = async (userId) => {
 const fetchCourses = async (userId) => {
   try {
     const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
-    console.log("Courses fetched:", response.data.completedCourses);
     return response.data.completedCourses;
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -27,11 +25,63 @@ const fetchCourses = async (userId) => {
   }
 }
 
+const downloadCertificate = async ({ username, courseName, courseInstructor }) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/certificate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: username,
+        course: courseName,
+        instructor: courseInstructor,
+        date: new Date().toLocaleDateString()
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Backend error:', errorText);
+      throw new Error('Failed to generate certificate');
+    }
+
+    const blob = await response.blob();
+    if (blob.type !== 'application/pdf') {
+      const text = await blob.text();
+      console.error('Unexpected response:', text);
+      throw new Error('Invalid PDF content received');
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${courseName}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    showPopup("Certificate generated successfully!", {
+      background: "#d4edda",
+      border: "#c3e6cb",
+      text: "#155724"
+    });
+
+  } catch (error) {
+    console.error(error);
+    showPopup("Error downloading certificate: " + error.message, {
+      background: "#f8d7da",
+      border: "#f5c6cb",
+      text: "#721c24"
+    });
+  }
+};
+
 export const Profile =  () => {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadData = async () => {
@@ -47,17 +97,21 @@ export const Profile =  () => {
   }, []);
 
   const handleCardClick = (courseId) => {
-    console.log(`Navigating to course details: ${courseId}`);
+    navigate(`/course/learn/${userId}/${courseId}/0/0`);
   };
 
   const handleDownloadCertificate = (e, courseId) => {
     e.stopPropagation();
-    console.log(`Downloading certificate for course: ${courseId}`);
+    downloadCertificate({
+      username: userData.username,
+      courseName: courses.find(course => course.courseId === courseId)?.courseName || 'Unknown Course',
+      courseInstructor: courses.find(course => course.courseId === courseId)?.courseInstructor || 'Unknown Instructor'
+    })
   };
 
   const handleStartOver = (e, courseId) => {
     e.stopPropagation();
-    console.log(`Starting over course: ${courseId}`);
+    navigate(`/course/learn/${userId}/${courseId}/0/0`);
   };
 
   if (loading) return <div className="profile-loading">Loading...</div>;
