@@ -44,7 +44,7 @@ export const Login = () => {
           navigate("/adminnav");
         } else if (role === "user") {
           navigate(`/user/dashboard/${response.data.userDetails.userid}`, {
-            state: { popupMessage: { success: true, message: "Successfully LoggedIn" } }
+            state: { popupMessage: { success: true, message: `Welcome back ${response.data.userDetails.username}!\nYou're Successfully LoggedIn` } }
           });
         }
       }
