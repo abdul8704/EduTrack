@@ -159,7 +159,6 @@ const addNewUser = async (req, res) => {
             currentCourses: [],
         });
 
-        console.log("New user created:", newUser);
         await newUser.save();
         res.status(201).json({
             success: true,
@@ -267,12 +266,21 @@ const updateUserRole = async (req, res) => {
 };
 
 const addNewCourse = async (req, res) => {
-    console.log(req.body)
     if (!isAdmin(req.params.adminid))
         return res
             .status(403)
             .json({ success: false, message: "Access denied. Admins only." });
-    const { courseId, courseName, courseImage, courseInstructor } = req.body;
+    const {
+        courseId,
+        courseName,
+        courseImage,
+        instructorName,
+        description,
+        tags,
+        modules,
+        introVideoTitle,
+        introVideo,
+    } = req.body;
 
     try {
         const existingCourse = await Courses.findOne({ courseId: courseId });
@@ -282,23 +290,51 @@ const addNewCourse = async (req, res) => {
                 message: "Course already exists",
             });
         }
+
+        const newCourse = new Courses({
+            courseId: courseId,
+            courseName: courseName,
+            courseImage: courseImage || "https://example.com/default-course-image.jpg", // Placeholder image URL
+            courseInstructor: instructorName,
+            courseDescription: description,
+            tags: tags || [],
+            courseIntroVideo: {
+                videoTitle: introVideoTitle,
+                videoUrl: introVideo, 
+            },
+        });
+        await newCourse.save();
+
+        const transformedModules = modules.map((module) => ({
+            moduleTitle: module.name,
+            submodules: module.lectures.map((lecture) => ({
+                submoduleTitle: lecture.title,
+                description: lecture.description,
+                video: {
+                    videoTitle: lecture.videoTitle,
+                    videoUrl: lecture.videoLink,
+                },
+                quiz: {
+                    questions: lecture.assignments.map((assignment) => ({
+                        questionText: assignment.question,
+                        options: assignment.choices,
+                        correctAnswer: assignment.correctAnswer,
+                    })),
+                },
+            })),
+        }));
+
+        const newCourseContent = new ContentsOfCourse({
+            courseId,
+            modules: transformedModules,
+        });
+
+        await newCourseContent.save();
+
         res.status(201).json({
             success: true,
-            data: req.body,
-            message: "New course added successfully",
+            message: "Course created successfully",
         });
-        // const newCourse = new Courses({
-        //     courseId,
-        //     courseName,
-        //     courseImage,
-        //     courseInstructor,
-        // });
-
-        // await newCourse.save();
-        // res.status(201).json({
-        //     success: true,
-        //     message: "Course created successfully",
-        // });
     } catch (error) {
         console.error("Unable to create new course", error);
         res.status(500).json({
