@@ -110,15 +110,14 @@ const getCourseById = async (req, res) => {
                 courseId: 1,
             }
         );
-        const progress = await Progress.findOne(
+        let progress = await Progress.findOne(
             { userId: userid, courseId: courseId },
             {
                 percentComplete: 1,
             }
         )
-        if(!progress)
-            return res.status(404).json({ success: false, message: "Progress not found for this user and course" });
-    
+        if( !progress)
+            progress = { percentComplete: -1 };
         if (!course)
             return res.status(404).json({
                 success: false,
