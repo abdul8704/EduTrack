@@ -9,7 +9,7 @@ export const Login = () => {
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
   const [isOtpPhase, setIsOtpPhase] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
-  const [isSignupMode, setIsSignupMode] = useState(false); // New state for toggle
+  const [isSignupMode, setIsSignupMode] = useState(false);
 
   const navigate = useNavigate();
 
@@ -40,21 +40,34 @@ export const Login = () => {
 
       if (response.status === 200) {
         const role = response.data.userDetails.role;
+        const popupData = {
+          message: `Welcome back ${response.data.userDetails.username}!\nThe internet missed you,\neven the cookies were asking where you went.`,
+          color: {
+            background: "#d4edda",
+            border: "#c3e6cb",
+            text: "#155724"
+          }
+        };
+
         if (role === "admin") {
-          navigate("/adminnav");
+          navigate("/adminnav", { state: { popupMessage: popupData } });
         } else if (role === "user") {
           navigate(`/user/dashboard/${response.data.userDetails.userid}`, {
-            state: { popupMessage: { success: true, message: `Welcome back ${response.data.userDetails.username}!\nYou're Successfully LoggedIn` } }
+            state: { popupMessage: popupData }
           });
         }
       }
     } catch (err) {
       const status = err.response?.status;
-      if (status === 401 || status === 404) {
-        setPopupMessage({ success: false, message: err.response.data.message });
-      } else {
-        setPopupMessage({ success: false, message: "Something went wrong. Please try again." });
-      }
+      const errorMessage = err.response?.data?.message || "Something went wrong. Please try again.";
+      setPopupMessage({
+        message: errorMessage,
+        color: {
+          background: "#f8d7da",
+          border: "#f5c6cb",
+          text: "#721c24"
+        }
+      });
       console.error("Login error:", err);
     }
   };
@@ -77,14 +90,13 @@ export const Login = () => {
     <div className="login-main">
       {popupMessage && (
         <Popup
-          success={popupMessage.success}
           message={popupMessage.message}
+          color={popupMessage.color}
         />
       )}
 
       <div className="login-wrapper">
         <div className="login-card-switch">
-          {/* Separate toggle switch */}
           <div className="login-switch">
             <input
               type="checkbox"
@@ -96,7 +108,6 @@ export const Login = () => {
             <span className="login-card-side"></span>
           </div>
 
-          {/* Card without label wrapper */}
           <div className={`login-flip-card__inner ${isSignupMode ? 'flipped' : ''}`}>
             <div className="login-flip-card__front">
               <div className="login-title">Log in</div>
