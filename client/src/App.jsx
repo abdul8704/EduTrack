@@ -21,10 +21,10 @@ function App() {
         <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
         <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
         <Route path="/course/search/tags/:tags" element={<AvailableCourses title={"Search Result"} available={[]} />} />
-        <Route path=" /empprogress/:userId" element={<EmpProgress/>}/>
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
-        <Route path="/addcourse" element={<AddCourse />} />
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
+        <Route path=" /empprogress/:userId" element={<EmpProgress/>}/>
+        <Route path="/addcourse" element={<AddCourse />} />
         <Route path=" /profile" element={<Profile/>}/>
       </Routes>
       {/* <Footer /> */}

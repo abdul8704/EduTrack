@@ -1,11 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif';
 
 const NavbarInput = () => {
+  const navigate = useNavigate();
+  const [input, setInput] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      const tags = input.trim().split(/\s+/).join(',');
+      navigate(`/course/search/tags/${tags}`);
+    }
+  };
+
+  const handleReset = () => {
+    setInput('');
+  };
+
   return (
-    <form className="navbar-form">
+    <form className="navbar-form" onSubmit={handleSubmit}>
       <button className="navbar-search-button" type="submit" aria-label="Search">
         <svg width={17} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
           <path
@@ -17,8 +32,15 @@ const NavbarInput = () => {
           />
         </svg>
       </button>
-      <input className="navbar-input" placeholder="Type your text" required type="text" />
-      <button className="navbar-reset" type="reset" aria-label="Reset search input">
+      <input
+        className="navbar-input"
+        placeholder="Type your text"
+        required
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button className="navbar-reset" type="reset" onClick={handleReset} aria-label="Reset search input">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="navbar-reset-icon"
