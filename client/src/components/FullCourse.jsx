@@ -64,7 +64,7 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
   const navigate = useNavigate();
 
   const handleStartClick = () => {
-    navigate(`/course/${uId}/${id}/0/0`);
+    navigate(`/course/learn/${uId}/${id}/0/0`);
   };
 
   return (

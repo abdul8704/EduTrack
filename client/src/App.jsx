@@ -3,7 +3,7 @@ import { Login } from './pages/Login';
 import { Navbar } from './components/Navbar';
 import { UserDashboard } from './pages/UserDashboard';
 import { CourseIntro } from './pages/CourseIntro';
-import { Course } from './pages/Course';
+import { CourseLearn } from './pages/CourseLearn';
 import { EmpProgress } from './pages/EmpProgress';
 import { AdminNavbar } from './pages/AdminNavbar';
 import {AddCourse} from './pages/AddCourse'; 
@@ -15,9 +15,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
-        {/* <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} /> */}
         <Route path="/user/dashboard/:userId" element={<UserDashboard />} />
+        <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
+        <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
         {/* <Route path=" /empprogress/:userId" element={<EmpProgress/>}/> */}
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
         {/* <Route path="/addcourse" element={<AddCourse />} /> */}
