@@ -105,9 +105,31 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   const handleStartClick = () => {
     navigate(`/course/learn/${uId}/${id}/0/0`);
   };
-  const handleEnrollClick=()=>{
-    
-  }
+  const handleEnrollClick = async () => {
+    try {
+      const response = await axios.post(`http://localhost:5000/api/user/${uId}/${id}/enroll`);
+
+      if (response.status === 200) {
+        showPopup("Enrollment successful! You can now start the course.", {
+          background: "#d4edda",
+          border: "#c3e6cb",
+          text: "#155724"
+        });
+        // Optional: navigate to course start or refresh component
+        navigate(`/course/learn/${uId}/${id}/0/0`);
+      } else {
+        throw new Error('Enrollment failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Enrollment error:', error);
+      showPopup("Enrollment failed: " + error.message, {
+        background: "#f8d7da",
+        border: "#f5c6cb",
+        text: "#721c24"
+      });
+    }
+  };
+
   return (
     <div className="coursepage-fullcourse-container">
       <div className="coursepage-course-card">
@@ -166,7 +188,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
               ) : (
                 <button
                   className="coursepage-start-button"
-                  onClick={handleStartClick}
+                  onClick={percent >= 0 ? handleStartClick : handleEnrollClick}
                 >
                   {percent >= 0 ? 'Continue Learning' : 'Enroll'}
                 </button>

@@ -169,7 +169,7 @@
 /* ────────────── Module section ────────────── */
 .module-container {
   padding: 2rem;
-  background-color: #fff;
+  background-color: #f3f3db;
   border-radius: 10px;
   flex-grow: 1;
   box-sizing: border-box;
