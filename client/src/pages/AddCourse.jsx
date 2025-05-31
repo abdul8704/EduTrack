@@ -24,6 +24,7 @@ const initialCourseData = {
             {
               question: "",
               choices: ["", ""],
+              correctAnswer: "",  
             },
           ],
         },
@@ -183,8 +184,21 @@ export const AddCourse = () => {
       alert("Tags cannot be empty!");
       return;
     }
-    console.log("Submitted data:", courseData);
-    setCourseData(initialCourseData);
+   
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/admin/bob@example.com/course/addnewcourse",  //TODO: Replace with actual admin email
+        courseData
+      );
+      if (response.data.success) {
+        alert("Course created successfully!");
+      } else {
+        alert("Failed to create course: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Error creating course:", error);
+      alert("An error occurred while creating the course.");
+    }
   };
 
 
@@ -239,7 +253,6 @@ export const AddCourse = () => {
               value={courseData.courseImage}
               onChange={handleCourseChange}
               required
-              pattern="https?://.+"
             />
             <input
               name="introVideoTitle"
@@ -404,6 +417,23 @@ export const AddCourse = () => {
                                 }
                                 required
                               />
+                              <input
+                                type="text"
+                                placeholder="Correct Answer"
+                                className="addcourse-input"
+                                value={assignment.correctAnswer}
+                                onChange={(e) =>
+                                  handleAssignmentChange(
+                                    moduleIndex,
+                                    lectureIndex,
+                                    assignmentIndex,
+                                    "correctAnswer",
+                                    e.target.value
+                                  )
+                                }
+                                required
+                              />
+                              <h4>Choices</h4>
                               {assignment.choices.map(
                                 (choice, choiceIndex) => (
                                   <div
