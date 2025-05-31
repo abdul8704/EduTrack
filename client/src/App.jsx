@@ -18,7 +18,7 @@ function App() {
         <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
         {/* <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} /> */}
         <Route path="/user/dashboard/:userId" element={<UserDashboard />} />
-        {/* <Route path="/empprogress/:userId" element={<EmpProgress/>}/> */}
+        {/* <Route path=" /empprogress/:userId" element={<EmpProgress/>}/> */}
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
         {/* <Route path="/addcourse" element={<AddCourse />} /> */}
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
