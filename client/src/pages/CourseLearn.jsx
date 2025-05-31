@@ -5,7 +5,7 @@ import { Module } from '../components/Module';
 import { useParams } from 'react-router-dom';
 import axios from "axios"
 
-export const Course = () => {
+export const CourseLearn = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
 

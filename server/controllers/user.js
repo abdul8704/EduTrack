@@ -3,6 +3,26 @@ const CourseContent = require("../models/courseContent");
 const Progress = require("../models/courseProgress");
 const User = require("../models/userDetails");
 
+const getUsernameByUserId = async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const user = await User.findOne({ userid: userid },{
+            passwordHash: 0, // Exclude password hash from the response
+        });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        return res.status(200).json({ success: true, username: user });
+    } catch (error) {
+        console.error("Error fetching username:", error);   
+        res.status(500).json({
+            success: false,
+            message: "Server error while fetching username",
+            errorMessage: error.message,
+        });
+    }
+}
+
 const getAllCourses = async (req, res) => {
     const { userid } = req.params;
 
@@ -10,9 +30,10 @@ const getAllCourses = async (req, res) => {
         const user = await User.findOne({ userid: userid });
 
         if (!user) {
-            return res
-                .status(404)
-                .json({ success: false, message: "User not found" });
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
         }
 
         const allCourses = await CourseDetails.find(
@@ -28,28 +49,51 @@ const getAllCourses = async (req, res) => {
 
         const currentCourseIds = user.currentCourses;
 
-        // Separate enrolled and available courses
-        const enrolledCourses = allCourses.filter((course) =>
-            currentCourseIds.includes(course.courseId)
-        );
-        const availableCourses = allCourses.filter(
-            (course) => !currentCourseIds.includes(course.courseId)
-        );
+        // Get all progress records for the user
+        const progressRecords = await Progress.find({ userId: userid });
+
+        const completedCourseIds = new Set();
+        const ongoingCourseIds = new Set();
+
+        // Categorize enrolled courses into completed and ongoing
+        progressRecords.forEach((record) => {
+            if (record.percentComplete === 100) {
+                completedCourseIds.add(record.courseId);
+            } else {
+                ongoingCourseIds.add(record.courseId);
+            }
+        });
+
+        const completedCourses = [];
+        const enrolledCourses = [];
+        const availableCourses = [];
+
+        allCourses.forEach((course) => {
+            if (completedCourseIds.has(course.courseId)) {
+                completedCourses.push(course);
+            } else if (ongoingCourseIds.has(course.courseId)) {
+                enrolledCourses.push(course);
+            } else {
+                availableCourses.push(course);
+            }
+        });
 
         return res.status(200).json({
             success: true,
             enrolledCourses,
             availableCourses,
+            completedCourses,
         });
     } catch (error) {
         console.error("Error fetching courses:", error);
         return res.status(500).json({
             success: false,
             message: "Server error",
-            errrorMessage: error.message,
+            errorMessage: error.message,
         });
     }
 };
+
 
 const getCourseById = async (req, res) => {
     try {
@@ -171,6 +215,29 @@ const getSubModuleByCourseId = async (req, res) => {
         });
     }
 };
+
+const getProgressMatrixByCourseId = async (req, res) => {
+    const { userid, courseid } = req.params;
+    try{
+        const progressMatrix = await Progress.findOne({ userId: userid, courseId: courseid }, 
+                {
+                    moduleStatus: 1,
+                }
+        );
+        res.status(200).json({
+            success: true,
+            progressMatrix: progressMatrix ? progressMatrix.moduleStatus : null,
+        });
+    }
+    catch (error) {
+        console.error("Error fetching progress matrix:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to get progress matrix",
+            errorMessage: error.message,
+        });
+    }    
+}
 
 const updateProgress = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
@@ -346,10 +413,12 @@ const enrollUserInCourse = async (req, res) => {
 }
 
 module.exports = {
+    getUsernameByUserId,
     getAllCourses,
     getCourseById,
     getSubModuleByCourseId,
     updateProgress,
     searchCourse,
     enrollUserInCourse,
+    getProgressMatrixByCourseId,
 };

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/popup.css";
-//EXAMPLE USAGE OF POPUP COMPONENT
-{/* <Popup
-  message="Custom notification color!"
-  color={{
-    background: "#fff3cd",
-    border: "#ffeeba",
-    text: "#856404"
-  }}
-/> */}
+// EXAMPLE USAGE OF POPUP COMPONENT
+// <Popup
+//   message="Custom notification color!"
+//   color={{
+//     background: "#fff3cd",
+//     border: "#ffeeba",
+//     text: "#856404"
+//   }}
+// /> 
 export const Popup = ({ message, color }) => {
   const [isVisible, setIsVisible] = useState(true);
 
