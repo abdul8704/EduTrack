@@ -24,10 +24,6 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Push page content below navbar */
-.empprog-container {
-  padding-top: 5rem; /* same as navbar height, no extra */
-}
 
 /* Base navbar container */
 .navbar-navbar {
