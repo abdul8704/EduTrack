@@ -1,11 +1,13 @@
 import React from 'react';
 import '../styles/CoursePage.css';
 import { useNavigate } from 'react-router-dom';
+
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/);
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
+
 const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
   try {
     const response = await fetch('http://localhost:5000/api/certificate', {
@@ -60,15 +62,17 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
   const embedUrl = getEmbedUrl(courseIntroVideo?.videoUrl || '');
   const isValidEmbed = embedUrl.includes("youtube.com/embed");
   const navigate = useNavigate();
+
   const handleStartClick = () => {
     navigate(`/course/${uId}/${id}/0/0`);
   };
+
   return (
-    <div className="fullcourse-container">
-      <div className="course-card">
-        <div className="course-info corner-layout">
+    <div className="coursepage-fullcourse-container">
+      <div className="coursepage-course-card">
+        <div className="coursepage-course-info coursepage-corner-layout">
           {embedUrl && (
-            <div className="video-wrapper">
+            <div className="coursepage-video-wrapper">
               {isValidEmbed ? (
                 <iframe
                   width="560"
@@ -85,27 +89,28 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
             </div>
           )}
 
-          <div className="text-corner">
+          <div className="coursepage-text-corner">
             <h2>{courseName}</h2>
             <p>{courseDescription}</p>
             <p><strong>Instructor:</strong> {courseInstructor}</p>
             <p><strong>Rating:</strong> ⭐ {courseRating}</p>
-            <div className="button-container" style={{ display: 'flex', gap: '1rem' }}>
+
+            <div className="coursepage-button-container" style={{ display: 'flex', gap: '1rem' }}>
               {percent === 100 ? (
                 <>
                   <button
-                    className="start-button"
-                    onClick={() => handleStartClick()}
+                    className="coursepage-start-button"
+                    onClick={handleStartClick}
                   >
                     Start Over
                   </button>
                   <button
-                    className="certificate-button"
+                    className="coursepage-certificate-button"
                     onClick={() =>
                       handleDownloadCertificate({
                         userId: uId,
-                        courseName: courseName,
-                        courseInstructor: courseInstructor,
+                        courseName,
+                        courseInstructor
                       })
                     }
                   >
@@ -114,7 +119,7 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
                 </>
               ) : (
                 <button
-                  className="start-button"
+                  className="coursepage-start-button"
                   onClick={handleStartClick}
                 >
                   {percent > 0 ? 'Continue Learning' : 'Start'}
@@ -122,21 +127,22 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
               )}
             </div>
 
-
-            <div className="progress-label">Learning Progress</div>
-            <div className="progress-bar-bg">
-              <div className="progress-bar-fill" style={{ width: `${percent}%` }}
+            <div className="coursepage-progress-label">Learning Progress</div>
+            <div className="coursepage-progress-bar-bg">
+              <div
+                className="coursepage-progress-bar-fill"
+                style={{ width: `${percent}%` }}
               />
             </div>
           </div>
         </div>
 
-        <div className="overview-container">
-          <h1 className="overview-title">Table of Contents</h1>
-          <p className="overview-label">Contents as follows</p>
-          <div className="overview-cards">
+        <div className="coursepage-overview-container">
+          <h1 className="coursepage-overview-title">Table of Contents</h1>
+          <p className="coursepage-overview-label">Contents as follows</p>
+          <div className="coursepage-overview-cards">
             {contentsData.map((module, idx) => (
-              <div key={idx} className="overview-card">
+              <div key={idx} className="coursepage-overview-card">
                 <h3>{module.moduleTitle}</h3>
                 <ul>
                   {module.submodules.map((sub, i) => (

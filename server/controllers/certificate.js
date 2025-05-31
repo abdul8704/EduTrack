@@ -89,11 +89,11 @@ const generateCertificate = async (req, res) => {
           transform: translate(-50%, -50%);
           width: 300px;
           height: 300px;
-          background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_ylTPmA3kLGuY1rNmXjDcBXqNaBR_XAZo5w&s');
+          background-image: url('https://static.wixstatic.com/media/2f1a45_1fbc288ed00d486dabf61207472822d2%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/2f1a45_1fbc288ed00d486dabf61207472822d2%7Emv2.png');
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center;
-          opacity: 0.5;
+          opacity: 0.2;
           z-index: 1;
           pointer-events: none;
         }
