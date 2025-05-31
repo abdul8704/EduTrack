@@ -314,3 +314,33 @@ body.navbar-menu-open {
     font-size: 1.125rem;
   }
 }
+
+.navbar-profile-desktop {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.navbar-profile-picture {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 0.125rem solid #e0e0e0;
+  transition: border-color 0.2s ease;
+}
+
+.navbar-profile-picture:hover {
+  border-color: #bada55;
+}
+
+/* Mobile profile styling */
+.navbar-profile-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0;
+  border-top: 0.0625rem solid #e0e0e0;
+  margin-top: 0.5rem;
+}

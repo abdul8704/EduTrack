@@ -137,6 +137,13 @@ export const Navbar = () => {
           <NavbarInput />
         </div>
         <Link to="/">Home</Link>
+        <div className="navbar-profile-desktop">
+          <img 
+            src="https://randomuser.me/api/portraits/men/55.jpg" 
+            alt="Profile" 
+            className="navbar-profile-picture" 
+          />
+        </div>
       </div>
     </nav>
   );
