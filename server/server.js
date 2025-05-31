@@ -8,6 +8,7 @@ const notFoundMiddleware = require("./middlewares/not-found");
 const userRouter  = require("./routes/userRouter");
 const adminRoutes = require("./routes/adminRouter");
 const loginRouter = require("./routes/loginRouter");
+const certificateRouter = require("./routes/certificateRouter");
 const cors = require("cors");
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/api/login/", loginRouter);
 app.use("/api/user/", userRouter);
 app.use("/api/admin/", adminRoutes);
+app.use("/api/certificate", certificateRouter);
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware);
 

@@ -17,8 +17,10 @@ export const CourseDeets = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/${courseId}`);
-        setCourse(response.data.data);
+        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/courseinfo/${courseId}`);
+        console.log(courseId)
+        console.log(response.data)
+        setCourse(response.data.course);
         setContents(response.data.contents);
         setLoading(false);
       } catch (error) {

@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
-
-export const Popup = ({ success, message }) => {
+import "../styles/popup.css";
+//EXAMPLE USAGE OF POPUP COMPONENT
+{/* <Popup
+  message="Custom notification color!"
+  color={{
+    background: "#fff3cd",
+    border: "#ffeeba",
+    text: "#856404"
+  }}
+/> */}
+export const Popup = ({ message, color }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -13,77 +22,24 @@ export const Popup = ({ success, message }) => {
 
   if (!isVisible) return null;
 
+  const customStyle = {
+    backgroundColor: color?.background || '#e0f7fa',
+    borderColor: color?.border || '#00acc1',
+    color: color?.text || '#006064'
+  };
+
   return (
-    <div className={`popup ${success ? 'popup-success' : 'popup-error'}`}>
+    <div className="popup" style={customStyle}>
       <div className="popup-content">
-        <span className={`popup-icon ${success ? 'success-icon' : 'error-icon'}`}>
-          {success ? '✓' : '✗'}
+        <span className="popup-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+            <path d="M80-560q0-100 44.5-183.5T244-882l47 64q-60 44-95.5 111T160-560H80Zm720 0q0-80-35.5-147T669-818l47-64q75 55 119.5 138.5T880-560h-80ZM160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
+          </svg>
         </span>
         <span className="popup-message">{message}</span>
       </div>
-      <style jsx>{`
-        .popup {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          padding: 16px 20px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          z-index: 1000;
-          animation: slideIn 0.3s ease-out;
-          max-width: 400px;
-          min-width: 300px;
-        }
-
-        .popup-success {
-          background-color: #d4edda;
-          border: 1px solid #c3e6cb;
-          color: #155724;
-        }
-
-        .popup-error {
-          background-color: #f8d7da;
-          border: 1px solid #f5c6cb;
-          color: #721c24;
-        }
-
-        .popup-content {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .popup-icon {
-          font-size: 18px;
-          font-weight: bold;
-          flex-shrink: 0;
-        }
-
-        .success-icon {
-          color: #28a745;
-        }
-
-        .error-icon {
-          color: #dc3545;
-        }
-
-        .popup-message {
-          font-size: 14px;
-          line-height: 1.4;
-        }
-
-        @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-      `}</style>
     </div>
   );
 };
+
 

@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { CoursesCard } from './CoursesCard';
 import '../styles/EnrolledCourses.css';
-
+import { useParams } from 'react-router-dom';
 export const EnrolledCourses = ({ enrolled }) => {
+  const { userId } = useParams();
   const scrollRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const scrollAmount = 300;
@@ -10,16 +11,13 @@ export const EnrolledCourses = ({ enrolled }) => {
   const checkOverflow = () => {
     const container = scrollRef.current;
     if (container) {
-      const hasOverflow = container.scrollWidth > container.clientWidth;
-      setIsOverflowing(hasOverflow);
+      setIsOverflowing(container.scrollWidth > container.clientWidth);
     }
   };
 
-  // Run check after component renders
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      checkOverflow();
-    }, 100); // wait for layout to settle
+    const timeout = setTimeout(checkOverflow, 100);
 
     window.addEventListener('resize', checkOverflow);
     return () => {
@@ -43,7 +41,8 @@ export const EnrolledCourses = ({ enrolled }) => {
     const container = scrollRef.current;
     if (!container) return;
 
-    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+    const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+    if (atEnd) {
       container.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
@@ -59,11 +58,14 @@ export const EnrolledCourses = ({ enrolled }) => {
             &lt;
           </div>
         )}
+
         <div className="enrolled-courses-container" ref={scrollRef}>
           {Array.isArray(enrolled) &&
             enrolled.map((course) => (
               <CoursesCard
-                id={course.courseId}
+                key={course._id}
+                userId={userId}
+                courseId={course.courseId}
                 title={course.courseName}
                 image={course.courseImage}
                 instructor={course.courseInstructor}
@@ -71,6 +73,7 @@ export const EnrolledCourses = ({ enrolled }) => {
               />
             ))}
         </div>
+
         {isOverflowing && (
           <div className="enrolled-arrow enrolled-right-arrow" onClick={handleRightClick}>
             &gt;

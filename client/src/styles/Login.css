@@ -1,11 +1,13 @@
-/* From Uiverse.io by andrew-demchenk0 with `login-` prefix */
-
 .login-main {
+  margin-top: 2rem;
   display: flex;
+  height: 100%;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  height: 85vh;
   background-color: rgb(241, 245, 229);
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .login-wrapper {
@@ -18,26 +20,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.login-card-switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  transform-origin: center;
+  transition: transform 0.3s ease;
 }
 
 .login-switch {
-  transform: translateY(-12.5rem); /* -200px */
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.875rem; /* 30px */
-  width: 3.125rem; /* 50px */
-  height: 1.25rem; /* 20px */
+  gap: 1.875rem;
+  width: 3.125rem;
+  height: 1.25rem;
 }
 
 .login-card-side::before {
   position: absolute;
   content: 'Log in';
-  left: -4.375rem; /* -70px */
+  left: -4.375rem;
   top: 0;
-  width: 6.25rem; /* 100px */
+  width: 6.25rem;
   text-decoration: underline;
   color: var(--font-color);
   font-weight: 600;
@@ -46,47 +58,52 @@
 .login-card-side::after {
   position: absolute;
   content: 'Sign up';
-  left: 4.375rem; /* 70px */
+  left: 4.375rem;
   top: 0;
-  width: 6.25rem; /* 100px */
+  width: 6.25rem;
   text-decoration: none;
   color: var(--font-color);
   font-weight: 600;
 }
 
 .login-toggle {
+  position: absolute;
   opacity: 0;
-  width: 0;
-  height: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .login-slider {
   box-sizing: border-box;
-  border-radius: 0.3125rem; /* 5px */
-  border: 0.125rem solid var(--main-color); /* 2px */
-  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
+  border-radius: 0.3125rem;
+  border: 0.125rem solid var(--main-color);
+  box-shadow: 0.25rem 0.25rem var(--main-color);
   position: absolute;
   cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--bg-colorcolor);
+  background-color: var(--bg-color);
   transition: 0.3s;
+  z-index: 1;
 }
 
 .login-slider:before {
   box-sizing: border-box;
   position: absolute;
   content: "";
-  height: 1.25rem; /* 20px */
+  height: 1.25rem;
   width: 1.25rem;
-  border: 0.125rem solid var(--main-color); /* 2px */
-  border-radius: 0.3125rem; /* 5px */
-  left: -0.125rem; /* -2px */
-  bottom: 0.125rem; /* 2px */
+  border: 0.125rem solid var(--main-color);
+  border-radius: 0.3125rem;
+  left: -0.125rem;
+  bottom: 0.125rem;
   background-color: var(--bg-color);
-  box-shadow: 0 0.1875rem 0 var(--main-color); /* 3px */
+  box-shadow: 0 0.1875rem 0 var(--main-color);
   transition: 0.3s;
 }
 
@@ -95,7 +112,7 @@
 }
 
 .login-toggle:checked + .login-slider:before {
-  transform: translateX(1.875rem); /* 30px */
+  transform: translateX(1.875rem);
 }
 
 .login-toggle:checked ~ .login-card-side:before {
@@ -107,8 +124,8 @@
 }
 
 .login-flip-card__inner {
-  width: 18.75rem; /* 300px */
-  height: 21.875rem; /* 350px */
+  width: 18.75rem;
+  height: 21.875rem;
   position: relative;
   background-color: transparent;
   perspective: 1000px;
@@ -117,28 +134,28 @@
   transform-style: preserve-3d;
 }
 
-.login-toggle:checked ~ .login-flip-card__inner {
+/* Updated class for React state-based flipping */
+.login-flip-card__inner.flipped {
   transform: rotateY(180deg);
 }
 
-.login-toggle:checked ~ .login-flip-card__front {
+.login-flip-card__inner.flipped .login-flip-card__front {
   box-shadow: none;
 }
 
 .login-flip-card__front,
 .login-flip-card__back {
-  padding: 1.25rem; /* 20px */
+  padding: 1.25rem;
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   background: #27282749;
-  gap: 1.25rem; /* 20px */
-  border-radius: 0.3125rem; /* 5px */
+  gap: 1.25rem;
+  border-radius: 0.3125rem;
   border: 0.125rem solid var(--main-color);
-  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
+  box-shadow: 0.25rem 0.25rem var(--main-color);
 }
 
 .login-flip-card__back {
@@ -150,28 +167,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem; /* 20px */
+  gap: 1.25rem;
 }
 
 .login-title {
   margin: 1.25rem 0;
-  font-size: 1.5625rem; /* 25px */
+  font-size: 1.5625rem;
   font-weight: 900;
   text-align: center;
   color: var(--main-color);
 }
 
 .login-flip-card__input {
-  width: 15.625rem; /* 250px */
-  height: 2.5rem; /* 40px */
-  border-radius: 0.3125rem; /* 5px */
+  width: 15.625rem;
+  height: 2.5rem;
+  border-radius: 0.3125rem;
   border: 0.125rem solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 0.25rem 0.25rem var(--main-color); /* 4px */
-  font-size: 0.9375rem; /* 15px */
+  box-shadow: 0.25rem 0.25rem var(--main-color);
+  font-size: 0.9375rem;
   font-weight: 600;
   color: var(--font-color);
-  padding: 0.3125rem 0.625rem; /* 5px 10px */
+  padding: 0.3125rem 0.625rem;
   outline: none;
 }
 
@@ -186,19 +203,45 @@
 
 .login-flip-card__btn:active {
   box-shadow: 0 0 var(--main-color);
-  transform: translate(0.1875rem, 0.1875rem); /* 3px */
+  transform: translate(0.1875rem, 0.1875rem);
 }
 
 .login-flip-card__btn {
   margin: 1.25rem 0;
-  width: 7.5rem; /* 120px */
-  height: 2.5rem; /* 40px */
-  border-radius: 0.3125rem; /* 5px */
+  width: 7.5rem;
+  height: 2.5rem;
+  border-radius: 0.3125rem;
   border: 0.125rem solid var(--main-color);
   background-color: var(--bg-color);
   box-shadow: 0.25rem 0.25rem var(--main-color);
-  font-size: 1.0625rem; /* 17px */
+  font-size: 1.0625rem;
   font-weight: 600;
   color: var(--font-color);
   cursor: pointer;
+}
+
+/* Scale down entire card to fit mobile screens */
+@media (max-width: 480px) {
+  .login-card-switch {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 380px) {
+  .login-card-switch {
+    transform: scale(0.65);
+  }
+}
+
+@media (max-width: 320px) {
+  .login-card-switch {
+    transform: scale(0.6);
+  }
+}
+
+/* Scale for tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-card-switch {
+    transform: scale(0.85);
+  }
 }

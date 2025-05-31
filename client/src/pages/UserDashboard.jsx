@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { EnrolledCourses } from './EnrolledCourses';
-import { AvailableCourses } from './AvailableCourses';
+import { EnrolledCourses } from '../components/EnrolledCourses';
+import { AvailableCourses } from '../components/AvailableCourses';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import { Popup } from '../components/Popup';
 
-export const Home = () => {
+export const UserDashboard = () => {
+  const location = useLocation();
+  const popupMessage = location.state?.popupMessage;
+
   const [courses, setCourses] = useState({
     enrolledCourses: [],
     availableCourses: []
@@ -35,6 +40,9 @@ export const Home = () => {
 
   return (
     <>
+      {popupMessage && (
+        <Popup success={popupMessage.success} message={popupMessage.message} />
+      )}
       <EnrolledCourses enrolled={courses.enrolledCourses} />
       <AvailableCourses available={courses.availableCourses} />
     </>
