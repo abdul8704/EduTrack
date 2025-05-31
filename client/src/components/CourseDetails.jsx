@@ -51,7 +51,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   if (loading) return <div>Loading...</div>;
   if (!username) return <div>USER NOT FOUND...</div>
 
-  const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
+  const handleDownloadCertificate = async ({courseName, courseInstructor}) => {
     try {
       const response = await fetch('http://localhost:5000/api/certificate', {
         method: 'POST',
