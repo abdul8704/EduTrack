@@ -37,6 +37,7 @@ export const CourseLearn = () => {
 
     fetchCourseData();
   }, [courseId]);
+
   const [subModuleVideo, setSubModuleVideo] = useState([]);
   const [subModuleQuiz, setSubModuleQuiz] = useState([]);
   const [subModuleTitle, setSubModuleTitle] = useState(null);
@@ -57,18 +58,19 @@ export const CourseLearn = () => {
         setSubModuleLoading(false);
       } catch (error) {
         console.error('Error fetching submodule data:', error);
-        setSubModuleLoading(false); // corrected
+        setSubModuleLoading(false);
       }
     };
 
     if (courseId && moduleNumber !== null && subModuleNumber !== null) {
-      fetchSubModuleData(); // corrected
+      fetchSubModuleData();
     }
   }, [userId, courseId, moduleNumber, subModuleNumber]);
 
   if (subModuleLoading) return <div>Loading course...</div>;
   if (navLoading) return <div>Loading course...</div>;
   if (!navCourse) return <div>Course not found.</div>;
+
   return (
     <div className="course-container">
       <CourseNavbar
