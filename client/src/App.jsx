@@ -24,6 +24,7 @@ function App() {
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
         <Route path="/addcourse" element={<AddCourse />} />
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
+        <Route path=" /profile" element={<Profile/>}/>
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
