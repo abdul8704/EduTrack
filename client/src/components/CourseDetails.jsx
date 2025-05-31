@@ -49,7 +49,7 @@ const handleDownloadCertificate = async ({ userId, courseName, courseInstructor 
   }
 };
 
-export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
+export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) => {
   if (!courseData) return <div>No course data available</div>;
   const {
     courseIntroVideo,

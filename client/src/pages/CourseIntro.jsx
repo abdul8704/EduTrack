@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FullCourse } from '../components/FullCourse';
+import { CourseDetails } from '../components/CourseDetails';
 import '../styles/CoursePage.css';
 
 export const CourseIntro = () => {
@@ -31,7 +31,7 @@ export const CourseIntro = () => {
 
   return (
     <div className="course-page">
-      <FullCourse uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
+      <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
     </div>
   );
 };
