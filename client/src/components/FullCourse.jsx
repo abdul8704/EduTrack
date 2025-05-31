@@ -90,20 +90,37 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
             <p>{courseDescription}</p>
             <p><strong>Instructor:</strong> {courseInstructor}</p>
             <p><strong>Rating:</strong> ⭐ {courseRating}</p>
-<button
-  className="start-button"
-  onClick={() =>
-    percent === 100
-      ? handleDownloadCertificate({
-          userId: uId,
-          courseName: courseName,
-          courseInstructor: courseInstructor,
-        })
-      : handleStartClick()
-  }
->
-  {percent === 100 ? 'Download Certificate' : percent > 0 ? 'Continue Learning' : 'Start'}
-</button>
+            <div className="button-container" style={{ display: 'flex', gap: '1rem' }}>
+              {percent === 100 ? (
+                <>
+                  <button
+                    className="start-button"
+                    onClick={() => handleStartClick()}
+                  >
+                    Start Over
+                  </button>
+                  <button
+                    className="certificate-button"
+                    onClick={() =>
+                      handleDownloadCertificate({
+                        userId: uId,
+                        courseName: courseName,
+                        courseInstructor: courseInstructor,
+                      })
+                    }
+                  >
+                    Download Certificate
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="start-button"
+                  onClick={handleStartClick}
+                >
+                  {percent > 0 ? 'Continue Learning' : 'Start'}
+                </button>
+              )}
+            </div>
 
 
             <div className="progress-label">Learning Progress</div>
