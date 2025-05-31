@@ -150,6 +150,17 @@ const LectureBlock = ({ id, moduleId, lectureData, onRemove, onLectureChange }) 
 };
 
 export const Add = () => {
+  // State for course introduction
+  const [courseData, setCourseData] = useState({
+    courseName: "",
+    instructorName: "",
+    courseId: "",
+    courseDescription: "",
+    introVideoTitle: "",
+    videoURL: "",
+    tags: ""
+  });
+
   // State for modules, each containing lectures with assignments
   const [modules, setModules] = useState([
     {
@@ -167,36 +178,27 @@ export const Add = () => {
     }
   ]);
 
-  // --- Module handlers ---
-  const handleModuleNameChange = (moduleId, newName) => {
-    setModules((prev) =>
-      prev.map((module) =>
-        module.id === moduleId ? { ...module, moduleName: newName } : module
-      )
-    );
+  // --- Course data handlers ---
+  const handleCourseDataChange = (field, value) => {
+    setCourseData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const removeModule = (moduleId) => {
-    if (modules.length > 1) {
-      setModules((prev) => prev.filter((module) => module.id !== moduleId));
-    } else {
-      // If only one module, reset it instead of removing
-      setModules([
-        {
-          id: Date.now(),
-          moduleName: "",
-          lecturesWithAssignments: [
-            {
-              id: Date.now() + 1,
-              lectureData: { lectureName: "", videoName: "", videoURL: "", lectureDescription: "" },
-              questions: [
-                { id: Date.now() + 2, questionText: "", selectedAnswer: null, choices: [] }
-              ]
-            }
-          ]
-        }
-      ]);
-    }
+  // --- Validation functions ---
+  const validateCourseData = () => {
+    const { courseName, instructorName, courseId, courseDescription, introVideoTitle, videoURL, tags } = courseData;
+    
+    if (!courseName.trim()) return { isValid: false, message: "Course Name is required." };
+    if (!instructorName.trim()) return { isValid: false, message: "Instructor Name is required." };
+    if (!courseId.trim()) return { isValid: false, message: "Course ID is required." };
+    if (!courseDescription.trim()) return { isValid: false, message: "Course Description is required." };
+    if (!introVideoTitle.trim()) return { isValid: false, message: "Intro Video Title is required." };
+    if (!videoURL.trim()) return { isValid: false, message: "Video URL is required." };
+    if (!tags.trim()) return { isValid: false, message: "Tags are required." };
+    
+    return { isValid: true, message: "" };
   };
 
   const validateModuleCompletion = (module) => {
@@ -243,6 +245,61 @@ export const Add = () => {
     }
 
     return { isValid: true, message: "" };
+  };
+
+  const validateEntireForm = () => {
+    // First validate course data
+    const courseValidation = validateCourseData();
+    if (!courseValidation.isValid) {
+      return courseValidation;
+    }
+
+    // Then validate all modules
+    for (const module of modules) {
+      const moduleValidation = validateModuleCompletion(module);
+      if (!moduleValidation.isValid) {
+        return moduleValidation;
+      }
+    }
+
+    return { isValid: true, message: "" };
+  };
+
+  const isFormValid = () => {
+    const validation = validateEntireForm();
+    return validation.isValid;
+  };
+
+  // --- Module handlers ---
+  const handleModuleNameChange = (moduleId, newName) => {
+    setModules((prev) =>
+      prev.map((module) =>
+        module.id === moduleId ? { ...module, moduleName: newName } : module
+      )
+    );
+  };
+
+  const removeModule = (moduleId) => {
+    if (modules.length > 1) {
+      setModules((prev) => prev.filter((module) => module.id !== moduleId));
+    } else {
+      // If only one module, reset it instead of removing
+      setModules([
+        {
+          id: Date.now(),
+          moduleName: "",
+          lecturesWithAssignments: [
+            {
+              id: Date.now() + 1,
+              lectureData: { lectureName: "", videoName: "", videoURL: "", lectureDescription: "" },
+              questions: [
+                { id: Date.now() + 2, questionText: "", selectedAnswer: null, choices: [] }
+              ]
+            }
+          ]
+        }
+      ]);
+    }
   };
 
   const addModule = () => {
@@ -517,29 +574,111 @@ export const Add = () => {
     );
   };
 
+  // --- Submit handler ---
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate the entire form before submitting
+    const validation = validateEntireForm();
+    if (!validation.isValid) {
+      alert(validation.message);
+      return;
+    }
+    
+    // Format the data as requested
+    const formattedData = {
+      courseId: courseData.courseId,
+      courseImage: "", // You can add this field if needed
+      courseName: courseData.courseName,
+      description: courseData.courseDescription,
+      instructorName: courseData.instructorName,
+      introVideo: courseData.videoURL,
+      introVideoTitle: courseData.introVideoTitle,
+      modules: modules.map(module => ({
+        title: module.moduleName,
+        lectures: module.lecturesWithAssignments.map(lecture => ({
+          description: lecture.lectureData.lectureDescription,
+          videoTitle: lecture.lectureData.videoName,
+          videoLink: lecture.lectureData.videoURL,
+          assignments: lecture.questions.map(question => ({
+            question: question.questionText,
+            choices: question.choices,
+            correctAnswer: question.selectedAnswer
+          }))
+        }))
+      })),
+      tags: courseData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '')
+    };
+
+    console.log("Course Data:", formattedData);
+    alert("Course submitted successfully!");
+  };
+
   return (
     <div className="add-container">
       <div className="add-card">
         <h1>CREATE A NEW COURSE</h1>
       </div>
 
-      <form className="add-card">
+      <form className="add-card" onSubmit={handleSubmit}>
         {/* Course Introduction */}
         <div className="add-subtitle-card">
           <p className="add-subtitle">Course Introduction</p>
 
           <div className="add-row-inputs">
-            <input type="text" placeholder="Course Name" className="add-input-field" />
-            <input type="text" placeholder="Instructor Name" className="add-input-field" />
-            <input type="text" placeholder="Course ID" className="add-input-field" />
+            <input 
+              type="text" 
+              placeholder="Course Name" 
+              className="add-input-field" 
+              value={courseData.courseName}
+              onChange={(e) => handleCourseDataChange("courseName", e.target.value)}
+            />
+            <input 
+              type="text" 
+              placeholder="Instructor Name" 
+              className="add-input-field" 
+              value={courseData.instructorName}
+              onChange={(e) => handleCourseDataChange("instructorName", e.target.value)}
+            />
+            <input 
+              type="text" 
+              placeholder="Course ID" 
+              className="add-input-field" 
+              value={courseData.courseId}
+              onChange={(e) => handleCourseDataChange("courseId", e.target.value)}
+            />
           </div>
 
-          <textarea placeholder="Course Description" className="add-textarea-field" rows={4}></textarea>
+          <textarea 
+            placeholder="Course Description" 
+            className="add-textarea-field" 
+            rows={4}
+            value={courseData.courseDescription}
+            onChange={(e) => handleCourseDataChange("courseDescription", e.target.value)}
+          ></textarea>
 
           <div className="add-row-inputs">
-            <input type="text" placeholder="Intro Video Title" className="add-input-field" />
-            <input type="text" placeholder="Video URL" className="add-input-field" />
-            <input type="text" placeholder="Tags (comma separated)" className="add-input-field" />
+            <input 
+              type="text" 
+              placeholder="Intro Video Title" 
+              className="add-input-field" 
+              value={courseData.introVideoTitle}
+              onChange={(e) => handleCourseDataChange("introVideoTitle", e.target.value)}
+            />
+            <input 
+              type="text" 
+              placeholder="Video URL" 
+              className="add-input-field" 
+              value={courseData.videoURL}
+              onChange={(e) => handleCourseDataChange("videoURL", e.target.value)}
+            />
+            <input 
+              type="text" 
+              placeholder="Tags (comma separated)" 
+              className="add-input-field" 
+              value={courseData.tags}
+              onChange={(e) => handleCourseDataChange("tags", e.target.value)}
+            />
           </div>
         </div>
 
@@ -593,7 +732,35 @@ export const Add = () => {
             {/* Render each lecture with its assignment in this module */}
             {module.lecturesWithAssignments.map((lectureWithAssignment, lectureIndex) => (
               <div key={lectureWithAssignment.id}>
-                {/* Assignment Section */}
+                {/* Lecture Section - NOW FIRST */}
+                <div className="add-lecture-card">
+                  <div className="add-lecture-header">
+                    <p className="add-subtitle">Lecture {lectureIndex + 1}</p>
+                    {module.lecturesWithAssignments.length > 1 && (
+                      <div className="add-lecture-buttons">
+                        <button 
+                          type="button" 
+                          className="add-icon-btn remove" 
+                          onClick={() => removeLecture(module.id, lectureWithAssignment.id)}
+                          title="Remove lecture and its assignment"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <LectureBlock 
+                  key={`lecture-${lectureWithAssignment.id}`}
+                  id={lectureWithAssignment.id} 
+                  moduleId={module.id}
+                  lectureData={lectureWithAssignment.lectureData} 
+                  onRemove={removeLecture} 
+                  onLectureChange={handleLectureChange} 
+                />
+
+                {/* Assignment Section - NOW SECOND */}
                 <div className="add-lecture-card">
                   <div className="add-lecture-header">
                     <p className="add-subtitle">Assignment {lectureIndex + 1}</p>
@@ -623,38 +790,38 @@ export const Add = () => {
                     questionData={q} 
                   />
                 ))}
-
-                {/* Lecture Section */}
-                <div className="add-lecture-card">
-                  <div className="add-lecture-header">
-                    <p className="add-subtitle">Lecture {lectureIndex + 1}</p>
-                    {module.lecturesWithAssignments.length > 1 && (
-                      <div className="add-lecture-buttons">
-                        <button 
-                          type="button" 
-                          className="add-icon-btn remove" 
-                          onClick={() => removeLecture(module.id, lectureWithAssignment.id)}
-                          title="Remove lecture and its assignment"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <LectureBlock 
-                  key={`lecture-${lectureWithAssignment.id}`}
-                  id={lectureWithAssignment.id} 
-                  moduleId={module.id}
-                  lectureData={lectureWithAssignment.lectureData} 
-                  onRemove={removeLecture} 
-                  onLectureChange={handleLectureChange} 
-                />
               </div>
             ))}
           </div>
         ))}
+
+        {/* Submit Button */}
+        <div className="add-card" style={{ textAlign: "center", marginTop: "2rem" }}>
+          <button 
+            type="submit" 
+            className="add-input-field" 
+            disabled={!isFormValid()}
+            style={{ 
+              width: "200px", 
+              backgroundColor: isFormValid() ? "#007bff" : "#6c757d", 
+              color: "white", 
+              border: "none", 
+              padding: "12px 24px", 
+              borderRadius: "4px", 
+              fontSize: "16px", 
+              fontWeight: "bold", 
+              cursor: isFormValid() ? "pointer" : "not-allowed",
+              opacity: isFormValid() ? 1 : 0.6
+            }}
+          >
+            Submit Course
+          </button>
+          {!isFormValid() && (
+            <p style={{ color: "#dc3545", marginTop: "0.5rem", fontSize: "14px" }}>
+              Please complete all required fields before submitting
+            </p>
+          )}
+        </div>
       </form>
     </div>
   );

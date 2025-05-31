@@ -208,7 +208,7 @@ export const AddCourse = () => {
         "http://localhost:5000/api/admin/bob@example.com/course/addnewcourse", // TODO: Replace with actual admin email
         courseData
       );
-
+      console.log("course data",courseData)
       if (response.data.success) {
         alert("Course created successfully!");
         setCourseData(INITIAL_COURSE_DATA); // Reset form
