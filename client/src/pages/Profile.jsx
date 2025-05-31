@@ -2,52 +2,48 @@
 import React, { useState, useEffect } from 'react';
 import { Download, RotateCcw } from 'lucide-react';
 import '../styles/profile.css';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-export const Profile = () => {
-  const sampleUserData = {
-    username: "Jane Doe",
-    position: "Software Engineer",
-    email: "jane.doe@example.com",
-    profilePicture: "https://randomuser.me/api/portraits/women/49.jpg"
-  };
+const fetchUserData = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
+    console.log("User data fetched:", response.data.username);
+    return response.data.username;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+}
 
-  const sampleCourses = [
-    {
-      _id: "course1",
-      courseId: "101",
-      courseName: "React Basics",
-      courseInstructor: "John Smith",
-      courseImage: "https://randomuser.me/api/portraits/women/49.jpg",
-      percentComplete: 75
-    },
-    {
-      _id: "course2",
-      courseId: "102",
-      courseName: "Advanced CSS",
-      courseInstructor: "Emily Johnson",
-      courseImage: "https://via.placeholder.com/150",
-      percentComplete: 40
-    },
-    {
-      _id: "course3",
-      courseId: "103",
-      courseName: "JavaScript Mastery",
-      courseInstructor: "Michael Brown",
-      courseImage: "https://via.placeholder.com/150",
-      percentComplete: 90
-    }
-  ];
+const fetchCourses = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
+    console.log("Courses fetched:", response.data.completedCourses);
+    return response.data.completedCourses;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return [];
+  }
+}
 
+export const Profile =  () => {
+  const { userId } = useParams();
   const [userData, setUserData] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setUserData(sampleUserData);
-      setCourses(sampleCourses);
+    const loadData = async () => {
+      setLoading(true);
+      const fetchedUser = await fetchUserData(userId);
+      const fetchedCourses = await fetchCourses(userId);
+      setUserData(fetchedUser);
+      setCourses(fetchedCourses);
       setLoading(false);
-    }, 1000);
+    };
+
+    loadData();
   }, []);
 
   const handleCardClick = (courseId) => {
