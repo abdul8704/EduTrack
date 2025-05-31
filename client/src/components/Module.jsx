@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import '../styles/courseLearn.css';
-import { useParams } from 'react-router-dom';
 
-export const Module = ({ title, videoUrl, description, questions }) => {
-  const { userId, courseId, moduleNumber, subModuleNumber } = useParams();
-  console.log(userId, courseId, moduleNumber, subModuleNumber )
+export const Module = ({
+  userId,
+  courseId,
+  moduleNumber,
+  subModuleNumber,
+  title,
+  videoUrl,
+  description,
+  questions,
+  onProgressUpdated
+}) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [results, setResults] = useState({});
 
@@ -44,6 +51,8 @@ export const Module = ({ title, videoUrl, description, questions }) => {
         if (!response.ok) {
           throw new Error(data.message || 'Failed to update progress');
         }
+
+        onProgressUpdated?.();
         alert(`✅ Progress updated: ${data.UpdatedPercentComplete}% complete`);
       } catch (err) {
         console.error('Error updating progress:', err);
