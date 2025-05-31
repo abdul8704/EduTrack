@@ -172,6 +172,29 @@ const getSubModuleByCourseId = async (req, res) => {
     }
 };
 
+const getProgressMatrixByCourseId = async (req, res) => {
+    const { userid, courseid } = req.params;
+    try{
+        const progressMatrix = await Progress.findOne({ userId: userid, courseId: courseid }, 
+                {
+                    moduleStatus: 1,
+                }
+        );
+        res.status(200).json({
+            success: true,
+            progressMatrix: progressMatrix ? progressMatrix.moduleStatus : null,
+        });
+    }
+    catch (error) {
+        console.error("Error fetching progress matrix:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to get progress matrix",
+            errorMessage: error.message,
+        });
+    }    
+}
+
 const updateProgress = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
@@ -352,4 +375,5 @@ module.exports = {
     updateProgress,
     searchCourse,
     enrollUserInCourse,
+    getProgressMatrixByCourseId,
 };
