@@ -329,11 +329,9 @@ body.navbar-menu-open {
   cursor: pointer;
   border: 0.125rem solid #e0e0e0;
   transition: border-color 0.2s ease;
-}
-
-.navbar-profile-picture:hover {
   border-color: #bada55;
 }
+
 
 /* Mobile profile styling */
 .navbar-profile-mobile {
