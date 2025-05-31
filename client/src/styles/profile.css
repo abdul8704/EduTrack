@@ -1,21 +1,15 @@
-.profile-container {
-  display: flex;
-  height: 89vh;
-  width: auto;
-  background-color: #f8f9fa;
-  font-family: 'Poppins', sans-serif;
-}
-
 .profile-navbar {
   width: 20rem;
   background: rgb(220, 233, 237);
   border-right: 0.08rem solid rgb(62, 60, 60);
   display: flex;
   flex-direction: column;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
   z-index: 10;
-  backdrop-filter: blur(10px);
+  position: relative;
 }
 
 .profile-backButton {
@@ -32,10 +26,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem;
+  padding: 0.5rem;
   border-radius: 1rem;
-  position: relative;
-  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .profile-profileImage {
@@ -50,6 +43,12 @@
   object-fit: cover;
   border: 3px solid #bada55;
   box-shadow: 0 0 8px rgba(186, 218, 85, 0.4);
+  margin-bottom: 0.1rem;
+  transition: transform 0.3s ease;
+}
+
+.profile-profileImg:hover {
+  transform: scale(1.05);
 }
 
 .profile-profileName {
@@ -58,7 +57,6 @@
   color: #222;
   margin-bottom: 0.3rem;
   text-align: center;
-  letter-spacing: -0.02em;
 }
 
 .profile-profileDesignation {
@@ -67,7 +65,6 @@
   color: #777;
   margin-bottom: 0.5rem;
   text-align: center;
-  font-weight: 300;
 }
 
 .profile-profileEmail {
@@ -82,44 +79,54 @@
   backdrop-filter: blur(5px);
 }
 
+.profile-container {
+  display: flex;
+  height: calc(89vh);
+  width: 100%;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 .profile-content {
   flex: 1;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   padding: 2rem 3rem;
   overflow-y: auto;
   background-color: rgb(241, 245, 229);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
 }
 
 .profile-heading {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: bold;
   color: #333;
-  margin-bottom: 1rem;
-  letter-spacing: -0.03em;
-  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .profile-courses {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  width: 100%;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .profile-courseCard {
   display: flex;
-  align-items: stretch;
-  background: rgba(233, 241, 247, 0.9);
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
+  align-items: center;
+  width: 45%;
+  background: #e9f1f7;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 1rem;
+  transition: transform 0.3s ease;
   cursor: pointer;
-  height: 120px;
-  transition: all 0.4s ease;
+}
+
+.profile-courseCard:hover {
+  transform: translateY(-4px);
 }
 
 .profile-courseImage {
@@ -180,4 +187,220 @@
   text-align: center;
   margin-top: 2rem;
   color: #333;
+}
+
+/* Responsive Design - Tablet and below (1024px and below) */
+@media (max-width: 1024px) {
+  .profile-navbar {
+    width: 18rem;
+  }
+  
+  .profile-content {
+    padding: 1.5rem 2rem;
+  }
+  
+  .profile-courseCard {
+    width: 48%;
+    margin: 0.5rem;
+  }
+  
+  .profile-heading {
+    font-size: 1.8rem;
+  }
+}
+
+/* Small Tablets and Large Mobile (768px and below) */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(89vh);
+  }
+  
+  .profile-navbar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 0.08rem solid rgb(62, 60, 60);
+    padding: 1rem;
+  }
+  
+  .profile-profileSection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .profile-profileImage {
+    margin-bottom: 0;
+  }
+  
+  .profile-profileImg {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile-profileName {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+    text-align: left;
+  }
+  
+  .profile-profileDesignation {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    text-align: left;
+  }
+  
+  .profile-profileEmail {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    text-align: left;
+  }
+  
+  .profile-content {
+    padding: 1rem 1.5rem;
+  }
+  
+  .profile-heading {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .profile-courseCard {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  
+  .profile-courseImage {
+    width: 100px;
+  }
+  
+  .profile-courseDetails {
+    padding: 1rem;
+  }
+  
+  .profile-courseName {
+    font-size: 1.1rem;
+  }
+  
+  .profile-courseInstructor {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile devices (480px and below) */
+@media (max-width: 480px) {
+  .profile-navbar {
+    padding: 0.8rem;
+  }
+  
+  .profile-profileSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .profile-profileImage {
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-profileImg {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .profile-profileName {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .profile-profileDesignation {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  
+  .profile-profileEmail {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+  }
+  
+  .profile-content {
+    padding: 1rem;
+  }
+  
+  .profile-heading {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .profile-courseCard {
+    flex-direction: column;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  
+  .profile-courseImage {
+    width: 100%;
+    height: 150px;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .profile-courseDetails {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .profile-courseName {
+    font-size: 1rem;
+  }
+  
+  .profile-courseInstructor {
+    font-size: 0.85rem;
+  }
+  
+  .profile-actionButtons {
+    flex-direction: row;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  
+  .profile-actionButton {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .profile-content {
+    padding: 0.8rem;
+  }
+  
+  .profile-heading {
+    font-size: 1.3rem;
+  }
+  
+  .profile-profileName {
+    font-size: 1rem;
+  }
+  
+  .profile-profileDesignation {
+    font-size: 0.8rem;
+  }
+  
+  .profile-profileEmail {
+    font-size: 0.7rem;
+  }
+  
+  .profile-courseName {
+    font-size: 0.95rem;
+  }
+  
+  .profile-courseInstructor {
+    font-size: 0.8rem;
+  }
 }
