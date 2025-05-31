@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif';
-
 const NavbarInput = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState('');
@@ -10,9 +9,10 @@ const NavbarInput = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
-      const tags = input.trim().split(/\s+/).join(',');
-      navigate(`/course/search/tags/${tags}`);
+      const encoded = encodeURIComponent(input.trim());
+      navigate(`/course/search/tags/${encoded}`);
     }
+
   };
 
   const handleReset = () => {

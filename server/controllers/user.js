@@ -339,6 +339,7 @@ const searchCourse = async (req, res) => {
         return res.status(200).json({
             success: true,
             courses: courses.map(course => ({
+                _id:course._id,
                 courseId: course.courseId,
                 courseName: course.courseName,
                 courseRating: course.courseRating,
