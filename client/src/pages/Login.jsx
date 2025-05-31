@@ -43,7 +43,9 @@ export const Login = () => {
         if (role === "admin") {
           navigate("/adminnav");
         } else if (role === "user") {
-          navigate(`/user/dashboard/${response.data.userDetails.userid}`);
+          navigate(`/user/dashboard/${response.data.userDetails.userid}`, {
+            state: { popupMessage: { success: true, message: "Successfully LoggedIn" } }
+          });
         }
       }
     } catch (err) {
@@ -84,9 +86,9 @@ export const Login = () => {
         <div className="login-card-switch">
           {/* Separate toggle switch */}
           <div className="login-switch">
-            <input 
-              type="checkbox" 
-              className="login-toggle" 
+            <input
+              type="checkbox"
+              className="login-toggle"
               checked={isSignupMode}
               onChange={handleToggleChange}
             />
