@@ -20,7 +20,7 @@ function App() {
         <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
         {/* <Route path=" /empprogress/:userId" element={<EmpProgress/>}/> */}
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
-        {/* <Route path="/addcourse" element={<AddCourse />} /> */}
+        <Route path="/addcourse" element={<AddCourse />} />
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
       </Routes>
       {/* <Footer /> */}
