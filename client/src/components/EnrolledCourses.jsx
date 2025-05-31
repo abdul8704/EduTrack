@@ -10,16 +10,13 @@ export const EnrolledCourses = ({ enrolled }) => {
   const checkOverflow = () => {
     const container = scrollRef.current;
     if (container) {
-      const hasOverflow = container.scrollWidth > container.clientWidth;
-      setIsOverflowing(hasOverflow);
+      setIsOverflowing(container.scrollWidth > container.clientWidth);
     }
   };
 
-  // Run check after component renders
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      checkOverflow();
-    }, 100); // wait for layout to settle
+    const timeout = setTimeout(checkOverflow, 100);
 
     window.addEventListener('resize', checkOverflow);
     return () => {
@@ -43,7 +40,8 @@ export const EnrolledCourses = ({ enrolled }) => {
     const container = scrollRef.current;
     if (!container) return;
 
-    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+    const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+    if (atEnd) {
       container.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
@@ -59,10 +57,12 @@ export const EnrolledCourses = ({ enrolled }) => {
             &lt;
           </div>
         )}
+
         <div className="enrolled-courses-container" ref={scrollRef}>
           {Array.isArray(enrolled) &&
             enrolled.map((course) => (
               <CoursesCard
+                key={course._id}
                 id={course.courseId}
                 title={course.courseName}
                 image={course.courseImage}
@@ -71,6 +71,7 @@ export const EnrolledCourses = ({ enrolled }) => {
               />
             ))}
         </div>
+
         {isOverflowing && (
           <div className="enrolled-arrow enrolled-right-arrow" onClick={handleRightClick}>
             &gt;
