@@ -12,6 +12,7 @@ import { CourseDeets } from './pages/CourseDeets';
 import { AvailableCourses } from "./components/AvailableCourses";
 import { Profile } from "./pages/Profile";
 import { SearchResult } from "./components/SearchResult";
+import { NotFound } from "./pages/NotFound";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/add" element={<Add />} />
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
         <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
