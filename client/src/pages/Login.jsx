@@ -135,6 +135,7 @@ export const Login = () => {
                   type="text"
                   value={signupData.name}
                   onChange={handleSignupChange}
+                  required
                 />
                 <input
                   className="login-flip-card__input"
@@ -143,6 +144,7 @@ export const Login = () => {
                   type="email"
                   value={signupData.email}
                   onChange={handleSignupChange}
+                  required
                 />
                 <input
                   className="login-flip-card__input"
@@ -151,6 +153,7 @@ export const Login = () => {
                   type="password"
                   value={signupData.password}
                   onChange={handleSignupChange}
+                  required
                 />
                 <input
                   className="login-flip-card__input"
@@ -159,6 +162,7 @@ export const Login = () => {
                   type={isOtpPhase ? "text" : "password"}
                   value={signupData.confirmpassword}
                   onChange={handleSignupChange}
+                  required
                 />
                 <button className="login-flip-card__btn" type="submit">
                   Confirm!
