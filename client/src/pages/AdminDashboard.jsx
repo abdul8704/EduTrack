@@ -1,4 +1,4 @@
-import '../styles/adminnavbar.css';
+import '../styles/adminDashboard.css';
 import { Users, BookOpen } from 'lucide-react';
 import { EmployeeDeets } from '../components/EmployeeDeets.jsx';
 import { AdminAvailableCourse } from '../components/AdminAvailableCourse.jsx';
