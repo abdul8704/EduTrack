@@ -3,8 +3,8 @@ import '../styles/courseLearn.css';
 import { useParams } from 'react-router-dom';
 
 export const Module = ({ title, videoUrl, description, questions }) => {
-  const { useremail, courseId, moduleNumber, subModuleNumber } = useParams();
-  console.log(useremail, courseId, moduleNumber, subModuleNumber )
+  const { userId, courseId, moduleNumber, subModuleNumber } = useParams();
+  console.log(userId, courseId, moduleNumber, subModuleNumber )
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [results, setResults] = useState({});
 
@@ -29,7 +29,7 @@ export const Module = ({ title, videoUrl, description, questions }) => {
     if (allCorrect) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/user/${useremail}/${courseId}/progress/${moduleNumber}/${subModuleNumber}`,
+          `http://localhost:5000/api/user/${userId}/${courseId}/progress/${moduleNumber}/${subModuleNumber}`,
           {
             method: 'PATCH',
             headers: {

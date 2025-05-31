@@ -76,6 +76,7 @@
   text-align: left;
   font-size: 1rem;
   border-radius: 0.5rem;
+  border-left: 0.5rem solid #da5555; 
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: none;
@@ -110,7 +111,7 @@
   color: #555;
   cursor: pointer;
   transition: background 0.2s ease;
-  border-left: 0.5rem solid #bada55; 
+  border-left: 0.5rem solid #da5555; 
   border-right: none;
   border-top: none;
   border-bottom: none;
@@ -154,6 +155,16 @@
   border-top: none;
   border-bottom: none;
 }
+/* Completed module style */
+.course-complete-module {
+  border-left: 0.5rem solid #9ccc65;
+}
+
+/* Completed submodule style */
+.course-complete-submodule {
+  border-left: 0.5rem solid #9ccc65; /* light green border */
+}
+
 
 /* ────────────── Module section ────────────── */
 .module-container {
@@ -314,3 +325,4 @@
     flex-grow: 1;
   }
 }
+
