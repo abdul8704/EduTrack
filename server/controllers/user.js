@@ -6,7 +6,9 @@ const User = require("../models/userDetails");
 const getUsernameByUserId = async (req, res) => {
     const { userid } = req.params;
     try {
-        const user = await User.findOne({ userid: userid });
+        const user = await User.findOne({ userid: userid },{
+            passwordHash: 0, // Exclude password hash from the response
+        });
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
