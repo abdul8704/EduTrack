@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { EnrolledCourses } from './EnrolledCourses';
-import { AvailableCourses } from './AvailableCourses';
+import { EnrolledCourses } from '../components/EnrolledCourses';
+import { AvailableCourses } from '../components/AvailableCourses';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 

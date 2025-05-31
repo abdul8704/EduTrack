@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login } from './components/Login';
+import { Login } from './pages/Login';
 import { Navbar } from './components/Navbar';
-import { Home } from './components/Home';
-import { Footer } from './components/Footer';
+import { Home } from './pages/Home';
 import { CoursePage } from './pages/CoursePage';
-import { Course } from './components/Course';
+import { Course } from './pages/Course';
 import { EmpProgress } from './pages/EmpProgress';
-import { AdminNavbar } from './components/AdminNavbar';
-import {AddCourse} from './components/AddCourse'; 
+import { AdminNavbar } from './pages/AdminNavbar';
+import {AddCourse} from './pages/AddCourse'; 
 import { CourseDeets } from './pages/CourseDeets';
 
 function App() {
@@ -16,13 +15,13 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} />
-        <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} />
-        <Route path="/:userId" element={<Home />} />
-        <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
-        <Route path="/adminnav/:userId" element={<AdminNavbar/>}/>
-        <Route path="/addcourse" element={<AddCourse />} />
-        <Route path="/coursedeets/:courseId" element={<CourseDeets />} />
+        {/* <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} /> */}
+        {/* <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} /> */}
+        <Route path="/user/:userId" element={<Home />} />
+        {/* <Route path="/empprogress/:userId" element={<EmpProgress/>}/> */}
+        {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
+        {/* <Route path="/addcourse" element={<AddCourse />} /> */}
+        {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
