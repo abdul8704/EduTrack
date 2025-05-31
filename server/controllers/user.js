@@ -30,9 +30,10 @@ const getAllCourses = async (req, res) => {
         const user = await User.findOne({ userid: userid });
 
         if (!user) {
-            return res
-                .status(404)
-                .json({ success: false, message: "User not found" });
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
         }
 
         const allCourses = await CourseDetails.find(
@@ -48,28 +49,51 @@ const getAllCourses = async (req, res) => {
 
         const currentCourseIds = user.currentCourses;
 
-        // Separate enrolled and available courses
-        const enrolledCourses = allCourses.filter((course) =>
-            currentCourseIds.includes(course.courseId)
-        );
-        const availableCourses = allCourses.filter(
-            (course) => !currentCourseIds.includes(course.courseId)
-        );
+        // Get all progress records for the user
+        const progressRecords = await Progress.find({ userId: userid });
+
+        const completedCourseIds = new Set();
+        const ongoingCourseIds = new Set();
+
+        // Categorize enrolled courses into completed and ongoing
+        progressRecords.forEach((record) => {
+            if (record.percentComplete === 100) {
+                completedCourseIds.add(record.courseId);
+            } else {
+                ongoingCourseIds.add(record.courseId);
+            }
+        });
+
+        const completedCourses = [];
+        const enrolledCourses = [];
+        const availableCourses = [];
+
+        allCourses.forEach((course) => {
+            if (completedCourseIds.has(course.courseId)) {
+                completedCourses.push(course);
+            } else if (ongoingCourseIds.has(course.courseId)) {
+                enrolledCourses.push(course);
+            } else {
+                availableCourses.push(course);
+            }
+        });
 
         return res.status(200).json({
             success: true,
             enrolledCourses,
             availableCourses,
+            completedCourses,
         });
     } catch (error) {
         console.error("Error fetching courses:", error);
         return res.status(500).json({
             success: false,
             message: "Server error",
-            errrorMessage: error.message,
+            errorMessage: error.message,
         });
     }
 };
+
 
 const getCourseById = async (req, res) => {
     try {
