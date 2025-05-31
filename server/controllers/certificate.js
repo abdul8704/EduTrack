@@ -38,10 +38,9 @@ const generateCertificate = async (req, res) => {
           width: 100%;
           height: 100%;
           margin: 0;
-          padding: 40px;
+          padding: 0;
           font-family: 'Roboto', sans-serif;
           background: #f9f9f9;
-          border: 10px solid #4a90e2;
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
@@ -49,6 +48,65 @@ const generateCertificate = async (req, res) => {
           align-items: center;
           color: #333;
           position: relative;
+        }
+
+        .certificate-container {
+          width: calc(100% - 60px);
+          height: calc(100% - 60px);
+          margin: 30px;
+          padding: 40px;
+          background: white;
+          border: 8px solid #2c3e50;
+          border-radius: 20px;
+          box-shadow: 
+            0 0 0 4px #f9f9f9,
+            0 0 0 8px #34495e,
+            0 20px 40px rgba(0,0,0,0.1);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          box-sizing: border-box;
+        }
+
+        .certificate-container::before {
+          content: '';
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          right: 20px;
+          bottom: 20px;
+          border: 2px solid #bdc3c7;
+          border-radius: 10px;
+          pointer-events: none;
+        }
+
+        .watermark {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 300px;
+          height: 300px;
+          background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_ylTPmA3kLGuY1rNmXjDcBXqNaBR_XAZo5w&s');
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          opacity: 0.5;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .certificate-content {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
         }
 
         .certificate-title {
@@ -118,17 +176,22 @@ const generateCertificate = async (req, res) => {
       </style>
     </head>
     <body>
-      <div class="certificate-title">Certificate of Completion</div>
-      <div class="certificate-subtitle">This certifies that</div>
-      <div class="recipient-name">${name}</div>
-      <div class="certificate-subtitle">has successfully completed the course</div>
-      <div class="course-name">${course}</div>
-      
-      <div class="instructor-name">${instructor}</div>
-      <div class="signature">Instructor Signature</div>
+      <div class="certificate-container">
+        <div class="watermark"></div>
+        <div class="certificate-content">
+          <div class="certificate-title">Certificate of Completion</div>
+          <div class="certificate-subtitle">This certifies that</div>
+          <div class="recipient-name">${name}</div>
+          <div class="certificate-subtitle">has successfully completed the course</div>
+          <div class="course-name">${course}</div>
+          
+          <div class="instructor-name">${instructor}</div>
+          <div class="signature">Instructor Signature</div>
 
-      <div class="footer-text">Zuntra Learning</div>
-      <div class="date">${formattedDate}</div>
+          <div class="footer-text">Zuntra Learning</div>
+          <div class="date">${formattedDate}</div>
+        </div>
+      </div>
     </body>
     </html>
     `;
