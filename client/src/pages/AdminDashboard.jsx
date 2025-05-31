@@ -4,10 +4,14 @@ import { EmployeeDeets } from '../components/EmployeeDeets.jsx';
 import { AdminAvailableCourse } from '../components/AdminAvailableCourse.jsx';
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios'; 
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, useLocation, Navigate } from 'react-router-dom';
+import { Popup } from '../components/Popup';  // import Popup
 
 export const AdminDashboard = () => {
   const { userId, navId } = useParams();
+  const location = useLocation();
+  const popupMessage = location.state?.popupMessage;  // get popup message from state
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [courses, setCourses] = useState([]);
   const [users, setUsers] = useState([]);
@@ -60,6 +64,9 @@ export const AdminDashboard = () => {
 
   return (
     <div className="admnav-container">
+      {/* Show popup if message exists */}
+      {popupMessage && <Popup success={popupMessage.success} message={popupMessage.message} />}
+
       <div className={`admnav-navbar ${isCollapsed ? 'admnav-collapsed' : ''}`}>
         {options.map((item, index) => (
           <div key={index} className="admnav-module-wrapper">
