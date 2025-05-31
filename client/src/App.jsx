@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from './pages/Login';
 import { Navbar } from './components/Navbar';
-import { Home } from './pages/Home';
+import { UserDashboard } from './pages/UserDashboard';
 import { CoursePage } from './pages/CoursePage';
 import { Course } from './pages/Course';
 import { EmpProgress } from './pages/EmpProgress';
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Login />} />
         {/* <Route path="/coursepage/:userId/:courseId" element={<CoursePage />} /> */}
         {/* <Route path="/course/:useremail/:courseId/:moduleNumber/:subModuleNumber" element={<Course />} /> */}
-        <Route path="/user/:userId" element={<Home />} />
+        <Route path="/user/dashboard/:userId" element={<UserDashboard />} />
         {/* <Route path="/empprogress/:userId" element={<EmpProgress/>}/> */}
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
         {/* <Route path="/addcourse" element={<AddCourse />} /> */}

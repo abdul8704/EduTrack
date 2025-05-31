@@ -43,7 +43,7 @@ export const Login = () => {
         if (role === "admin") {
           navigate("/adminnav");
         } else if (role === "user") {
-          navigate(`/user/${response.data.userDetails.userid}`);
+          navigate(`/user/dashboard/${response.data.userDetails.userid}`);
         }
       }
     } catch (err) {

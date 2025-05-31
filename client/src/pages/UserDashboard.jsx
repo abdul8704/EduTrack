@@ -4,7 +4,7 @@ import { AvailableCourses } from '../components/AvailableCourses';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-export const Home = () => {
+export const UserDashboard = () => {
   const [courses, setCourses] = useState({
     enrolledCourses: [],
     availableCourses: []
