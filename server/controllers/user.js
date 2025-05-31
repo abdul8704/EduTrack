@@ -291,10 +291,65 @@ const searchCourse = async (req, res) => {
     }
 }
 
+const enrollUserInCourse = async (req, res) => {
+    const { userid, courseid } = req.params;
+
+    try {
+        const user = await User.findOne({ userid });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        if (user.currentCourses.includes(courseid)) {
+            return res.status(400).json({ success: false, message: "User already enrolled in this course" });
+        }
+
+        user.currentCourses.push(courseid);
+        await user.save();
+
+        const courseDetails = await CourseDetails.findOne({ courseId: courseid });
+        const courseContent = await CourseContent.findOne({ courseId: courseid });
+        if (!courseContent) {
+            return res.status(404).json({ success: false, message: "Course not found hehe", cc: courseContent, dd: courseDetails });
+        }
+
+        const newProgress = new Progress({
+            userId: userid,
+            courseId: courseid,
+            courseName: courseDetails.courseName,
+            percentComplete: 0,
+            moduleStatus: {
+                totalSubModules: courseContent.modules.reduce(
+                    (total, module) => total + module.submodules.length,
+                    0
+                ),
+                completedModules: Array.from(
+                    { length: courseContent.modules.length },
+                    () =>
+                        Array(courseContent.modules[0].submodules.length).fill(
+                            false
+                        )
+                ),
+            },
+        });
+        await newProgress.save();
+
+        return res.status(200).json({ success: true, message: "User enrolled in course successfully" });
+    } catch (error) {
+        console.error("Error enrolling user in course:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error while enrolling user in course",
+            errorMessage: error.message,
+        });
+    }
+}
+
 module.exports = {
     getAllCourses,
     getCourseById,
     getSubModuleByCourseId,
     updateProgress,
     searchCourse,
+    enrollUserInCourse,
 };

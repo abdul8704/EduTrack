@@ -13,5 +13,6 @@ router.patch(
     userController.updateProgress
 );
 router.get("/:userid/course/search", userController.searchCourse);
+router.post("/:userid/:courseid/enroll", userController.enrollUserInCourse);
 
 module.exports = router;
