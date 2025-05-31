@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif';
+
 const NavbarInput = () => {
-  const {userId} =useParams();
+  const {userId} = useParams();
   const navigate = useNavigate();
   const [input, setInput] = useState('');
 
@@ -13,7 +14,6 @@ const NavbarInput = () => {
       const encoded = encodeURIComponent(input.trim());
       navigate(`/course/search/${userId}/tags/${encoded}`);
     }
-
   };
 
   const handleReset = () => {
@@ -22,17 +22,6 @@ const NavbarInput = () => {
 
   return (
     <form className="navbar-form" onSubmit={handleSubmit}>
-      <button className="navbar-search-button" type="submit" aria-label="Search">
-        <svg width={17} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-          <path
-            d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-            stroke="currentColor"
-            strokeWidth="1.333"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
       <input
         className="navbar-input"
         placeholder="Type your text"
@@ -41,18 +30,38 @@ const NavbarInput = () => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <button className="navbar-reset" type="reset" onClick={handleReset} aria-label="Reset search input">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="navbar-reset-icon"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      <div className="navbar-buttons-container">
+        {input && (
+          <button 
+            className="navbar-reset" 
+            type="button" 
+            onClick={handleReset} 
+            aria-label="Reset search input"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="navbar-reset-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+        <button className="navbar-search-button" type="submit" aria-label="Search">
+          <svg width={17} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+            <path
+              d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+              stroke="currentColor"
+              strokeWidth="1.333"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
     </form>
   );
 };

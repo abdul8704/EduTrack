@@ -24,7 +24,6 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-
 /* Push page content below navbar */
 .empprog-container {
   padding-top: 5rem; /* same as navbar height, no extra */
@@ -125,9 +124,8 @@
   box-sizing: border-box;
 }
 
-/* Form */
+/* Form - FIXED */
 .navbar-form {
-  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -135,58 +133,79 @@
   background: #fff;
   border: 0.125rem solid #2f2ee9;
   border-radius: 1.25rem;
-  padding: 0 0.75rem;
+  padding: 0 0.5rem;
   transition: border 0.3s ease;
+  position: relative;
 }
 
 .navbar-form:focus-within {
   border-color: #BADA55;
 }
 
+/* Input - FIXED */
 .navbar-input {
   flex: 1;
   border: none;
   outline: none;
   background: transparent;
   font-size: 0.9rem;
-  padding: 0.25rem 2.5rem 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* Buttons Container - NEW */
+.navbar-buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  padding-right: 0.25rem;
+}
+
+/* Search Button - FIXED */
 .navbar-search-button {
-  position: absolute;
-  right: 0.75rem;
   background: none;
   border: none;
   cursor: pointer;
-  height: 100%;
-  color: #666;
-  padding: 0;
-  width: 1.5rem;
-}
-
-.navbar-reset {
-  background: none;
-  border: none;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   color: #666;
-  opacity: 0;
-  visibility: hidden;
-  margin-left: 0.25rem;
-  transition: opacity 0.2s ease;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.navbar-input:not(:placeholder-shown) ~ .navbar-reset {
-  opacity: 1;
-  visibility: visible;
+.navbar-search-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Reset Button - FIXED */
+.navbar-reset {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.navbar-reset:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .navbar-reset-icon {
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1rem;
+  width: 1rem;
 }
 
 /* Hamburger */
@@ -257,6 +276,7 @@
   text-align: center;
   margin-top: 1rem;
 }
+
 body.navbar-menu-open {
   overflow: hidden;
 }
