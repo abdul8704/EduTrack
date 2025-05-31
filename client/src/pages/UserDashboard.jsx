@@ -44,7 +44,7 @@ export const UserDashboard = () => {
         <Popup success={popupMessage.success} message={popupMessage.message} />
       )}
       <EnrolledCourses enrolled={courses.enrolledCourses} />
-      <AvailableCourses available={courses.availableCourses} />
+      <AvailableCourses title={"Available Courses"} available={courses.availableCourses} />
     </>
   );
 };
