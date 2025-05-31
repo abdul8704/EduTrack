@@ -1,3 +1,6 @@
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
 /* Sidebar */
 .empprog-navbar {
   width: 20rem;
@@ -7,7 +10,7 @@
   flex-direction: column;
   padding: 2rem 1rem;
   overflow-y: auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
   z-index: 10;
 }
@@ -47,6 +50,7 @@
   color: #222;
   margin-bottom: 0.3rem;
   text-align: center;
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-profile-designation {
@@ -55,6 +59,7 @@
   color: #777;
   margin-bottom: 0.5rem;
   text-align: center;
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-profile-email {
@@ -65,6 +70,7 @@
   border-radius: 0.4rem;
   text-align: center;
   word-break: break-word;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Layout */
@@ -84,13 +90,15 @@
   padding: 2rem 3rem;
   overflow-y: auto;
   background-color: rgb(241, 245, 229);
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-heading {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 700;
   color: #333;
   margin-bottom: 2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-courses {
@@ -122,10 +130,12 @@
   border-radius: 0.8rem;
   object-fit: cover;
   margin-right: 1.5rem;
+  flex-shrink: 0;
 }
 
 .empprog-course-details {
   flex: 1;
+  min-width: 0;
 }
 
 .empprog-course-name {
@@ -133,12 +143,14 @@
   font-weight: 600;
   color: #2a2a2a;
   margin-bottom: 0.3rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-course-instructor {
   font-size: 0.95rem;
   color: #555;
   margin-bottom: 0.8rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .empprog-progress-bar {
@@ -159,12 +171,105 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: #333;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Large Desktop (1200px and up) */
+@media (min-width: 1200px) {
+  .empprog-navbar {
+    width: 22rem;
+  }
+  
+  .empprog-content {
+    padding: 2.5rem 4rem;
+  }
+  
+  .empprog-heading {
+    font-size: 2.2rem;
+  }
+  
+  .empprog-course-card {
+    width: 48%;
+  }
+}
+
+/* Medium Desktop (992px to 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .empprog-navbar {
+    width: 18rem;
+  }
+  
+  .empprog-content {
+    padding: 2rem 2.5rem;
+  }
+  
+  .empprog-course-card {
+    width: 47%;
+  }
+}
+
+/* Tablet Landscape (768px to 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+  .empprog-navbar {
+    width: 16rem;
+    padding: 1.5rem 0.8rem;
+  }
+  
+  .empprog-profile-section {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .empprog-profile-image img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .empprog-profile-name {
+    font-size: 1.1rem;
+  }
+  
+  .empprog-profile-designation {
+    font-size: 0.9rem;
+  }
+  
+  .empprog-profile-email {
+    font-size: 0.8rem;
+  }
+  
+  .empprog-content {
+    padding: 1.5rem 2rem;
+  }
+  
+  .empprog-heading {
+    font-size: 1.8rem;
+  }
+  
+  .empprog-course-card {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .empprog-course-image {
+    width: 70px;
+    height: 70px;
+    margin-right: 1rem;
+  }
+  
+  .empprog-course-name {
+    font-size: 1.1rem;
+  }
+  
+  .empprog-course-instructor {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet Portrait (576px to 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
   .empprog-container {
     flex-direction: column;
+    height: auto;
+    min-height: 100vh;
   }
 
   .empprog-navbar {
@@ -172,27 +277,217 @@
     height: auto;
     border-right: none;
     border-bottom: 0.08rem solid rgb(62, 60, 60);
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  
+  .empprog-profile-section {
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+    min-width: max-content;
+  }
+  
+  .empprog-profile-image {
+    margin-right: 1rem;
+  }
+  
+  .empprog-profile-image img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0;
+  }
+  
+  .empprog-profile-name {
+    font-size: 1rem;
+    text-align: left;
+    margin-bottom: 0.2rem;
+  }
+  
+  .empprog-profile-designation {
+    font-size: 0.85rem;
+    text-align: left;
+    margin-bottom: 0.2rem;
+  }
+  
+  .empprog-profile-email {
+    font-size: 0.75rem;
+    text-align: left;
+    padding: 0.2rem 0.4rem;
   }
 
   .empprog-content {
     padding: 1.5rem;
+    flex: 1;
+  }
+  
+  .empprog-heading {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
   }
 
   .empprog-course-card {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    padding: 1.2rem;
   }
 
   .empprog-course-image {
+    width: 100%;
+    height: 120px;
+    margin-right: 0;
     margin-bottom: 1rem;
+    align-self: center;
+    max-width: 200px;
+  }
+  
+  .empprog-course-details {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .empprog-course-name {
+    font-size: 1.1rem;
+  }
+  
+  .empprog-course-instructor {
+    font-size: 0.9rem;
   }
 }
 
-@media (max-width: 600px) {
+/* Mobile (320px to 575px) */
+@media (max-width: 575px) {
+  .empprog-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
   .empprog-navbar {
-    width: 1rem;
-    padding: 0;
-    box-shadow: none;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 0.08rem solid rgb(62, 60, 60);
+    padding: 0.8rem;
+    overflow-x: auto;
+  }
+  
+  .empprog-profile-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.5rem;
+  }
+  
+  .empprog-profile-image img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .empprog-profile-name {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .empprog-profile-designation {
+    font-size: 0.75rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .empprog-profile-email {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.3rem;
+  }
+
+  .empprog-content {
+    padding: 1rem;
+    flex: 1;
+  }
+  
+  .empprog-heading {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .empprog-courses {
+    gap: 0.8rem;
+  }
+
+  .empprog-course-card {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .empprog-course-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 0;
+    margin-bottom: 0.8rem;
+  }
+  
+  .empprog-course-details {
+    width: 100%;
+  }
+  
+  .empprog-course-name {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .empprog-course-instructor {
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .empprog-progress-percent {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .empprog-content {
+    padding: 0.8rem;
+  }
+  
+  .empprog-heading {
+    font-size: 1.2rem;
+  }
+  
+  .empprog-course-card {
+    padding: 0.8rem;
+  }
+  
+  .empprog-course-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .empprog-course-name {
+    font-size: 0.9rem;
+  }
+  
+  .empprog-course-instructor {
+    font-size: 0.8rem;
+  }
+  
+  .empprog-profile-name {
+    font-size: 0.8rem;
+  }
+  
+  .empprog-profile-designation {
+    font-size: 0.7rem;
+  }
+  
+  .empprog-profile-email {
+    font-size: 0.65rem;
   }
 }
