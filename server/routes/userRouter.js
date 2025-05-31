@@ -12,6 +12,7 @@ router.get(
     "/:userid/:courseid/progress",
     userController.getProgressMatrixByCourseId
 );
+router.get("/:userid/data/userinfo", userController.getUsernameByUserId);
 router.patch(
     "/:userid/:courseId/progress/:moduleNumber/:subModuleNumber",
     userController.updateProgress

@@ -3,6 +3,24 @@ const CourseContent = require("../models/courseContent");
 const Progress = require("../models/courseProgress");
 const User = require("../models/userDetails");
 
+const getUsernameByUserId = async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const user = await User.findOne({ userid: userid });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        return res.status(200).json({ success: true, username: user });
+    } catch (error) {
+        console.error("Error fetching username:", error);   
+        res.status(500).json({
+            success: false,
+            message: "Server error while fetching username",
+            errorMessage: error.message,
+        });
+    }
+}
+
 const getAllCourses = async (req, res) => {
     const { userid } = req.params;
 
@@ -369,6 +387,7 @@ const enrollUserInCourse = async (req, res) => {
 }
 
 module.exports = {
+    getUsernameByUserId,
     getAllCourses,
     getCourseById,
     getSubModuleByCourseId,
