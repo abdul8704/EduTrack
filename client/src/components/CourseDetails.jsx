@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/CoursePage.css';
 import { useNavigate } from 'react-router-dom';
+import { Popup } from './Popup'; // Make sure this path matches where you put Popup.js
 
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
@@ -8,49 +9,12 @@ const getEmbedUrl = (url) => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
 
-const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
-  try {
-    const response = await fetch('http://localhost:5000/api/certificate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: userId,
-        course: courseName,
-        instructor: courseInstructor,
-        date: new Date().toLocaleDateString()
-      }),
-    });
+export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) => {
+  const [popup, setPopup] = useState(null);
+  const navigate = useNavigate();
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Backend error:', errorText);
-      throw new Error('Failed to generate certificate');
-    }
-
-    const blob = await response.blob();
-    if (blob.type !== 'application/pdf') {
-      const text = await blob.text();
-      console.error('Unexpected response:', text);
-      throw new Error('Invalid PDF content received');
-    }
-
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `${courseName}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(url);
-
-  } catch (error) {
-    console.error(error);
-    alert('Error downloading certificate: ' + error.message);
-  }
-};
-
-export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
   if (!courseData) return <div>No course data available</div>;
+
   const {
     courseIntroVideo,
     courseName,
@@ -61,12 +25,66 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
 
   const embedUrl = getEmbedUrl(courseIntroVideo?.videoUrl || '');
   const isValidEmbed = embedUrl.includes("youtube.com/embed");
-  const navigate = useNavigate();
 
-  const handleStartClick = () => {
-    navigate(`/course/${uId}/${id}/0/0`);
+  const showPopup = (message, color) => {
+    setPopup({ message, color });
+    setTimeout(() => setPopup(null), 4000); // auto-dismiss popup after 4 seconds
   };
 
+  const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/certificate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: userId,
+          course: courseName,
+          instructor: courseInstructor,
+          date: new Date().toLocaleDateString()
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Backend error:', errorText);
+        throw new Error('Failed to generate certificate');
+      }
+
+      const blob = await response.blob();
+      if (blob.type !== 'application/pdf') {
+        const text = await blob.text();
+        console.error('Unexpected response:', text);
+        throw new Error('Invalid PDF content received');
+      }
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${courseName}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+      showPopup("Certificate generated successfully!", {
+        background: "#d4edda",
+        border: "#c3e6cb",
+        text: "#155724"
+      });
+
+    } catch (error) {
+      console.error(error);
+      showPopup("Error downloading certificate: " + error.message, {
+        background: "#f8d7da",
+        border: "#f5c6cb",
+        text: "#721c24"
+      });
+    }
+  };
+
+  const handleStartClick = () => {
+    navigate(`/course/learn/${uId}/${id}/0/0`);
+  };
   return (
     <div className="coursepage-fullcourse-container">
       <div className="coursepage-course-card">
@@ -106,13 +124,18 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
                   </button>
                   <button
                     className="coursepage-certificate-button"
-                    onClick={() =>
+                    onClick={() => {
+                      showPopup("Please hold... summoning the Certificate.\nEstimated arrival: just a few second away!", {
+                        background: "#d4edda",
+                        border: "#c3e6cb",
+                        text: "#155724"
+                      });
                       handleDownloadCertificate({
                         userId: uId,
                         courseName,
                         courseInstructor
-                      })
-                    }
+                      });
+                    }}
                   >
                     Download Certificate
                   </button>
@@ -154,6 +177,12 @@ export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
           </div>
         </div>
       </div>
-    </div>
+
+      {
+        popup && (
+          <Popup message={popup.message} color={popup.color} />
+        )
+      }
+    </div >
   );
 };

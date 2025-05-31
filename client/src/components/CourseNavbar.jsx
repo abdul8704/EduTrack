@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/course.css';
-
 export const CourseNavbar = ({
   modules,
   activeIndex,
@@ -11,10 +10,10 @@ export const CourseNavbar = ({
   subModuleNo,
 }) => {
   const navigate = useNavigate();
-  const { useremail, courseId, moduleNumber, subModuleNumber } = useParams();
+  const { userId, courseId, moduleNumber, subModuleNumber } = useParams();
 
   const handleSubmoduleClick = (moduleIdx, submoduleIdx) => {
-    navigate(`/course/alice@example.com/${courseId}/${moduleIdx}/${submoduleIdx}`);
+    navigate(`/course/learn/${userId}/${courseId}/${moduleIdx}/${submoduleIdx}`);
   };
 
   return (
