@@ -24,9 +24,9 @@ function App() {
         <Route path="/course/search/:userId/tags/:tags" element={<SearchResult/>} />
         {/* <Route path="/adminnav/:userId" element={<AdminNavbar/>}/> */}
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
-        <Route path=" /empprogress/:userId" element={<EmpProgress/>}/>
+        <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
         <Route path="/addcourse" element={<AddCourse />} />
-        <Route path=" /profile" element={<Profile/>}/>
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../styles/empprogress.css'
 export const Profile = () => {
   return (
     <div className="empprog-container">
