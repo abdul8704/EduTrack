@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/navbar.css';
 import logo from '../assets/zuntraLogo.avif';
 
-const NavbarInput = () => {
-  const {userId} = useParams();
+const DEFAULT_PROFILE_PIC = "https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg";
+
+const NavbarInput = ({ userId }) => {
   const navigate = useNavigate();
   const [input, setInput] = useState('');
 
@@ -16,9 +18,7 @@ const NavbarInput = () => {
     }
   };
 
-  const handleReset = () => {
-    setInput('');
-  };
+  const handleReset = () => setInput('');
 
   return (
     <form className="navbar-form" onSubmit={handleSubmit}>
@@ -32,10 +32,10 @@ const NavbarInput = () => {
       />
       <div className="navbar-buttons-container">
         {input && (
-          <button 
-            className="navbar-reset" 
-            type="button" 
-            onClick={handleReset} 
+          <button
+            className="navbar-reset"
+            type="button"
+            onClick={handleReset}
             aria-label="Reset search input"
           >
             <svg
@@ -67,11 +67,28 @@ const NavbarInput = () => {
 };
 
 export const Navbar = () => {
+  const { userId } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(DEFAULT_PROFILE_PIC);
   const hamburgerRef = useRef(null);
   const dropdownRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  useEffect(() => {
+    const fetchProfilePic = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
+        if (response.data?.username?.profilePicture) {
+          setProfilePicture(response.data.username.profilePicture);
+        }
+      } catch (error) {
+        console.error('Error fetching profile picture:', error);
+      }
+    };
+
+    if (userId) fetchProfilePic();
+  }, [userId]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -122,10 +139,19 @@ export const Navbar = () => {
           {menuOpen && (
             <div className="navbar-mobile-menu" ref={dropdownRef}>
               <div className="navbar-search-mobile">
-                <NavbarInput />
+                <NavbarInput userId={userId} />
               </div>
               <div className="navbar-mobile-links">
                 <Link to="/">Home</Link>
+              </div>
+              <div className="navbar-profile-desktop">
+                <Link to={`/user/profile/${userId}`}>
+                  <img
+                    src={profilePicture}
+                    alt="Profile"
+                    className="navbar-profile-picture"
+                  />
+                </Link>
               </div>
             </div>
           )}
@@ -134,15 +160,17 @@ export const Navbar = () => {
 
       <div className="navbar-right-section">
         <div className="navbar-search-desktop">
-          <NavbarInput />
+          <NavbarInput userId={userId} />
         </div>
         <Link to="/">Home</Link>
         <div className="navbar-profile-desktop">
-          <img 
-            src="https://randomuser.me/api/portraits/men/55.jpg" 
-            alt="Profile" 
-            className="navbar-profile-picture" 
-          />
+          <Link to={`/user/profile/${userId}`}>
+            <img
+              src={profilePicture}
+              alt="Profile"
+              className="navbar-profile-picture"
+            />
+          </Link>
         </div>
       </div>
     </nav>
