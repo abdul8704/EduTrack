@@ -24,12 +24,11 @@ function App() {
         <Route path="/user/profile/:userId" element={<Profile/>}/>
         <Route path="/course/intro/:userId/:courseId" element={<CourseIntro />} />
         <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
-        {/* <Route path="/course/learn/:userId/:courseId/feedback" element={<Feedback/>}/> */}
         <Route path="/course/search/:userId/tags/:tags" element={<SearchResult/>} />
         <Route path="/admin/dashboard/:userId/:navId/details" element={<AdminDashboard/>}/>
+        {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
         <Route path="/admin/dashboard/:userId/course/addcourse" element={<AddCourse />} />
         <Route path="/add" element={<Add />} />
-        {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
         <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
