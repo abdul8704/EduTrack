@@ -6,15 +6,16 @@ const getEmbedUrl = (url) => {
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/);
   return match ? `https://www.youtube.com/embed/${match[1]}` : '';
 };
-const handleDownloadCertificate = async () => {
+const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
   try {
     const response = await fetch('http://localhost:5000/api/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: 'Student Name',
-        course: 'Course Name',
-        date: new Date().toLocaleDateString(),
+        name: userId,
+        course: courseName,
+        instructor: courseInstructor,
+        date: new Date().toLocaleDateString()
       }),
     });
 
@@ -25,8 +26,6 @@ const handleDownloadCertificate = async () => {
     }
 
     const blob = await response.blob();
-
-    // Optional: check if blob is actually PDF
     if (blob.type !== 'application/pdf') {
       const text = await blob.text();
       console.error('Unexpected response:', text);
@@ -48,7 +47,7 @@ const handleDownloadCertificate = async () => {
   }
 };
 
-export const FullCourse = ({uId, id, courseData, contentsData, percent }) => {
+export const FullCourse = ({ uId, id, courseData, contentsData, percent }) => {
   if (!courseData) return <div>No course data available</div>;
   const {
     courseIntroVideo,
@@ -91,14 +90,26 @@ export const FullCourse = ({uId, id, courseData, contentsData, percent }) => {
             <p>{courseDescription}</p>
             <p><strong>Instructor:</strong> {courseInstructor}</p>
             <p><strong>Rating:</strong> ⭐ {courseRating}</p>
-            <button className="start-button" onClick={handleDownloadCertificate}>
+<button
+  className="start-button"
+  onClick={() =>
+    percent === 100
+      ? handleDownloadCertificate({
+          userId: uId,
+          courseName: courseName,
+          courseInstructor: courseInstructor,
+        })
+      : handleStartClick()
+  }
+>
   {percent === 100 ? 'Download Certificate' : percent > 0 ? 'Continue Learning' : 'Start'}
 </button>
+
 
             <div className="progress-label">Learning Progress</div>
             <div className="progress-bar-bg">
               <div className="progress-bar-fill" style={{ width: `${percent}%` }}
- />
+              />
             </div>
           </div>
         </div>
