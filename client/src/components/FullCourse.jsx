@@ -35,7 +35,7 @@ const handleDownloadCertificate = async ({ userId, courseName, courseInstructor 
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'certificate.pdf');
+    link.setAttribute('download', `${courseName}.pdf`);
     document.body.appendChild(link);
     link.click();
     link.remove();

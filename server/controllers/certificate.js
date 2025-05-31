@@ -208,7 +208,7 @@ const generateCertificate = async (req, res) => {
 
     res.set({
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename=${name}_certificate.pdf`,
+      'Content-Disposition': `attachment; filename=${course}_certificate.pdf`,
       'Content-Length': pdfBuffer.length,
     });
 
