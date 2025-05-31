@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/course.css';
+import '../styles/courseLearn.css';
 import { CourseNavbar } from '../components/CourseNavbar';
 import { Module } from '../components/Module';
 import { useParams } from 'react-router-dom';

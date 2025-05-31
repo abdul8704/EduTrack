@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/CoursePage.css';
+import '../styles/CourseIntro.css';
 import { useNavigate } from 'react-router-dom';
 import { Popup } from './Popup'; 
 import axios  from 'axios';

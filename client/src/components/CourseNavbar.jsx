@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../styles/course.css';
+import '../styles/courseLearn.css';
 export const CourseNavbar = ({
   modules,
   activeIndex,

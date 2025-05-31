@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/course.css';
+import '../styles/courseLearn.css';
 import { useParams } from 'react-router-dom';
 
 export const Module = ({ title, videoUrl, description, questions }) => {
@@ -44,8 +44,6 @@ export const Module = ({ title, videoUrl, description, questions }) => {
         if (!response.ok) {
           throw new Error(data.message || 'Failed to update progress');
         }
-
-        console.log('Progress updated:', data);
         alert(`✅ Progress updated: ${data.UpdatedPercentComplete}% complete`);
       } catch (err) {
         console.error('Error updating progress:', err);
