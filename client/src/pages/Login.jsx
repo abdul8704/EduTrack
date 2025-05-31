@@ -50,7 +50,7 @@ export const Login = () => {
         };
 
         if (role === "admin") {
-          navigate("/adminnav", { state: { popupMessage: popupData } });
+          navigate(`/admin/dashboard/${response.data.userDetails.userid}/employee/details`, { state: { popupMessage: popupData } });
         } else if (role === "user") {
           navigate(`/user/dashboard/${response.data.userDetails.userid}`, {
             state: { popupMessage: popupData }
