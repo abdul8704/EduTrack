@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CourseIntro.css';
 import { useNavigate } from 'react-router-dom';
-import { Popup } from './Popup'; 
-import axios  from 'axios';
+import { Popup } from './Popup';
+import axios from 'axios';
 
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
@@ -40,14 +40,14 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
       try {
         const response = await axios.get(`http://localhost:5000/api/user/${uId}/data/userinfo`);
         setName(response.data.username.username);
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching course data:', error);
         setLoading(false);
       }
     };
     fetchCourseData();
-  },);  
+  },);
   if (loading) return <div>Loading...</div>;
   if (!username) return <div>USER NOT FOUND...</div>
 
@@ -105,6 +105,9 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   const handleStartClick = () => {
     navigate(`/course/learn/${uId}/${id}/0/0`);
   };
+  const handleEnrollClick=()=>{
+    
+  }
   return (
     <div className="coursepage-fullcourse-container">
       <div className="coursepage-course-card">
@@ -165,18 +168,21 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
                   className="coursepage-start-button"
                   onClick={handleStartClick}
                 >
-                  {percent > 0 ? 'Continue Learning' : 'Start'}
+                  {percent >= 0 ? 'Continue Learning' : 'Enroll'}
                 </button>
               )}
             </div>
-
-            <div className="coursepage-progress-label">Learning Progress</div>
-            <div className="coursepage-progress-bar-bg">
-              <div
-                className="coursepage-progress-bar-fill"
-                style={{ width: `${percent}%` }}
-              />
-            </div>
+            {percent >= 0 ? (
+              <>
+                <div className="coursepage-progress-label">Learning Progress</div>
+                <div className="coursepage-progress-bar-bg">
+                  <div
+                    className="coursepage-progress-bar-fill"
+                    style={{ width: `${percent}%` }}
+                  />
+                </div>
+              </>
+            ) : ''}
           </div>
         </div>
 
