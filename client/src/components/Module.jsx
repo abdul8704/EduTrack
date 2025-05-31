@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/courseLearn.css';
+import { Popup } from './Popup'; // Adjust this import path as needed
 
 export const Module = ({
   userId,
@@ -14,6 +15,17 @@ export const Module = ({
 }) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [results, setResults] = useState({});
+  const [popup, setPopup] = useState(null);
+
+  useEffect(() => {
+    setSelectedAnswers({});
+    setResults({});
+  }, [moduleNumber, subModuleNumber]);
+
+  const showPopup = (message, color) => {
+    setPopup({ message, color });
+    setTimeout(() => setPopup(null), 4000);
+  };
 
   const handleOptionChange = (questionIndex, option) => {
     setSelectedAnswers((prev) => ({
@@ -53,11 +65,25 @@ export const Module = ({
         }
 
         onProgressUpdated?.();
-        alert(`✅ Progress updated: ${data.UpdatedPercentComplete}% complete`);
+        showPopup(`Progress updated: ${data.UpdatedPercentComplete}% complete`, {
+          background: "#d4edda",
+          border: "#c3e6cb",
+          text: "#155724"
+        });
       } catch (err) {
         console.error('Error updating progress:', err);
-        alert(`❌ Failed to update progress: ${err.message}`);
+        showPopup(`Failed to update progress`, {
+          background: "#fdecea",
+          border: "#f5c6cb",      
+          text: "#a71d2a"   
+        });
       }
+    } else {
+      showPopup("Some answers are incorrect.\nPlease review and try again.", {
+        background: "#fdecea",  
+        border: "#f5c6cb",     
+        text: "#a71d2a"   
+      });
     }
   };
 
@@ -88,9 +114,8 @@ export const Module = ({
               {question.options.map((option, oidx) => (
                 <label
                   key={oidx}
-                  className={`module-quiz-option-label ${
-                    selectedAnswers[idx] === option ? 'selected' : ''
-                  }`}
+                  className={`module-quiz-option-label ${selectedAnswers[idx] === option ? 'selected' : ''
+                    }`}
                 >
                   <input
                     type="radio"
@@ -108,9 +133,8 @@ export const Module = ({
 
             {results.hasOwnProperty(idx) && (
               <p
-                className={`module-quiz-feedback ${
-                  results[idx] ? 'correct' : 'incorrect'
-                }`}
+                className={`module-quiz-feedback ${results[idx] ? 'correct' : 'incorrect'
+                  }`}
               >
                 {results[idx]
                   ? '✔ Correct!'
@@ -128,6 +152,9 @@ export const Module = ({
           Submit Answers
         </button>
       </form>
+
+      {/* Render popup if exists */}
+      {popup && <Popup message={popup.message} color={popup.color} />}
     </div>
   );
 };
