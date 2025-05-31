@@ -1,30 +1,25 @@
 import '../styles/adminnavbar.css';
 import { Users, BookOpen } from 'lucide-react';
-import { EmployeeDeets } from '../components/EmployeeDeets.jsx'
+import { EmployeeDeets } from '../components/EmployeeDeets.jsx';
 import { AdminAvailableCourse } from '../components/AdminAvailableCourse.jsx';
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios'; 
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
-
-export const AdminNavbar = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+export const AdminDashboard = () => {
+  const { userId, navId } = useParams();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { userId } = useParams();
+  const [courses, setCourses] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userLoading, setULoading] = useState(true);
+
   const options = [
-    { label: 'Employee Progress', icon: <Users size={18} className="admnav-icon" /> },
-    { label: 'Manage Course', icon: <BookOpen size={18} className="admnav-icon" /> }
+    { id: 'employee', label: 'Employee Progress', icon: <Users size={18} className="admnav-icon" /> },
+    { id: 'course', label: 'Manage Course', icon: <BookOpen size={18} className="admnav-icon" /> }
   ];
 
-  const toggleModule = (index) => {
-    setActiveIndex(index);
-  };
-
-  const toggleNavbar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const toggleNavbar = () => setIsCollapsed(!isCollapsed);
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -39,19 +34,13 @@ export const AdminNavbar = () => {
     };
 
     fetchCourseData();
-  }, []);
-
-  
-
-  const [userLoading, setULoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  }, [userId]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/admin/alice@example.com');
-        const allUsers = response.data.allUsers;
-        setUsers(allUsers); // Store in state
+        setUsers(response.data.allUsers);
         setULoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -61,17 +50,22 @@ export const AdminNavbar = () => {
 
     fetchUserData();
   }, []);
-  if (userLoading) return <div>Loading...</div>;
-  if (loading) return <div>Loading...</div>;
-  
+
+  if (userLoading || loading) return <div>Loading...</div>;
+
+  const validNavIds = options.map(option => option.id);
+  if (!validNavIds.includes(navId)) {
+    return <Navigate to="*" replace />;
+  }
+
   return (
     <div className="admnav-container">
       <div className={`admnav-navbar ${isCollapsed ? 'admnav-collapsed' : ''}`}>
         {options.map((item, index) => (
           <div key={index} className="admnav-module-wrapper">
             <button
-              className={`admnav-nav-btn ${activeIndex === index ? 'admnav-active-module' : ''}`}
-              onClick={() => toggleModule(index)}
+              className={`admnav-nav-btn ${navId === item.id ? 'admnav-active-module' : ''}`}
+              onClick={() => window.location.href = `/admin/dashboard/${userId}/${item.id}/details`}
             >
               {item.icon}
               <span className="admnav-label">{item.label}</span>
@@ -85,8 +79,8 @@ export const AdminNavbar = () => {
       </button>
 
       <div className="admnav-module">
-        {activeIndex === 0 && <div><EmployeeDeets profile={users}/></div>}
-        {activeIndex === 1 && <div><AdminAvailableCourse available={courses} /></div>}
+        {navId === 'employee' && <EmployeeDeets profile={users} />}
+        {navId === 'course' && <AdminAvailableCourse available={courses} />}
       </div>
     </div>
   );

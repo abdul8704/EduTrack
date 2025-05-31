@@ -1,57 +1,84 @@
-  import React from 'react';
-  import { useNavigate, useParams } from 'react-router-dom';
-  import '../styles/courseLearn.css';
-  export const CourseNavbar = ({
-    modules,
-    activeIndex,
-    toggleModule,
-    isCollapsed,
-    moduleNo,
-    subModuleNo,
-  }) => {
-    const navigate = useNavigate();
-    const { userId, courseId, moduleNumber, subModuleNumber } = useParams();
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-    const handleSubmoduleClick = (moduleIdx, submoduleIdx) => {
-      navigate(`/course/learn/${userId}/${courseId}/${moduleIdx}/${submoduleIdx}`);
-    };
+export const CourseNavbar = ({
+  modules,
+  activeIndex,
+  toggleModule,
+  isCollapsed,
+  moduleNo,
+  subModuleNo,
+  progressReloadTrigger,
+  userId,
+  courseId
+}) => {
+  const navigate = useNavigate();
+  const [progressMatrix, setProgressMatrix] = useState(null);
 
-    return (
-      <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
-        {modules.map((module, index) => {
-          const isActiveModule = Number(moduleNumber) === index;
-          const showSubmodules = activeIndex === index || isActiveModule;
+  useEffect(() => {
+    if (!userId || !courseId) return;
 
-          return (
-            <div key={module.moduleTitle} className="course-module-wrapper">
-              <button
-                className={`course-nav-btn ${isActiveModule ? 'course-active-module' : ''}`}
-                onClick={() => toggleModule(index)}
-              >
-                {module.moduleTitle}
-              </button>
+    fetch(`http://localhost:5000/api/user/${userId}/${courseId}/progress`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.progressMatrix?.completedModules) {
+          setProgressMatrix(data.progressMatrix.completedModules);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch progress:', err);
+      });
+  }, [userId, courseId, progressReloadTrigger]);
 
-              {showSubmodules && (
-                <div className="course-submodule-list">
-                  {module.submodules && Array.isArray(module.submodules) &&
-                    module.submodules.map((sub, subIndex) => {
-                      const isActiveSubmodule = isActiveModule && Number(subModuleNumber) === subIndex;
-
-                      return (
-                        <button
-                          key={sub}
-                          className={`course-submodule-item ${isActiveSubmodule ? 'course-active-submodule' : ''}`}
-                          onClick={() => handleSubmoduleClick(index, subIndex)}
-                        >
-                          {sub}
-                        </button>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
+  const handleSubmoduleClick = (moduleIdx, submoduleIdx) => {
+    navigate(`/course/learn/${userId}/${courseId}/${moduleIdx}/${submoduleIdx}`);
   };
+
+  return (
+    <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
+      {modules.map((module, index) => {
+        const isActiveModule = Number(moduleNo) === index;
+        const showSubmodules = activeIndex === index || isActiveModule;
+
+        const moduleCompleted =
+          progressMatrix?.[index]?.every((completed) => completed === true);
+
+        return (
+          <div key={module.moduleTitle} className="course-module-wrapper">
+            <button
+              className={`course-nav-btn ${
+                isActiveModule ? 'course-active-module' : ''
+              } ${moduleCompleted ? 'course-complete-module' : ''}`}
+              onClick={() => toggleModule(index)}
+            >
+              {module.moduleTitle}
+            </button>
+
+            {showSubmodules && (
+              <div className="course-submodule-list">
+                {module.submodules?.map((sub, subIndex) => {
+                  const isActiveSubmodule =
+                    isActiveModule && Number(subModuleNo) === subIndex;
+                  const submoduleCompleted =
+                    progressMatrix?.[index]?.[subIndex] === true;
+
+                  return (
+                    <button
+                      key={sub}
+                      className={`course-submodule-item ${
+                        isActiveSubmodule ? 'course-active-submodule' : ''
+                      } ${submoduleCompleted ? 'course-complete-submodule' : ''}`}
+                      onClick={() => handleSubmoduleClick(index, subIndex)}
+                    >
+                      {sub}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};

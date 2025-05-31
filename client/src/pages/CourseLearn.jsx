@@ -3,7 +3,7 @@ import '../styles/courseLearn.css';
 import { CourseNavbar } from '../components/CourseNavbar';
 import { Module } from '../components/Module';
 import { useParams } from 'react-router-dom';
-import axios from "axios"
+import axios from "axios";
 
 export const CourseLearn = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -25,7 +25,7 @@ export const CourseLearn = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/alice@example.com/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setLoading(false);
@@ -36,18 +36,20 @@ export const CourseLearn = () => {
     };
 
     fetchCourseData();
-  }, [courseId]);
+  }, [userId, courseId]);
+
   const [subModuleVideo, setSubModuleVideo] = useState([]);
   const [subModuleQuiz, setSubModuleQuiz] = useState([]);
   const [subModuleTitle, setSubModuleTitle] = useState(null);
   const [subModuleDesc, setSubModuleDesc] = useState(null);
   const [subModuleLoading, setSubModuleLoading] = useState(true);
-  
+  const [progressReloadTrigger, setProgressReloadTrigger] = useState(0);
+
   useEffect(() => {
     const fetchSubModuleData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/alice@example.com/${courseId}/module/${moduleNumber}/${subModuleNumber}`
+          `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
         );
 
         setSubModuleVideo(response.data.subModule.video);
@@ -57,18 +59,18 @@ export const CourseLearn = () => {
         setSubModuleLoading(false);
       } catch (error) {
         console.error('Error fetching submodule data:', error);
-        setSubModuleLoading(false); // corrected
+        setSubModuleLoading(false);
       }
     };
 
-    if (courseId && moduleNumber !== null && subModuleNumber !== null) {
-      fetchSubModuleData(); // corrected
+    if (userId && courseId && moduleNumber !== undefined && subModuleNumber !== undefined) {
+      fetchSubModuleData();
     }
   }, [userId, courseId, moduleNumber, subModuleNumber]);
 
-  if (subModuleLoading) return <div>Loading course...</div>;
-  if (navLoading) return <div>Loading course...</div>;
+  if (subModuleLoading || navLoading) return <div>Loading course...</div>;
   if (!navCourse) return <div>Course not found.</div>;
+
   return (
     <div className="course-container">
       <CourseNavbar
@@ -78,15 +80,23 @@ export const CourseLearn = () => {
         isCollapsed={isCollapsed}
         moduleNo={moduleNumber}
         subModuleNo={subModuleNumber}
+        progressReloadTrigger={progressReloadTrigger}
+        userId={userId}
+        courseId={courseId}
       />
       <button className="course-hamburger" onClick={toggleNavbar}>
         {isCollapsed ? '>' : '<'}
       </button>
       <Module
+        userId={userId}
+        courseId={courseId}
+        moduleNumber={moduleNumber}
+        subModuleNumber={subModuleNumber}
         title={subModuleTitle}
         videoUrl="https://www.youtube.com/embed/1CViJDo_YGk?si=qcTBuL77FfFpIqqu"
         description={subModuleDesc}
         questions={subModuleQuiz.questions}
+        onProgressUpdated={() => setProgressReloadTrigger(prev => prev + 1)}
       />
     </div>
   );
