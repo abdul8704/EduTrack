@@ -9,6 +9,7 @@ import { AdminNavbar } from './pages/AdminNavbar';
 import {AddCourse} from './pages/AddCourse'; 
 import { CourseDeets } from './pages/CourseDeets';
 import { AvailableCourses } from "./components/AvailableCourses";
+import { Profile } from "./pages/Profile";
 
 function App() {
   return (
