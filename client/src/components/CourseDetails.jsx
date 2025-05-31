@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/CoursePage.css';
 import { useNavigate } from 'react-router-dom';
-import { Popup } from './Popup'; // Make sure this path matches where you put Popup.js
+import { Popup } from './Popup'; 
+import axios  from 'axios';
 
 // Enhanced helper to convert any YouTube URL or ID to embed format
 const getEmbedUrl = (url) => {
@@ -28,8 +29,27 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
 
   const showPopup = (message, color) => {
     setPopup({ message, color });
-    setTimeout(() => setPopup(null), 4000); // auto-dismiss popup after 4 seconds
+    setTimeout(() => setPopup(null), 4000);
   };
+
+  const [username, setName] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/user/${uId}/data/userinfo`);
+        setName(response.data.username.username);
+        setLoading(false); 
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        setLoading(false);
+      }
+    };
+    fetchCourseData();
+  },);  
+  if (loading) return <div>Loading...</div>;
+  if (!username) return <div>USER NOT FOUND...</div>
 
   const handleDownloadCertificate = async ({ userId, courseName, courseInstructor }) => {
     try {
@@ -37,7 +57,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: userId,
+          name: username,
           course: courseName,
           instructor: courseInstructor,
           date: new Date().toLocaleDateString()
