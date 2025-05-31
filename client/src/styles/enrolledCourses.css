@@ -180,3 +180,26 @@
     font-size: 1.2rem;
   }
 }
+
+.add-course-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: #bada55;
+  color: #000;
+  font-size: 2rem;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 0 12px #bada55aa, 0 0 4px #bada55aa;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  z-index: 1000;
+}
+
+.add-course-button:hover {
+  background-color: #dfff6b;
+  transform: scale(1.1) rotate(90deg);
+}

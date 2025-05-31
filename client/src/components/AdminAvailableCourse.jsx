@@ -1,13 +1,18 @@
 import React, { useRef } from 'react';
 import '../styles/EnrolledCourses.css';
-import { CoursesCard } from './CoursesCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const AdminAvailableCourse = ({ available }) => {
+  const { userId }=useParams();
   const scrollRef = useRef(null);
   const navigate = useNavigate();
+
   const handleClick = (courseId) => {
     navigate(`/coursedeets/${courseId}`);
+  };
+
+  const handleAddCourse = () => {
+    navigate(`/admin/dashboard/${userId}/course/addcourse`);
   };
 
   return (
@@ -34,6 +39,11 @@ export const AdminAvailableCourse = ({ available }) => {
             </div>
           </div>
         ))}
+
+        {/* Circular + Button */}
+        <button className="add-course-button" onClick={handleAddCourse}>
+          +
+        </button>
       </div>
     </div>
   );
