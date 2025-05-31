@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/EnrolledCourses.css'
 
-export const CoursesCard = ({ id, title, image, instructor, rating }) => {
+export const CoursesCard = ({ userId, courseId, title, image, instructor, rating }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/coursepage/alice@example.com/${id}`);
+    navigate(`/course/intro/${userId}/${courseId}`);
   };
 
   return (

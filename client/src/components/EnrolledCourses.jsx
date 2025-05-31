@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { CoursesCard } from './CoursesCard';
 import '../styles/EnrolledCourses.css';
-
+import { useParams } from 'react-router-dom';
 export const EnrolledCourses = ({ enrolled }) => {
+  const { userId } = useParams();
   const scrollRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const scrollAmount = 300;
@@ -63,7 +64,8 @@ export const EnrolledCourses = ({ enrolled }) => {
             enrolled.map((course) => (
               <CoursesCard
                 key={course._id}
-                id={course.courseId}
+                userId={userId}
+                courseId={course.courseId}
                 title={course.courseName}
                 image={course.courseImage}
                 instructor={course.courseInstructor}

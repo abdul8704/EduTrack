@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FullCourse } from '../components/FullCourse';
 import '../styles/CoursePage.css';
 
-export const CoursePage = () => {
+export const CourseIntro = () => {
   const { userId, courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [contents, setContents] = useState([]);

@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 import '../styles/EnrolledCourses.css';
 import { CoursesCard } from './CoursesCard';
+import { useParams } from 'react-router-dom';
 
 export const AvailableCourses = ({ available }) => {
   const scrollRef = useRef(null);
-
+  const { userId } = useParams();
   return (
     <div className="enrolled-container">
       <div className="enrolled-title">Available Courses</div>
@@ -12,7 +13,8 @@ export const AvailableCourses = ({ available }) => {
         {Array.isArray(available) && available.map((course) => (
           <CoursesCard
             key={course._id}
-            id={course.courseId}
+            userId={userId}
+            courseId={course.courseId}
             image={course.courseImage}
             title={course.courseName}
             instructor={course.courseInstructor}
