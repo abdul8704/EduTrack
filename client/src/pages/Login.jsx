@@ -9,6 +9,7 @@ export const Login = () => {
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
   const [isOtpPhase, setIsOtpPhase] = useState(false);
   const [popupMessage, setPopupMessage] = useState(null);
+  const [isSignupMode, setIsSignupMode] = useState(false); // New state for toggle
 
   const navigate = useNavigate();
 
@@ -25,6 +26,10 @@ export const Login = () => {
 
   const handleSignupChange = (e) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
+
+  const handleToggleChange = () => {
+    setIsSignupMode(!isSignupMode);
   };
 
   const handleLoginSubmit = async (e) => {
@@ -77,81 +82,88 @@ export const Login = () => {
 
       <div className="login-wrapper">
         <div className="login-card-switch">
-          <label className="login-switch">
-            <input type="checkbox" className="login-toggle" />
+          {/* Separate toggle switch */}
+          <div className="login-switch">
+            <input 
+              type="checkbox" 
+              className="login-toggle" 
+              checked={isSignupMode}
+              onChange={handleToggleChange}
+            />
             <span className="login-slider"></span>
             <span className="login-card-side"></span>
+          </div>
 
-            <div className="login-flip-card__inner">
-              <div className="login-flip-card__front">
-                <div className="login-title">Log in</div>
-                <form className="login-flip-card__form" onSubmit={handleLoginSubmit}>
-                  <input
-                    className="login-flip-card__input"
-                    name="email"
-                    placeholder="Email"
-                    type="email"
-                    value={loginData.email}
-                    onChange={handleLoginChange}
-                    required
-                  />
-                  <input
-                    className="login-flip-card__input"
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    value={loginData.password}
-                    onChange={handleLoginChange}
-                    required
-                  />
-                  <button className="login-flip-card__btn" type="submit">
-                    Let's go!
-                  </button>
-                </form>
-              </div>
-
-              <div className="login-flip-card__back">
-                <div className="login-title">Sign up</div>
-                <form className="login-flip-card__form" onSubmit={handleSignupSubmit}>
-                  <input
-                    className="login-flip-card__input"
-                    placeholder="Name"
-                    name="name"
-                    type="text"
-                    value={signupData.name}
-                    onChange={handleSignupChange}
-                  />
-                  <input
-                    className="login-flip-card__input"
-                    name="email"
-                    placeholder="Email"
-                    type="email"
-                    value={signupData.email}
-                    onChange={handleSignupChange}
-                  />
-                  <input
-                    className="login-flip-card__input"
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    value={signupData.password}
-                    onChange={handleSignupChange}
-                  />
-                  <input
-                    className="login-flip-card__input"
-                    name="confirmpassword"
-                    placeholder={isOtpPhase ? "Enter OTP" : "Confirm Password"}
-                    type={isOtpPhase ? "text" : "password"}
-                    value={signupData.confirmpassword}
-                    onChange={handleSignupChange}
-                  />
-                  <button className="login-flip-card__btn" type="submit">
-                    Confirm!
-                  </button>
-                </form>
-              </div>
+          {/* Card without label wrapper */}
+          <div className={`login-flip-card__inner ${isSignupMode ? 'flipped' : ''}`}>
+            <div className="login-flip-card__front">
+              <div className="login-title">Log in</div>
+              <form className="login-flip-card__form" onSubmit={handleLoginSubmit}>
+                <input
+                  className="login-flip-card__input"
+                  name="email"
+                  placeholder="Email"
+                  type="email"
+                  value={loginData.email}
+                  onChange={handleLoginChange}
+                  required
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  value={loginData.password}
+                  onChange={handleLoginChange}
+                  required
+                />
+                <button className="login-flip-card__btn" type="submit">
+                  Let's go!
+                </button>
+              </form>
             </div>
-          </label>
+
+            <div className="login-flip-card__back">
+              <div className="login-title">Sign up</div>
+              <form className="login-flip-card__form" onSubmit={handleSignupSubmit}>
+                <input
+                  className="login-flip-card__input"
+                  placeholder="Name"
+                  name="name"
+                  type="text"
+                  value={signupData.name}
+                  onChange={handleSignupChange}
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="email"
+                  placeholder="Email"
+                  type="email"
+                  value={signupData.email}
+                  onChange={handleSignupChange}
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  value={signupData.password}
+                  onChange={handleSignupChange}
+                />
+                <input
+                  className="login-flip-card__input"
+                  name="confirmpassword"
+                  placeholder={isOtpPhase ? "Enter OTP" : "Confirm Password"}
+                  type={isOtpPhase ? "text" : "password"}
+                  value={signupData.confirmpassword}
+                  onChange={handleSignupChange}
+                />
+                <button className="login-flip-card__btn" type="submit">
+                  Confirm!
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
