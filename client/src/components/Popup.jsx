@@ -24,8 +24,8 @@ export const Popup = ({ success, message }) => {
       <style jsx>{`
         .popup {
           position: fixed;
-          top: 20px;
-          right: 20px;
+          top: 15%;
+          right: 2rem;
           padding: 16px 20px;
           border-radius: 8px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

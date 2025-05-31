@@ -93,6 +93,7 @@ export const Login = () => {
                     type="email"
                     value={loginData.email}
                     onChange={handleLoginChange}
+                    required
                   />
                   <input
                     className="login-flip-card__input"
@@ -101,6 +102,7 @@ export const Login = () => {
                     type="password"
                     value={loginData.password}
                     onChange={handleLoginChange}
+                    required
                   />
                   <button className="login-flip-card__btn" type="submit">
                     Let's go!
