@@ -61,13 +61,6 @@ const signupValidation = async (req, res) => {
         });
     }
     try {
-        const existingUser = await User.findOne({ email: email });
-        if (existingUser) {
-            return res.status(409).json({
-                success: false,
-                message: "User already exists with this email.",
-            });
-        }
         const newUser = new User({
             username: username,
             userid: email,
@@ -98,7 +91,22 @@ const signupValidation = async (req, res) => {
         });
     }
 }
+
+
+
+const checkExistingUser = async (req, res) => {
+    const { useremail } = req.body;
+    const existingUser = await User.findOne({ email: useremail });
+
+    if (existingUser)
+        return res
+            .status(400)
+            .json({ success: false, message: "User already exists" });
+    
+    return res.status(200).json({ success: true, message: "user doesnt exist" })
+}
 module.exports = {
     loginValidation,
-    signupValidation
+    signupValidation,
+    checkExistingUser,
 };

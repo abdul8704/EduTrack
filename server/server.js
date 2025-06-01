@@ -10,6 +10,7 @@ const adminRoutes = require("./routes/adminRouter");
 const loginRouter = require("./routes/loginRouter");
 const certificateRouter = require("./routes/certificateRouter");
 const cors = require("cors");
+// const authRoutes = require("./router/authRoutes");
 
 const app = express();
 
