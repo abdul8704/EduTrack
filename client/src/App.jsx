@@ -6,7 +6,7 @@ import { CourseIntro } from './pages/CourseIntro';
 import { CourseLearn } from './pages/CourseLearn';
 import { EmpProgress } from './pages/EmpProgress';
 import { AdminDashboard } from './pages/AdminDashboard';
-import  AddCourse  from './pages/AddCourse'; 
+import  { AddCourse }  from './pages/AddCourse'; 
 import { CourseDeets } from './pages/CourseDeets';
 import { AvailableCourses } from "./components/AvailableCourses";
 import { Profile } from "./pages/Profile";
