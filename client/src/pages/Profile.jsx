@@ -4,7 +4,7 @@ import { Download, RotateCcw } from 'lucide-react';
 import '../styles/profile.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { Navbar } from '../components/Navbar';
 const fetchUserData = async (userId) => {
   try {
     const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
@@ -117,6 +117,8 @@ export const Profile =  () => {
   if (loading) return <div className="profile-loading">Loading...</div>;
 
   return (
+    <>
+    <Navbar />
     <div className="profile-container">
       <aside className="profile-navbar">
         <button className="profile-backButton" onClick={() => window.history.back()}>
@@ -173,5 +175,6 @@ export const Profile =  () => {
         </div>
       </main>
     </div>
+    </>
   );
 };

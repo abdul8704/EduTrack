@@ -16,7 +16,6 @@ import { NotFound } from "./pages/NotFound";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/user/dashboard/:userId" element={<UserDashboard />} />

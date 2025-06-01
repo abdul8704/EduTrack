@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CourseDetails } from '../components/CourseDetails';
 import '../styles/CourseIntro.css';
-
+import { Navbar } from '../components/Navbar';
 export const CourseIntro = () => {
   const { userId, courseId } = useParams();
   const [course, setCourse] = useState(null);
@@ -30,8 +30,11 @@ export const CourseIntro = () => {
   if (!course) return <div>Course not found.</div>;
 
   return (
+    <>
+    <Navbar />
     <div className="course-page">
       <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
     </div>
+    </>
   );
 };
