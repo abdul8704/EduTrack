@@ -1,9 +1,9 @@
 .course-container {
   display: flex;
-  min-height: 80vh;
+  height: 100vh; /* Fixed height to prevent overall scroll */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
-  overflow-x: hidden;
+  overflow: hidden; /* Prevent overall scrollbar */
   position: relative;
 }
 
@@ -16,11 +16,13 @@
   flex-direction: column;
   padding: 2rem 1rem 2rem 2rem;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
+  overflow-y: auto; /* Separate scrollbar for navbar */
+  overflow-x: hidden;
   box-sizing: border-box;
   transition: all 0.3s ease;
   position: relative;
   z-index: 100;
+  height: 100vh; /* Full viewport height */
 }
 
 .course-navbar.collapsed {
@@ -29,6 +31,7 @@
   border-right: none;
   box-shadow: none;
   align-items: center;
+  overflow-y: hidden; /* Hide scrollbar when collapsed */
 }
 
 .course-navbar.collapsed > *:not(.course-collapse-bar) {
@@ -38,29 +41,31 @@
   overflow: hidden;
 }
 
-.course-navbar::after {
-  content: '▶';
-  position: absolute;
-  top: 1rem;
-  right: -1.6rem;
-  width: 1.6rem;
-  height: 1.6rem;
-  background: #bada55;
-  color: black;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-  z-index: 1100;
-}
-
 .course-navbar.expanded::after {
   transform: rotate(180deg);
+}
+
+/* Collapse button styling */
+.course-collapse-bar {
+  position: absolute;
+  right: -1.5rem;
+  top: 0;
+  bottom: 0;
+  width: 1.5rem;
+  background: #bada55;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+  transition: all 0.3s ease;
+  height: 100%; /* Match navbar height exactly */
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.course-collapse-bar:hover {
+  background: #a5c663;
 }
 
 .course-module-wrapper {
@@ -127,6 +132,10 @@
   padding: 2rem;
   background: #ffffff;
   transition: all 0.3s ease;
+  overflow-y: auto; /* Separate scrollbar for module section */
+  overflow-x: hidden;
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box;
 }
 
 .course-module-wrapper,
@@ -155,6 +164,7 @@
   border-top: none;
   border-bottom: none;
 }
+
 /* Completed module style */
 .course-complete-module {
   border-left: 0.5rem solid #9ccc65;
@@ -165,7 +175,6 @@
   border-left: 0.5rem solid #9ccc65; /* light green border */
 }
 
-
 /* ────────────── Module section ────────────── */
 .module-container {
   padding: 2rem;
@@ -173,6 +182,9 @@
   border-radius: 10px;
   flex-grow: 1;
   box-sizing: border-box;
+  overflow-y: auto; /* Separate scrollbar for module content */
+  overflow-x: hidden;
+  height: 100vh; /* Full viewport height */
 }
 
 .module-title {
@@ -324,5 +336,10 @@
     width: 100%;
     flex-grow: 1;
   }
-}
 
+  /* Mobile collapse button adjustments */
+  .course-collapse-bar {
+    right: -1rem;
+    width: 1rem;
+  }
+}

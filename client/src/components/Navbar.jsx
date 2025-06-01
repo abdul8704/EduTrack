@@ -79,7 +79,7 @@ export const Navbar = () => {
     const fetchProfilePic = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
-        if (response.data?.username?.profilePicture) {
+        if (response.data.username.profilePicture) {
           setProfilePicture(response.data.username.profilePicture);
         }
       } catch (error) {

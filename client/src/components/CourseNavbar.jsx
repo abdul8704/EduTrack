@@ -36,6 +36,9 @@ export const CourseNavbar = ({
 
   return (
     <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
+        <button className="profile-backButton" onClick={() => window.history.back()}>
+          ←
+        </button>
       {modules.map((module, index) => {
         const isActiveModule = Number(moduleNo) === index;
         const showSubmodules = activeIndex === index || isActiveModule;
