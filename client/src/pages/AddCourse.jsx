@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CourseIntroduction from "../components/addCourse/CourseIntroduction";
 import SubmitSection from "../components/addCourse/SubmitSection";
 import ModuleBlock from "../components/addCourse/ModuleBlock";
@@ -20,18 +20,28 @@ const AddCourses = () => {
   const [submitError, setSubmitError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // Popup state
+  // Improved popup state management
   const [popupMessage, setPopupMessage] = useState("");
   const [popupColor, setPopupColor] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false);
+  
+  // Use useRef for timeout to avoid conflicts
+  const popupTimeoutRef = useRef(null);
 
   // Keep track of lecture validations from child modules
   const lectureValidationMap = useRef({ 1: false }); // Initialize with first module
-  
-  // Add a state to force re-validation when lecture validation changes
-  const [validationTrigger, setValidationTrigger] = useState(0);
 
-  // Form validation logic - updates reactively
+  // Cleanup timeout on unmount
   useEffect(() => {
+    return () => {
+      if (popupTimeoutRef.current) {
+        clearTimeout(popupTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Create a stable validation function using useCallback
+  const validateForm = useCallback(() => {
     const courseFieldsValid = 
       courseData.courseName.trim() !== "" &&
       courseData.instructorName.trim() !== "" &&
@@ -51,25 +61,42 @@ const AddCourses = () => {
 
     const isValid = courseFieldsValid && modulesValid && lecturesValid;
     setIsFormValid(isValid);
-  }, [courseData, modules, validationTrigger]);
+  }, [courseData, modules]);
 
-  // Helper to show popup with better reliability
+  // Form validation logic - updates reactively
+  useEffect(() => {
+    validateForm();
+  }, [validateForm]);
+
+  // Improved popup function with better reliability
   const showPopup = (message, color) => {
     console.log("Showing popup:", message); // Debug log
-    setPopupMessage(message);
-    setPopupColor(color);
     
-    // Clear any existing timeout
-    if (window.popupTimeout) {
-      clearTimeout(window.popupTimeout);
+    // Clear any existing timeout first
+    if (popupTimeoutRef.current) {
+      clearTimeout(popupTimeoutRef.current);
+      popupTimeoutRef.current = null;
     }
     
-    // Set new timeout
-    window.popupTimeout = setTimeout(() => {
-      setPopupMessage("");
-      setPopupColor(null);
-      window.popupTimeout = null;
-    }, 4000); // Increased to 4 seconds for better visibility
+    // Force hide any existing popup first
+    setPopupVisible(false);
+    setPopupMessage("");
+    setPopupColor(null);
+    
+    // Use setTimeout to ensure state updates are processed
+    setTimeout(() => {
+      setPopupMessage(message);
+      setPopupColor(color);
+      setPopupVisible(true);
+      
+      // Set new timeout for auto-hide
+      popupTimeoutRef.current = setTimeout(() => {
+        setPopupVisible(false);
+        setPopupMessage("");
+        setPopupColor(null);
+        popupTimeoutRef.current = null;
+      }, 4000);
+    }, 50); // Small delay to ensure state clearing is processed
   };
 
   const onCourseDataChange = (field, value) => {
@@ -94,12 +121,17 @@ const AddCourses = () => {
     delete lectureValidationMap.current[id];
   };
 
-  // This is called by ModuleBlock to inform AddCourses if all lectures are valid for that module
-  const onLectureValidationChange = (moduleId, isValid) => {
-    lectureValidationMap.current[moduleId] = isValid;
-    // Trigger re-validation by updating the validation trigger
-    setValidationTrigger(prev => prev + 1);
-  };
+  // FIXED: Use useCallback to create a stable function reference
+  const onLectureValidationChange = useCallback((moduleId, isValid) => {
+    const currentValue = lectureValidationMap.current[moduleId];
+    
+    // Only update if the value actually changed
+    if (currentValue !== isValid) {
+      lectureValidationMap.current[moduleId] = isValid;
+      // Trigger validation directly instead of using a counter
+      validateForm();
+    }
+  }, [validateForm]);
 
   const addModule = (index) => {
     console.log("Add module clicked for index:", index); // Debug log
@@ -129,31 +161,31 @@ const AddCourses = () => {
       return;
     }
 
-    // Check if any module title is empty
-    const emptyModule = modules.find((mod) => mod.moduleTitle.trim() === "");
-    if (emptyModule) {
-      console.log("Empty module title found"); // Debug log
-      showPopup(`Please fill all module titles before adding a new module.`, {
-        background: "#f8d7da",
-        border: "#f5c6cb",
-        text: "#721c24",
-      });
-      return;
-    }
-
-    // Check lecture validation for current module (the module at index)
-    const currentModule = modules[index];
-    if (!lectureValidationMap.current[currentModule.id]) {
-      console.log("Lecture validation failed for module:", currentModule.id); // Debug log
-      showPopup(
-        `Please fill all lecture fields in Module ${index + 1} before adding a new module.`,
-        {
+    // Check ALL existing modules for validation - both title and lectures
+    for (let i = 0; i < modules.length; i++) {
+      const module = modules[i];
+      
+      // Check if module title is empty
+      if (!module.moduleTitle || module.moduleTitle.trim() === "") {
+        console.log(`Empty module title found for Module ${i + 1}`); // Debug log
+        showPopup(`Please fill the Module Title for Module ${i + 1} before adding a new module.`, {
           background: "#f8d7da",
           border: "#f5c6cb",
           text: "#721c24",
-        }
-      );
-      return;
+        });
+        return;
+      }
+      
+      // Check if lectures are valid for this module
+      if (!lectureValidationMap.current[module.id]) {
+        console.log(`Lecture validation failed for Module ${i + 1}`); // Debug log
+        showPopup(`Please fill all lecture fields in Module ${i + 1} before adding a new module.`, {
+          background: "#f8d7da",
+          border: "#f5c6cb",
+          text: "#721c24",
+        });
+        return;
+      }
     }
 
     // Passed all validation - add new module
@@ -211,6 +243,11 @@ const AddCourses = () => {
   const onSubmit = () => {
     if (!isFormValid) {
       setSubmitError("Please fill all course details, module titles and lectures.");
+      showPopup("Please complete all required fields before submitting.", {
+        background: "#f8d7da",
+        border: "#f5c6cb",
+        text: "#721c24",
+      });
       return;
     }
 
@@ -221,46 +258,53 @@ const AddCourses = () => {
     console.log("Modules:", modules);
 
     setTimeout(() => {
-      alert("Course submitted!");
+      showPopup("Course submitted successfully!", {
+        background: "#d4edda",
+        border: "#c3e6cb",
+        text: "#155724",
+      });
       setIsSubmitting(false);
     }, 1000);
   };
 
   return (
-    <div className="add-container">
-      <CourseIntroduction
-        courseData={courseData}
-        onCourseDataChange={onCourseDataChange}
-      />
+  <div className="add-container">
+    <CourseIntroduction
+      courseData={courseData}
+      onCourseDataChange={onCourseDataChange}
+    />
 
-      <div className="add-subtitle-card">
-        <p className="add-subtitle">Modules</p>
-      </div>
-
-      {modules.map(({ id, moduleTitle }, index) => (
-        <ModuleBlock
-          key={id}
-          moduleId={id} // Pass the actual module ID
-          moduleNumber={index + 1}
-          moduleTitle={moduleTitle}
-          totalModules={modules.length}
-          onTitleChange={(value) => onModuleTitleChange(id, value)}
-          onClose={() => handleCloseModule(id, moduleTitle, modules.length)}
-          moduleIndex={index}
-          onAddModule={addModule}
-          onLectureValidationChange={(isValid) => onLectureValidationChange(id, isValid)}
-        />
-      ))}
-
-      <SubmitSection
-        isFormValid={isFormValid}
-        onSubmit={onSubmit}
-        disabled={isSubmitting}
-        errorMessage={submitError}
-      />
-
-      {popupMessage && <Popup message={popupMessage} color={popupColor} />}
+    <div className="add-subtitle-card">
+      <p className="add-subtitle">Modules</p>
     </div>
+
+    {modules.map(({ id, moduleTitle }, index) => (
+      <ModuleBlock
+        key={id}
+        moduleId={id}
+        moduleNumber={index + 1}
+        moduleTitle={moduleTitle}
+        totalModules={modules.length}
+        onTitleChange={(value) => onModuleTitleChange(id, value)}
+        onClose={() => handleCloseModule(id, moduleTitle, modules.length)}
+        moduleIndex={index}
+        onAddModule={addModule}
+        onLectureValidationChange={onLectureValidationChange}
+        showPopup={showPopup}
+      />
+    ))}
+
+    <SubmitSection
+      isFormValid={isFormValid}
+      onSubmit={onSubmit}
+      disabled={isSubmitting}
+      errorMessage={submitError}
+    />
+
+    {popupVisible && (
+      <Popup key={popupMessage} message={popupMessage} color={popupColor} />
+    )}
+  </div>
   );
 };
 

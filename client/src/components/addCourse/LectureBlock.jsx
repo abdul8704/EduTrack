@@ -10,19 +10,19 @@ export const LectureBlock = ({
   lectureDescription,
   onLectureChange,
   onRemoveLecture,
-  isRemovable,
 }) => {
   return (
     <div className="lecture-card">
       <div className="lecture-header">
         <span className="lecture-title">Lecture {lectureNumber}</span>
-        {isRemovable && (
-          <button className="close-btn" onClick={onRemoveLecture}>
-            ✖
-          </button>
-        )}
+        <button
+          className="close-btn"
+          onClick={() => onRemoveLecture(lectureId)}
+        >
+          ✖
+        </button>
       </div>
-      
+
       <div className="lecture-line">
         <input
           placeholder="Lecture Name"
@@ -37,7 +37,7 @@ export const LectureBlock = ({
           onChange={(e) => onLectureChange("videoTitle", e.target.value)}
         />
       </div>
-      
+
       <div className="lecture-line">
         <input
           placeholder="Video URL"
@@ -46,12 +46,14 @@ export const LectureBlock = ({
           onChange={(e) => onLectureChange("videoURL", e.target.value)}
         />
       </div>
-      
+
       <textarea
         placeholder="Lecture Description"
         className="lecture-description"
         value={lectureDescription}
-        onChange={(e) => onLectureChange("lectureDescription", e.target.value)}
+        onChange={(e) =>
+          onLectureChange("lectureDescription", e.target.value)
+        }
       />
     </div>
   );
