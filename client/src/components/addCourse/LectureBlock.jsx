@@ -1,50 +1,57 @@
 import React from "react";
-import "../../styles/addCourse.css"
+import "../../styles/addCourse.css";
+
 export const LectureBlock = ({
-  subModuleNumber,
-  lecture,
+  lectureId,
+  lectureNumber,
+  lectureName,
+  videoTitle,
+  videoURL,
+  lectureDescription,
   onLectureChange,
   onRemoveLecture,
+  isRemovable,
 }) => {
-  const handleChange = (field, value) => {
-    onLectureChange(field, value);
-  };
-
   return (
-    <div className="lecture-block">
+    <div className="lecture-card">
       <div className="lecture-header">
-        <span className="lecture-title">SubModule {subModuleNumber}</span>
-        <button className="close-btn" onClick={onRemoveLecture}>
-          ×
-        </button>
+        <span className="lecture-title">Lecture {lectureNumber}</span>
+        {isRemovable && (
+          <button className="close-btn" onClick={onRemoveLecture}>
+            ✖
+          </button>
+        )}
       </div>
-
+      
       <div className="lecture-line">
         <input
-          type="text"
           placeholder="Lecture Name"
-          value={lecture.lectureName}
-          onChange={(e) => handleChange("lectureName", e.target.value)}
+          type="text"
+          value={lectureName}
+          onChange={(e) => onLectureChange("lectureName", e.target.value)}
         />
         <input
-          type="text"
           placeholder="Video Title"
-          value={lecture.videoTitle}
-          onChange={(e) => handleChange("videoTitle", e.target.value)}
-        />
-        <input
           type="text"
-          placeholder="Video URL"
-          value={lecture.videoURL}
-          onChange={(e) => handleChange("videoURL", e.target.value)}
+          value={videoTitle}
+          onChange={(e) => onLectureChange("videoTitle", e.target.value)}
         />
       </div>
-
+      
+      <div className="lecture-line">
+        <input
+          placeholder="Video URL"
+          type="text"
+          value={videoURL}
+          onChange={(e) => onLectureChange("videoURL", e.target.value)}
+        />
+      </div>
+      
       <textarea
         placeholder="Lecture Description"
-        value={lecture.lectureDescription}
-        onChange={(e) => handleChange("lectureDescription", e.target.value)}
         className="lecture-description"
+        value={lectureDescription}
+        onChange={(e) => onLectureChange("lectureDescription", e.target.value)}
       />
     </div>
   );

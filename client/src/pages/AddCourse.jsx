@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CourseIntroduction from "../components/addCourse/CourseIntroduction";
 import SubmitSection from "../components/addCourse/SubmitSection";
 import ModuleBlock from "../components/addCourse/ModuleBlock";
-import { Popup } from "../components/Popup"; // Adjust path if needed
+import { Popup } from "../components/Popup";
 
 const AddCourses = () => {
   const [courseData, setCourseData] = useState({
@@ -24,30 +24,52 @@ const AddCourses = () => {
   const [popupMessage, setPopupMessage] = useState("");
   const [popupColor, setPopupColor] = useState(null);
 
+  // Keep track of lecture validations from child modules
+  const lectureValidationMap = useRef({ 1: false }); // Initialize with first module
+  
+  // Add a state to force re-validation when lecture validation changes
+  const [validationTrigger, setValidationTrigger] = useState(0);
+
   // Form validation logic - updates reactively
   useEffect(() => {
-    const isValid =
+    const courseFieldsValid = 
       courseData.courseName.trim() !== "" &&
       courseData.instructorName.trim() !== "" &&
       courseData.courseId.trim() !== "" &&
       courseData.courseDescription.trim() !== "" &&
       courseData.introVideoTitle.trim() !== "" &&
       courseData.videoURL.trim() !== "" &&
-      courseData.tags.trim() !== "" &&
+      courseData.tags.trim() !== "";
+
+    const modulesValid = 
       modules.length > 0 &&
       modules.every((mod) => mod.moduleTitle.trim() !== "");
 
-    setIsFormValid(isValid);
-  }, [courseData, modules]);
+    const lecturesValid = modules.every((mod) => 
+      lectureValidationMap.current[mod.id] === true
+    );
 
-  // Helper to show popup
+    const isValid = courseFieldsValid && modulesValid && lecturesValid;
+    setIsFormValid(isValid);
+  }, [courseData, modules, validationTrigger]);
+
+  // Helper to show popup with better reliability
   const showPopup = (message, color) => {
+    console.log("Showing popup:", message); // Debug log
     setPopupMessage(message);
     setPopupColor(color);
-    setTimeout(() => {
+    
+    // Clear any existing timeout
+    if (window.popupTimeout) {
+      clearTimeout(window.popupTimeout);
+    }
+    
+    // Set new timeout
+    window.popupTimeout = setTimeout(() => {
       setPopupMessage("");
       setPopupColor(null);
-    }, 3000);
+      window.popupTimeout = null;
+    }, 4000); // Increased to 4 seconds for better visibility
   };
 
   const onCourseDataChange = (field, value) => {
@@ -64,13 +86,25 @@ const AddCourses = () => {
 
   const resetSingleModule = () => {
     setModules([{ id: 1, moduleTitle: "" }]);
+    lectureValidationMap.current = { 1: false };
   };
 
   const removeModule = (id) => {
     setModules((prevModules) => prevModules.filter((mod) => mod.id !== id));
+    delete lectureValidationMap.current[id];
+  };
+
+  // This is called by ModuleBlock to inform AddCourses if all lectures are valid for that module
+  const onLectureValidationChange = (moduleId, isValid) => {
+    lectureValidationMap.current[moduleId] = isValid;
+    // Trigger re-validation by updating the validation trigger
+    setValidationTrigger(prev => prev + 1);
   };
 
   const addModule = (index) => {
+    console.log("Add module clicked for index:", index); // Debug log
+    
+    // Check course intro fields first
     const courseIntroFields = [
       { key: "courseName", label: "Course Name" },
       { key: "instructorName", label: "Instructor Name" },
@@ -86,6 +120,7 @@ const AddCourses = () => {
     );
 
     if (emptyField) {
+      console.log("Empty course field found:", emptyField.label); // Debug log
       showPopup(`Please fill the "${emptyField.label}" field before adding a new module.`, {
         background: "#f8d7da",
         border: "#f5c6cb",
@@ -94,8 +129,10 @@ const AddCourses = () => {
       return;
     }
 
+    // Check if any module title is empty
     const emptyModule = modules.find((mod) => mod.moduleTitle.trim() === "");
     if (emptyModule) {
+      console.log("Empty module title found"); // Debug log
       showPopup(`Please fill all module titles before adding a new module.`, {
         background: "#f8d7da",
         border: "#f5c6cb",
@@ -104,6 +141,22 @@ const AddCourses = () => {
       return;
     }
 
+    // Check lecture validation for current module (the module at index)
+    const currentModule = modules[index];
+    if (!lectureValidationMap.current[currentModule.id]) {
+      console.log("Lecture validation failed for module:", currentModule.id); // Debug log
+      showPopup(
+        `Please fill all lecture fields in Module ${index + 1} before adding a new module.`,
+        {
+          background: "#f8d7da",
+          border: "#f5c6cb",
+          text: "#721c24",
+        }
+      );
+      return;
+    }
+
+    // Passed all validation - add new module
     setModules((prevModules) => {
       const newId =
         prevModules.length > 0
@@ -115,6 +168,10 @@ const AddCourses = () => {
         { id: newId, moduleTitle: "" },
         ...prevModules.slice(index + 1),
       ];
+
+      // Initialize lecture validation for new module to false
+      lectureValidationMap.current[newId] = false;
+
       return newModules;
     });
 
@@ -153,7 +210,7 @@ const AddCourses = () => {
 
   const onSubmit = () => {
     if (!isFormValid) {
-      setSubmitError("Please fill all course details and all module titles.");
+      setSubmitError("Please fill all course details, module titles and lectures.");
       return;
     }
 
@@ -183,6 +240,7 @@ const AddCourses = () => {
       {modules.map(({ id, moduleTitle }, index) => (
         <ModuleBlock
           key={id}
+          moduleId={id} // Pass the actual module ID
           moduleNumber={index + 1}
           moduleTitle={moduleTitle}
           totalModules={modules.length}
@@ -190,6 +248,7 @@ const AddCourses = () => {
           onClose={() => handleCloseModule(id, moduleTitle, modules.length)}
           moduleIndex={index}
           onAddModule={addModule}
+          onLectureValidationChange={(isValid) => onLectureValidationChange(id, isValid)}
         />
       ))}
 

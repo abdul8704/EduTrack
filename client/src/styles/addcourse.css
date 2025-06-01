@@ -11,7 +11,7 @@
 
 /* === Course Introduction Card === */
 .add-subtitle-card {
-  background: white;
+  background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -70,7 +70,7 @@
 
 /* === Module Title Card === */
 .module-header-card {
-  background: white;
+  background: #fff;
   padding: 1.25rem 1.5rem;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
@@ -93,7 +93,7 @@
   padding: 0.5rem 0.75rem;
   border: 2px solid #ddd;
   border-radius: 8px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   font-family: inherit;
   color: #333;
 }
@@ -121,7 +121,7 @@
 
 /* === Lecture Card === */
 .lecture-card {
-  background: #ffffff;
+  background: #fff;
   border-radius: 12px;
   padding: 1rem 1.5rem;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
@@ -136,7 +136,7 @@
 }
 
 .lecture-title {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1rem;
 }
 
@@ -185,7 +185,7 @@
   font-size: 1rem;
   background-color: #fdfdfd;
   resize: vertical;
-  min-height: 8rem; /* Increased height */
+  min-height: 8rem;
   font-family: inherit;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -198,7 +198,7 @@
 
 /* === Add Lecture Button Card === */
 .add-lecture-button-card {
-  background: white;
+  background: #fff;
   padding: 1rem;
   border-radius: 12px;
   text-align: center;
@@ -208,7 +208,7 @@
 
 .add-lecture-btn {
   background-color: #27ae60;
-  color: white;
+  color: #fff;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
@@ -223,7 +223,7 @@
 
 /* === Add Module Button Card === */
 .add-module-button-container {
-  background: white;
+  background: #fff;
   padding: 1rem;
   border-radius: 12px;
   text-align: center;
@@ -232,7 +232,7 @@
 
 .add-module-btn {
   background-color: #2e86de;
-  color: white;
+  color: #fff;
   border: none;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
@@ -247,7 +247,7 @@
 
 /* === Submit Card === */
 .add-card {
-  background: white;
+  background: #fff;
   padding: 1.5rem 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -267,5 +267,40 @@
 
   .lecture-line {
     flex-direction: column;
+  }
+}
+
+/* === Buttons Container (Add this to your existing CSS) === */
+.buttons-container {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Update existing button styles to work in flex container */
+.buttons-container .add-lecture-btn,
+.buttons-container .add-module-btn {
+  flex: 1;
+  max-width: 200px;
+  margin: 0;
+}
+
+/* Responsive behavior for buttons */
+@media (max-width: 640px) {
+  .buttons-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .buttons-container .add-lecture-btn,
+  .buttons-container .add-module-btn {
+    max-width: none;
+    width: 100%;
   }
 }
