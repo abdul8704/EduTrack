@@ -11,8 +11,8 @@ const ModuleBlock = ({
   totalModules,
   onAddModule,
   moduleIndex,
-  onLectureValidationChange,
-  showPopup, // Parent's showPopup function
+  onModuleValidationChange,
+  showPopup,
 }) => {
   const [title, setTitle] = useState(moduleTitle);
   const [lectures, setLectures] = useState([
@@ -22,6 +22,7 @@ const ModuleBlock = ({
       videoTitle: "",
       videoURL: "",
       lectureDescription: "",
+      questions: []
     },
   ]);
 
@@ -29,19 +30,37 @@ const ModuleBlock = ({
     setTitle(moduleTitle);
   }, [moduleTitle]);
 
+  // Comprehensive validation effect
   useEffect(() => {
-    const allLecturesFilled = lectures.every(
-      (lec) =>
-        lec.lectureName.trim() !== "" &&
-        lec.videoTitle.trim() !== "" &&
-        lec.videoURL.trim() !== "" &&
-        lec.lectureDescription.trim() !== ""
-    );
+    // Validate all lectures
+    const lecturesValid = lectures.every(lecture => {
+      const basicFieldsValid = 
+        lecture.lectureName.trim() !== "" &&
+        lecture.videoTitle.trim() !== "" &&
+        lecture.videoURL.trim() !== "" &&
+        lecture.lectureDescription.trim() !== "";
 
-    if (onLectureValidationChange) {
-      onLectureValidationChange(moduleId, allLecturesFilled); // Pass moduleId here
+      // Validate questions - each question must have text and at least 2 choices
+      const questionsValid = lecture.questions.every(question => 
+        question.questionText.trim() !== "" &&
+        question.choices.length >= 2 &&
+        question.selectedAnswer !== null
+      );
+
+      return basicFieldsValid && questionsValid;
+    });
+
+    const validationData = {
+      isValid: lecturesValid,
+      moduleData: {
+        lectures: lectures
+      }
+    };
+
+    if (onModuleValidationChange) {
+      onModuleValidationChange(moduleId, validationData);
     }
-  }, [lectures, onLectureValidationChange, moduleId]); // Use moduleId instead of moduleNumber
+  }, [lectures, onModuleValidationChange, moduleId]);
 
   const handleTitleChange = (e) => {
     const newValue = e.target.value;
@@ -56,7 +75,18 @@ const ModuleBlock = ({
   };
 
   const handleAddModuleClick = () => {
-    if (title.trim() === "") return;
+    // Check if module title is filled
+    if (title.trim() === "") {
+      if (showPopup) {
+        showPopup("Please enter a Module Title before adding a new module.", {
+          background: "#f8d7da",
+          border: "#f5c6cb",
+          text: "#721c24",
+        });
+      }
+      return;
+    }
+
     if (onAddModule) {
       onAddModule(moduleIndex);
     }
@@ -66,6 +96,15 @@ const ModuleBlock = ({
     const updated = lectures.map((lecture) =>
       lecture.id === lectureId
         ? { ...lecture, [field]: value }
+        : lecture
+    );
+    setLectures(updated);
+  };
+
+  const handleQuestionsChange = (lectureId, questions) => {
+    const updated = lectures.map((lecture) =>
+      lecture.id === lectureId
+        ? { ...lecture, questions: questions }
         : lecture
     );
     setLectures(updated);
@@ -83,12 +122,12 @@ const ModuleBlock = ({
                 videoTitle: "",
                 videoURL: "",
                 lectureDescription: "",
+                questions: []
               }
             : lecture
         )
       );
       
-      // Show popup for lecture reset using parent's showPopup
       if (showPopup) {
         showPopup("Lecture reset successfully!", {
           background: "#d4edda",
@@ -99,7 +138,6 @@ const ModuleBlock = ({
     } else {
       setLectures((prev) => prev.filter((lec) => lec.id !== lectureId));
       
-      // Show popup for lecture deletion using parent's showPopup
       if (showPopup) {
         showPopup("Lecture deleted successfully!", {
           background: "#d4edda",
@@ -115,22 +153,46 @@ const ModuleBlock = ({
   };
 
   const handleAddLecture = () => {
-    const isAnyLectureIncomplete = lectures.some(
-      (lecture) =>
+    // Check if all existing lectures are complete
+    const incompleteLecture = lectures.find((lecture, index) => {
+      const basicFieldsIncomplete = 
         !lecture.lectureName.trim() ||
         !lecture.videoTitle.trim() ||
         !lecture.videoURL.trim() ||
-        !lecture.lectureDescription.trim()
-    );
+        !lecture.lectureDescription.trim();
 
-    if (isAnyLectureIncomplete) {
-      if (showPopup) {
-        showPopup("Please complete all existing lecture fields before adding a new lecture.", {
-          background: "#f8d7da",
-          border: "#f5c6cb",
-          text: "#721c24",
-        });
+      const questionsIncomplete = lecture.questions.some(question => 
+        !question.questionText.trim() ||
+        question.choices.length < 2 ||
+        question.selectedAnswer === null
+      );
+
+      if (basicFieldsIncomplete) {
+        if (showPopup) {
+          showPopup(`Please complete all basic fields in Lecture ${index + 1} before adding a new lecture.`, {
+            background: "#f8d7da",
+            border: "#f5c6cb",
+            text: "#721c24",
+          });
+        }
+        return true;
       }
+
+      if (questionsIncomplete) {
+        if (showPopup) {
+          showPopup(`Please complete all questions with at least 2 choices each in Lecture ${index + 1} before adding a new lecture.`, {
+            background: "#f8d7da",
+            border: "#f5c6cb",
+            text: "#721c24",
+          });
+        }
+        return true;
+      }
+
+      return false;
+    });
+
+    if (incompleteLecture) {
       return;
     }
 
@@ -142,11 +204,11 @@ const ModuleBlock = ({
         lectureName: "", 
         videoTitle: "", 
         videoURL: "", 
-        lectureDescription: "" 
+        lectureDescription: "",
+        questions: []
       },
     ]);
 
-    // Show success popup for lecture creation
     if (showPopup) {
       showPopup("Lecture created successfully!", {
         background: "#d4edda",
@@ -177,15 +239,21 @@ const ModuleBlock = ({
           <LectureBlock
             key={lecture.id}
             lectureId={lecture.id}
+            moduleId={moduleId}
             lectureNumber={index + 1}
             lectureName={lecture.lectureName}
             videoTitle={lecture.videoTitle}
             videoURL={lecture.videoURL}
             lectureDescription={lecture.lectureDescription}
+            questions={lecture.questions}
             onLectureChange={(field, value) =>
               handleLectureChange(lecture.id, field, value)
             }
+            onQuestionsChange={(questions) =>
+              handleQuestionsChange(lecture.id, questions)
+            }
             onRemoveLecture={handleRemoveLecture}
+            showPopup={showPopup}
           />
         ))}
 
@@ -195,7 +263,6 @@ const ModuleBlock = ({
           </button>
           <button
             className="add-module-btn"
-            disabled={title.trim() === ""}
             onClick={handleAddModuleClick}
           >
             + Add Module
