@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Popup } from '../components/Popup';
-
+import { Navbar } from '../components/Navbar';
 export const UserDashboard = () => {
   const location = useLocation();
   const popupMessage = location.state?.popupMessage;
@@ -43,6 +43,7 @@ export const UserDashboard = () => {
       {popupMessage && (
         <Popup success={popupMessage.success} message={popupMessage.message} />
       )}
+      <Navbar />
       <EnrolledCourses enrolled={courses.enrolledCourses} />
       <AvailableCourses title={"Available Courses"} available={courses.availableCourses} />
     </>
