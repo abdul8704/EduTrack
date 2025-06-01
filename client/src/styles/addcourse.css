@@ -1,292 +1,271 @@
-/* Outer wrapper */
-.addcourse-wrapper {
+/* === General Container === */
+.add-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 
-/* Page and scroll handling */
-.page-container {
-  display: flex;
-  flex: 1;
+/* === Course Introduction Card === */
+.add-subtitle-card {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Form layout */
-.addcourse-form {
-  max-width: 56.25rem;
-  margin: 1.25rem auto;
-  padding: 1.25rem;
-  border-radius: 0.5rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #222;
-  background-color: #f1f5e5;
-}
-
-/* Titles */
-.addcourse-title {
-  text-align: center;
-  color: #000000;
-  margin-bottom: 1.5625rem;
+.add-subtitle {
+  font-size: 1.75rem;
   font-weight: 700;
-  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.25rem;
+  text-align: left;
 }
 
-.addcourse-modules h2,
-.addcourse-final-quiz h2 {
-  color: #000000;
-  margin-bottom: 0.9375rem;
-  border-bottom: 0.125rem solid #8c8c5a;
-  padding-bottom: 0.375rem;
+.add-row-inputs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
-/* Inputs */
-.addcourse-input,
-.addcourse-textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  border: 0.125rem solid #b3c6cc;
-  border-radius: 0.5rem;
+.add-input-field {
+  flex: 1 1 30%;
+  min-width: 220px;
+  padding: 0.6rem 1rem;
   font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-input-field:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
+}
+
+.add-textarea-field {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
   resize: vertical;
-  background-color: #fff;
-  color: #222;
+  font-family: inherit;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-textarea-field:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
+}
+
+/* === Module Title Card === */
+.module-header-card {
+  background: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add-module-number {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  min-width: 100px;
+}
+
+.add-module-title-input {
+  flex-grow: 1;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  color: #333;
+}
+
+.add-module-title-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
+}
+
+.add-module-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #dc3545;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.add-module-close-btn:hover {
+  color: #a71d2a;
+}
+
+/* === Lecture Card === */
+.lecture-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  margin-bottom: 1rem;
+}
+
+.lecture-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.lecture-title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #ff6b6b;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #e63946;
+}
+
+.lecture-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.lecture-line input {
+  flex: 1;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 1rem;
+  background-color: #fdfdfd;
   transition: border-color 0.3s ease;
 }
 
-.addcourse-input:focus,
-.addcourse-textarea:focus {
-  border-color: #f5f5dc;
-  background-color: #fefee5;
+.lecture-line input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
 }
 
-/* Intro and Modules cards */
-.addcourse-module,
-.addcourse-lecture,
-.addcourse-assignment,
-.addcourse-quiz-question-block {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border: 0.0625rem solid #b3c6cc;
-  border-radius: 0.5rem;
-  background: #f5f5dc;
-}
-
-
-
-/* Subtitles */
-.addcourse-lectures h3,
-.addcourse-assignments h3 {
-  color: #8c8c5a;
-  margin-bottom: 0.625rem;
-  font-weight: 600;
-}
-
-/* Buttons */
-.addcourse-button,
-.addcourse-button-small,
-.addcourse-submit-button {
-  background-color: #ececc2;
-  border: none;
-  color: #222;
-  padding: 0.625rem 1.125rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.25s ease, transform 0.1s ease;
+.lecture-description {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #ddd;
   font-size: 1rem;
-  user-select: none;
+  background-color: #fdfdfd;
+  resize: vertical;
+  min-height: 8rem; /* Increased height */
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.addcourse-button:hover,
-.addcourse-button-small:hover,
-.addcourse-submit-button:hover {
-  background-color: #dadab0;
+.lecture-description:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
 }
 
-.addcourse-button:active,
-.addcourse-button-small:active,
-.addcourse-submit-button:active {
-  transform: scale(0.97);
-}
-
-/* Submit Button Centered */
-.addcourse-submit-container {
+/* === Add Lecture Button Card === */
+.add-lecture-button-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
   text-align: center;
-  margin-top: 1.875rem;
-}
-
-.addcourse-submit-button {
-  display: inline-block;
-  margin: 0 auto;
-}
-
-.addcourse-wrapper {
-  padding: 20px;
-  background-color: #f9f7f3;
-}
-
-.page-container {
-  max-width: 1000px;
-  margin: auto;
-}
-
-
-.addcourse-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.addcourse-title {
-  font-size: 2rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
   margin-bottom: 1rem;
 }
 
-.addcourse-section {
-  margin-bottom: 2rem;
-}
-
-.addcourse-section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.addcourse-section-header h2 {
-  margin: 0;
-}
-
-.addcourse-input,
-.addcourse-textarea {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.addcourse-textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-
-.addcourse-module {
-  background-color: #fff;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-}
-
-.addcourse-button-small {
-  margin-top: 10px;
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  cursor: pointer;
+.add-lecture-btn {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
-}
-
-.module-header-button {
-  margin-left: 20px;
-}
-
-.addcourse-bottom-addmodule {
-  margin-top: 20px;
-  text-align: right;
-}
-
-.addcourse-submit-container {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.addcourse-submit-button {
-  padding: 12px 24px;
   font-size: 1rem;
-  border: none;
-  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Ensure space for top-right delete buttons */
-.addcourse-module,
-.addcourse-lecture,
-.addcourse-assignment {
-  position: relative;
-  padding-top: 2.5rem; /* space for the delete button */
+.add-lecture-btn:hover {
+  background-color: #219150;
 }
 
-/* Position delete buttons neatly */
-.delete-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ffdddd;
-  color: #a00;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 4px 8px;
-  z-index: 1;
+/* === Add Module Button Card === */
+.add-module-button-container {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
 }
 
-.delete-button-small {
-  background: #ff4d4f;
+.add-module-btn {
+  background-color: #2e86de;
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
-  line-height: 20px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  margin-left: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.choice-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-
+.add-module-btn:hover {
+  background-color: #1b4f72;
 }
-.addcourse-assignment {
-  position: relative;
-  padding-right: 30px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
+
+/* === Submit Card === */
+.add-card {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
-/* Responsive */
-@media (max-width: 48rem) {
-  .addcourse-form {
-    padding: 0.9375rem;
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .add-row-inputs {
+    flex-direction: column;
   }
 
-  .addcourse-input,
-  .addcourse-textarea {
-    font-size: 0.9rem;
+  .add-input-field {
+    flex: 1 1 100%;
+    min-width: unset;
   }
 
-  .addcourse-button,
-  .addcourse-button-small,
-  .addcourse-submit-button {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.1rem;
-  }
-
-  .addcourse-submit-container {
-    margin-top: 1.25rem;
-  }
-
-  .addcourse-button-small {
-    width: auto;
-    display: block;
-    margin-top: 0.625rem;
+  .lecture-line {
+    flex-direction: column;
   }
 }

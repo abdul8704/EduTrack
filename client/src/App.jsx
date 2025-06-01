@@ -6,8 +6,7 @@ import { CourseIntro } from './pages/CourseIntro';
 import { CourseLearn } from './pages/CourseLearn';
 import { EmpProgress } from './pages/EmpProgress';
 import { AdminDashboard } from './pages/AdminDashboard';
-import { AddCourse } from './pages/AddCourse'; 
-import { Add } from './pages/Add'
+import  AddCourse  from './pages/AddCourse'; 
 import { CourseDeets } from './pages/CourseDeets';
 import { AvailableCourses } from "./components/AvailableCourses";
 import { Profile } from "./pages/Profile";
@@ -28,7 +27,7 @@ function App() {
         <Route path="/admin/dashboard/:userId/:navId/details" element={<AdminDashboard/>}/>
         {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
         <Route path="/admin/dashboard/:userId/course/addcourse" element={<AddCourse />} />
-        <Route path="/add" element={<Add />} />
+        <Route path="/add" element={<AddCourse/>} />
         <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
