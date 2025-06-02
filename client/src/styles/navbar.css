@@ -43,7 +43,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
 }
 
 .navbar-logo-container {
@@ -59,7 +58,6 @@
 }
 
 .navbar-right-section {
-  width: 50%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -96,7 +94,7 @@
 }
 
 .navbar-button:hover {
-  background-color: black;
+  background-color: rgb(155, 126, 126);
   border-color: #000;
 }
 
