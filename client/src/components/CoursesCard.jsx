@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../styles/EnrolledCourses.css'
+import '../styles/enrolledCourses.css'
 
 export const CoursesCard = ({ userId, courseId, title, image, instructor, rating }) => {
   const navigate = useNavigate();
