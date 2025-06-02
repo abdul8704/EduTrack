@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CourseDetails } from '../components/CourseDetails';
-import '../styles/CourseIntro.css';
+import '../styles/courseIntro.css';
 import { Navbar } from '../components/Navbar';
 export const CourseIntro = () => {
   const { userId, courseId } = useParams();

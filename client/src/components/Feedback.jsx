@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../styles/Feedback.css';
+import '../styles/feedback.css';
 
 export const Feedback = () => {
   const { userId, courseId } = useParams();

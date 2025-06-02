@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/ProfileCard.css';
+import '../styles/profilecard.css';
 
 export const ProfileCard = ({ adminId, photo, name, designation, email }) => {
   const navigate = useNavigate();
