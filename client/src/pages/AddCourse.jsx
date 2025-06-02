@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import "../styles/addcourse.css";
 import axios from "axios";
+import { Navbar } from "../components/Navbar";
 
 // Constants
 const INITIAL_ASSIGNMENT = {
@@ -224,6 +225,8 @@ export const AddCourse = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="addcourse-wrapper">
       <div className="page-container">
         <form className="addcourse-form" onSubmit={handleSubmit}>
@@ -233,7 +236,7 @@ export const AddCourse = () => {
           <CourseIntroSection
             courseData={courseData}
             onChange={handleCourseChange}
-          />
+            />
 
           {/* Modules Section */}
           <ModulesSection
@@ -250,20 +253,21 @@ export const AddCourse = () => {
             onChoiceChange={handleChoiceChange}
             onAddChoice={addChoice}
             onDeleteChoice={deleteChoice}
-          />
+            />
 
           <div className="addcourse-submit-container">
             <button
               type="submit"
               className="addcourse-submit-button"
               disabled={isSubmitting}
-            >
+              >
               {isSubmitting ? "Creating Course..." : "Submit Course"}
             </button>
           </div>
         </form>
       </div>
     </div>
+  </>
   );
 };
 
