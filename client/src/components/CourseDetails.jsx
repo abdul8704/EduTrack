@@ -51,7 +51,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   if (loading) return <div>Loading...</div>;
   if (!username) return <div>USER NOT FOUND...</div>
 
-  const handleDownloadCertificate = async ({courseName, courseInstructor}) => {
+  const handleDownloadCertificate = async ({ courseName, courseInstructor }) => {
     try {
       const response = await fetch('http://localhost:5000/api/certificate', {
         method: 'POST',
@@ -140,10 +140,14 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
                 <iframe
                   width="560"
                   height="315"
-                  src={embedUrl}
+                  src={
+                    embedUrl.includes('?')
+                      ? `${embedUrl}&autoplay=1&mute=1`
+                      : `${embedUrl}?autoplay=1&mute=1`
+                  }
                   title={courseIntroVideo.videoTitle || "Course Introduction"}
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
               ) : (
@@ -151,6 +155,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
               )}
             </div>
           )}
+
 
           <div className="coursepage-text-corner">
             <h2>{courseName}</h2>

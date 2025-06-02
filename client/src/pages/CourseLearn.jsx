@@ -52,7 +52,7 @@ export const CourseLearn = () => {
           `http://localhost:5000/api/user/${userId}/${courseId}/module/${moduleNumber}/${subModuleNumber}`
         );
 
-        setSubModuleVideo(response.data.subModule.video);
+        setSubModuleVideo(response.data.subModule.video.videoUrl);
         setSubModuleQuiz(response.data.subModule.quiz);
         setSubModuleTitle(response.data.subModule.submoduleTitle);
         setSubModuleDesc(response.data.subModule.description);
@@ -93,7 +93,7 @@ export const CourseLearn = () => {
         moduleNumber={moduleNumber}
         subModuleNumber={subModuleNumber}
         title={subModuleTitle}
-        videoUrl="https://www.youtube.com/embed/1CViJDo_YGk?si=qcTBuL77FfFpIqqu"
+        videoUrl={subModuleVideo}
         description={subModuleDesc}
         questions={subModuleQuiz.questions}
         onProgressUpdated={() => setProgressReloadTrigger(prev => prev + 1)}
