@@ -8,7 +8,7 @@ router.get("/:adminid/courseinfo/:courseId", adminController.getCourseInfoById);
 router.get("/:adminid/", adminController.getAllUsers);
 router.get("/:adminid/allusers/:courseId", adminController.getUserForCourse);
 router.get("/:adminid/course/allcourses", adminController.getAllCourses);
-router.post("/:adminid/add", adminController.addNewUser);
+router.put("/:adminid/promote/:userid", adminController.addNewUser);
 router.get(
     "/:adminid/progress/:employeeid",
     adminController.getProgressByUserId
