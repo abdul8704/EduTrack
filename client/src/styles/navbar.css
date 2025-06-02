@@ -75,6 +75,7 @@
   text-align: center;
   transition: color 0.3s;
   flex: none;
+  width: auto;
 }
 
 .navbar-right-section a:hover {
