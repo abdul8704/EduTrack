@@ -51,33 +51,33 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   if (loading) return <div>Loading...</div>;
   if (!username) return <div>USER NOT FOUND...</div>
 
+
+
   const handleDownloadCertificate = async ({ courseName, courseInstructor }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/certificate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/certificate`,
+        {
           name: username,
           course: courseName,
           instructor: courseInstructor,
           date: new Date().toLocaleDateString()
-        }),
-      });
+        },
+        {
+          responseType: 'blob', // Important: tells Axios to expect a file (like PDF)
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Backend error:', errorText);
-        throw new Error('Failed to generate certificate');
-      }
-
-      const blob = await response.blob();
-      if (blob.type !== 'application/pdf') {
-        const text = await blob.text();
+      if (response.data.type !== 'application/pdf') {
+        const text = await response.data.text();
         console.error('Unexpected response:', text);
         throw new Error('Invalid PDF content received');
       }
 
-      const url = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `${courseName}.pdf`);
@@ -101,6 +101,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
       });
     }
   };
+
 
   const handleStartClick = () => {
     navigate(`/course/learn/${uId}/${id}/0/0`);

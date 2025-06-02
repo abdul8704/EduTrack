@@ -25,26 +25,27 @@ const fetchCourses = async (userId) => {
   }
 }
 
+import axios from 'axios';
+
 const downloadCertificate = async ({ username, courseName, courseInstructor }) => {
   try {
-    const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/api/certificate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/certificate`,
+      {
         name: username,
         course: courseName,
         instructor: courseInstructor,
-        date: new Date().toLocaleDateString()
-      }),
-    });
+        date: new Date().toLocaleDateString(),
+      },
+      {
+        responseType: 'blob', // Important to receive the PDF as binary
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Backend error:', errorText);
-      throw new Error('Failed to generate certificate');
-    }
-
-    const blob = await response.blob();
+    const blob = response.data;
     if (blob.type !== 'application/pdf') {
       const text = await blob.text();
       console.error('Unexpected response:', text);
@@ -67,7 +68,7 @@ const downloadCertificate = async ({ username, courseName, courseInstructor }) =
     });
 
   } catch (error) {
-    console.error(error);
+    console.error('Certificate download error:', error);
     showPopup("Error downloading certificate: " + error.message, {
       background: "#f8d7da",
       border: "#f5c6cb",
@@ -75,6 +76,7 @@ const downloadCertificate = async ({ username, courseName, courseInstructor }) =
     });
   }
 };
+
 
 export const Profile =  () => {
   const { userId } = useParams();

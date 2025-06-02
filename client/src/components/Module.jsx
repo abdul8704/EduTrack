@@ -52,22 +52,17 @@ export const Module = ({
 
     if (allCorrect) {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/user/${userId}/${courseId}/progress/${moduleNumber}/${subModuleNumber}`,
+        const response = await axios.patch(
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/${courseId}/progress/${moduleNumber}/${subModuleNumber}`,
+          {}, // body payload
           {
-            method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({}),
+            }
           }
         );
 
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to update progress');
-        }
+        const data = response.data;
 
         onProgressUpdated?.();
 
@@ -84,7 +79,9 @@ export const Module = ({
 
       } catch (err) {
         console.error('Error updating progress:', err);
-        showPopup(`Failed to update progress`, {
+        const message = err.response?.data?.message || 'Failed to update progress';
+
+        showPopup(message, {
           background: "#fdecea",
           border: "#f5c6cb",
           text: "#a71d2a"
@@ -97,6 +94,7 @@ export const Module = ({
         text: "#a71d2a"
       });
     }
+    
   };
 
   return (
