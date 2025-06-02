@@ -13,8 +13,8 @@ const getAllCourses = async (req, res) => {
         return res
             .status(403)
             .json({ success: false, message: "Access denied. Admins only." });
-    
-    try{
+
+    try {
         const allCourses = await Courses.find({}, {
             courseId: 1,
             courseName: 1,
@@ -24,7 +24,7 @@ const getAllCourses = async (req, res) => {
         });
 
         res.status(200).json({ success: true, allCourses: allCourses });
-    }catch (error) {
+    } catch (error) {
         console.error("Error fetching courses:", error);
         res.status(500).json({
             success: false,
@@ -139,38 +139,27 @@ const getProgressByUserId = async (req, res) => {
 };
 
 const addNewUser = async (req, res) => {
-    if (!isAdmin(req.params.adminid))
-        return res
-            .status(403)
-            .json({ success: false, message: "Access denied. Admins only." });
     try {
-        const { username, emailHash, passwordHash } = req.body;
-        const existingUser = await User.findOne({ email: emailHash });
-        if (existingUser)
-            return res
-                .status(400)
-                .json({ success: false, message: "User already exists" });
+        const adminid = req.params.adminid;
+        const targetUserid = req.params.userid;
 
-        const newUser = new User({
-            username: username,
-            email: emailHash,
-            userid: emailHash,
-            passwordHash: passwordHash,
-            currentCourses: [],
-        });
+        const admin = await User.findOne({ userid: adminid });
+        if (!admin || admin.role !== "admin") {
+            return res.status(403).json({ success: false, message: "Access denied. Admins only." });
+        }
 
-        await newUser.save();
-        res.status(201).json({
-            success: true,
-            message: "User created successfully",
-        });
+        const user = await User.findOne({ userid: targetUserid });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        user.role = "admin";
+        await user.save();
+
+        return res.json({ success: true, message: "User promoted to admin successfully" });
     } catch (error) {
-        console.error("Unable to create new user", error);
-        res.status(500).json({
-            success: false,
-            message: "Server error",
-            error: error.message,
-        });
+        console.error("Error promoting user:", error);
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 };
 
@@ -300,7 +289,7 @@ const addNewCourse = async (req, res) => {
             tags: tags || [],
             courseIntroVideo: {
                 videoTitle: introVideoTitle,
-                videoUrl: introVideo, 
+                videoUrl: introVideo,
             },
         });
         await newCourse.save();

@@ -1,9 +1,9 @@
 import '../styles/adminDashboard.css';
-import { Users, BookOpen } from 'lucide-react';
+import { Users, BookOpen, House } from 'lucide-react';
 import { EmployeeDeets } from '../components/EmployeeDeets.jsx';
 import { AdminAvailableCourse } from '../components/AdminAvailableCourse.jsx';
-import React, { useState, useEffect } from 'react'; 
-import axios from 'axios'; 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useParams, useLocation, Navigate } from 'react-router-dom';
 import { Popup } from '../components/Popup';  // import Popup
 
@@ -19,6 +19,7 @@ export const AdminDashboard = () => {
   const [userLoading, setULoading] = useState(true);
 
   const options = [
+    { id: 'home', label: 'Home', icon: <House size={18} className="admnav-icon" /> },
     { id: 'employee', label: 'Employee Progress', icon: <Users size={18} className="admnav-icon" /> },
     { id: 'course', label: 'Manage Course', icon: <BookOpen size={18} className="admnav-icon" /> }
   ];
@@ -72,7 +73,14 @@ export const AdminDashboard = () => {
           <div key={index} className="admnav-module-wrapper">
             <button
               className={`admnav-nav-btn ${navId === item.id ? 'admnav-active-module' : ''}`}
-              onClick={() => window.location.href = `/admin/dashboard/${userId}/${item.id}/details`}
+              onClick={() => {
+                if (item.id === 'home') {
+                  window.location.href = `/user/dashboard/${userId}`;
+                } else {
+                  window.location.href = `/admin/dashboard/${userId}/${item.id}/details`;
+                }
+              }}
+
             >
               {item.icon}
               <span className="admnav-label">{item.label}</span>

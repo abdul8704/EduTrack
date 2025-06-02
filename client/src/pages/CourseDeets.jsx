@@ -4,9 +4,10 @@ import '../styles/coursedeets.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import { Navbar } from '../components/Navbar';
 
 export const CourseDeets = () => {
-  const { courseId } = useParams();
+  const { userId, courseId } = useParams();
   const [navCourse, setCourse] = useState(null);
   const [navContents, setContents] = useState([]);
   const [navLoading, setLoading] = useState(true);
@@ -17,11 +18,9 @@ export const CourseDeets = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/courseinfo/${courseId}`);
-        console.log(courseId)
-        console.log(response.data)
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/courseinfo/${courseId}`);
         setCourse(response.data.course);
-        setContents(response.data.contents);
+        setContents(response.data.tableOfContents);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -34,7 +33,7 @@ export const CourseDeets = () => {
   useEffect(() => {
     const fetchEnrolledUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/bob@example.com/allusers/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/allusers/${courseId}`);
         setEnrolledUsers(response.data.data);
         setUsersLoading(false);
       } catch (error) {
@@ -47,15 +46,23 @@ export const CourseDeets = () => {
 
   const handleCardClick = (userEmail) => {
     if (userEmail) {
-      navigate(`/empprogress/${userEmail}`);
+      navigate(`/admin/dashboard/${userId}/details/emp/${userEmail}`);
     }
   };
+  useEffect(() => {
+    document.body.classList.add('empprog-lock-scroll');
+    return () => {
+      document.body.classList.remove('empprog-lock-scroll');
+    };
+  }, []);
 
   if (navLoading || usersLoading || !navCourse || !enrolledUsers) {
     return <div>Loading...</div>;
   }
 
   return (
+    <>
+    <Navbar/>
     <div className="coursedeets-container">
       <aside className="coursedeets-navbar">
         <button className="coursedeets-back-button" onClick={() => window.history.back()}>
@@ -95,7 +102,7 @@ export const CourseDeets = () => {
             <div className="coursedeets-course-card" key={person.userId} onClick={() => handleCardClick(person.userId)}>
               <img
                 className="coursedeets-course-image"
-                src={person.imageUrl || '/default-user.png'}
+                src={person.profilePicture}
                 onError={(e) => (e.target.src = '/default-user.png')}
                 alt={person.username}
               />
@@ -115,5 +122,6 @@ export const CourseDeets = () => {
         </div>
       </main>
     </div>
+    </>
   );
 };

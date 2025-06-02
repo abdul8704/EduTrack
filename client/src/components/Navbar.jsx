@@ -32,33 +32,15 @@ const NavbarInput = ({ userId }) => {
       />
       <div className="navbar-buttons-container">
         {input && (
-          <button
-            className="navbar-reset"
-            type="button"
-            onClick={handleReset}
-            aria-label="Reset search input"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="navbar-reset-icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
+          <button className="navbar-reset" type="button" onClick={handleReset} aria-label="Reset">
+            <svg xmlns="http://www.w3.org/2000/svg" className="navbar-reset-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         )}
         <button className="navbar-search-button" type="submit" aria-label="Search">
           <svg width={17} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-            <path
-              d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-              stroke="currentColor"
-              strokeWidth="1.333"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" strokeWidth="1.333" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
@@ -70,24 +52,34 @@ export const Navbar = () => {
   const { userId } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(DEFAULT_PROFILE_PIC);
+  const [role, setRole] = useState("user"); // default role
   const hamburgerRef = useRef(null);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  const handleAdminClick = () => {
+    window.location.href = `http://localhost:5173/admin/dashboard/${userId}/employee/details`;
+  };
+
   useEffect(() => {
-    const fetchProfilePic = async () => {
+    const fetchUserInfo = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
-        if (response.data.username.profilePicture) {
-          setProfilePicture(response.data.username.profilePicture);
+        const user = response.data.username;
+        if (user?.profilePicture) {
+          setProfilePicture(user.profilePicture);
+        }
+        if (user?.role) {
+          setRole(user.role);
         }
       } catch (error) {
-        console.error('Error fetching profile picture:', error);
+        console.error('Error fetching user info:', error);
       }
     };
 
-    if (userId) fetchProfilePic();
+    if (userId) fetchUserInfo();
   }, [userId]);
 
   useEffect(() => {
@@ -141,17 +133,15 @@ export const Navbar = () => {
               <div className="navbar-search-mobile">
                 <NavbarInput userId={userId} />
               </div>
-              <div className="navbar-mobile-links">
-                <Link to="/">Home</Link>
-              </div>
               <div className="navbar-profile-desktop">
                 <Link to={`/user/profile/${userId}`}>
-                  <img
-                    src={profilePicture}
-                    alt="Profile"
-                    className="navbar-profile-picture"
-                  />
+                  <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
                 </Link>
+                {role === "admin" && (
+                  <button className="navbar-admin-button" onClick={handleAdminClick}>
+                    Admin
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -162,15 +152,20 @@ export const Navbar = () => {
         <div className="navbar-search-desktop">
           <NavbarInput userId={userId} />
         </div>
-        <Link to="/">Home</Link>
         <div className="navbar-profile-desktop">
-          <Link to={`/user/profile/${userId}`}>
-            <img
-              src={profilePicture}
-              alt="Profile"
-              className="navbar-profile-picture"
-            />
-          </Link>
+          {role === "admin" && (
+              <div className="navbar-mobile-links">
+                <Link to={`/admin/dashboard/${userId}/employee/details`}>Admin Dashboard</Link>
+              </div>
+          )}
+          <div>
+            <Link to={`/user/profile/${userId}`}>
+              <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
+            </Link>
+            <div className="navbar-mobile-links">
+              <Link to={`/`}>Logout</Link>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

@@ -8,7 +8,7 @@ export const AdminAvailableCourse = ({ available }) => {
   const navigate = useNavigate();
 
   const handleClick = (courseId) => {
-    navigate(`/coursedeets/${courseId}`);
+    navigate(`/admin/dashboard/${userId}/details/course/${courseId}`);
   };
 
   const handleAddCourse = () => {
