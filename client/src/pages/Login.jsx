@@ -73,19 +73,72 @@ export const Login = () => {
     }
   };
 
-  const handleSignupSubmit = async (e) => {
-    e.preventDefault();
+    const handleSignupSubmit = async (e) => {
+      e.preventDefault();
 
-    if (!isOtpPhase) {
-      console.log("Signup credentials:", signupData);
-      // Trigger OTP sending here (e.g. via API)
-      setIsOtpPhase(true);
-      setSignupData({ ...signupData, confirmpassword: "" });
-    } else {
-      console.log("OTP entered:", signupData.confirmpassword);
-      // Submit OTP for verification
-    }
-  };
+      if (!isOtpPhase) {
+        try {
+          const existingUser = await axios.post("http://localhost:5000/api/login/signup/check", {
+            useremail: signupData.email
+          })
+          console.log("llloooo",existingUser)
+          
+              
+          const response = await axios.post("http://localhost:5000/api/login/signup/send-otp",
+            { useremail: signupData.email }
+          );
+          
+          if (response.status === 200) {
+            alert("OTP sent to your email");
+            setIsOtpPhase(true);
+            setSignupData({ ...signupData, confirmpassword: "" });
+          } else {
+            alert("Failed to send OTP: " + response.data.error);
+          }
+        } catch (err) {
+          if (err.response && err.response.status === 400 && err.response.data.message === "User already exists") {
+            alert("User with this email already exists");
+            setIsOtpPhase(false);
+            setSignupData({ name: "", email: "", password: "", confirmpassword: "" });
+            return; 
+          } else {
+            alert("Network error: " + err.message);
+          }
+        }
+      } else {
+        try {
+          const response = await axios.post("http://localhost:5000/api/login/signup/verify-otp", {
+              useremail: signupData.email,
+              otp: signupData.confirmpassword, 
+            }
+          );
+
+          if (response.status === 200) {
+            alert("Signup successful");
+          } 
+          // TODO: put loading screen here until user is created
+          const signUp = await axios.post("http://localhost:5000/api/login/signup/newuser", {
+            username: signupData.name,
+            email: signupData.email,
+            password: signupData.password
+          })
+
+          if(signUp.status === 200)
+              alert("user created!!");
+
+          navigate(`/user/dashboard/${signupData.email}`)
+          
+        } catch (err) {
+          if (err.response && err.response.status === 400) {
+            alert("Incorrect OTP");
+          } else {
+            alert("Error verifying OTP: " + err.message);
+        }
+      }
+    };
+  }
+    
+
 
   return (
     <>
