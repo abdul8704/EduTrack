@@ -1,28 +1,32 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
 const generateCertificate = async (req, res) => {
-  try {
-    const { name, course, date, instructor } = req.body;
+    try {
+        const { name, course, date, instructor } = req.body;
 
-    if (!name || !course || !date || !instructor) {
-      return res.status(400).json({ message: "Name, course, date, and instructor are required." });
-    }
+        if (!name || !course || !date || !instructor) {
+            return res
+                .status(400)
+                .json({
+                    message: "Name, course, date, and instructor are required.",
+                });
+        }
 
-    // Convert mm/dd/yyyy to dd/mm/yyyy
-    const [month, day, year] = date.split('/');
-    const formattedDate = `${day}/${month}/${year}`;
+        // Convert mm/dd/yyyy to dd/mm/yyyy
+        const [month, day, year] = date.split("/");
+        const formattedDate = `${day}/${month}/${year}`;
 
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+        const browser = await puppeteer.launch({
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
 
-    const page = await browser.newPage();
+        const page = await browser.newPage();
 
-    // Set viewport to match A4 landscape
-    await page.setViewport({ width: 1122, height: 793 });
+        // Set viewport to match A4 landscape
+        await page.setViewport({ width: 1122, height: 793 });
 
-    // HTML template
-    const html = `
+        // HTML template
+        const html = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -196,28 +200,29 @@ const generateCertificate = async (req, res) => {
     </html>
     `;
 
-    await page.setContent(html, { waitUntil: 'networkidle0' });
+        await page.setContent(html, { waitUntil: "networkidle0" });
 
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      landscape: true,
-      printBackground: true,
-    });
+        const pdfBuffer = await page.pdf({
+            format: "A4",
+            landscape: true,
+            printBackground: true,
+        });
 
-    await browser.close();
+        await browser.close();
 
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename=${course}_certificate.pdf`,
-      'Content-Length': pdfBuffer.length,
-    });
+        res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename=${course}_certificate.pdf`,
+            "Content-Length": pdfBuffer.length,
+        });
 
-    return res.send(Buffer.from(pdfBuffer));
-
-  } catch (error) {
-    console.error("Certificate generation error:", error);
-    return res.status(500).json({ message: "Error generating certificate" });
-  }
+        return res.send(Buffer.from(pdfBuffer));
+    } catch (error) {
+        console.error("Certificate generation error:", error);
+        return res
+            .status(500)
+            .json({ message: "Error generating certificate" });
+    }
 };
 
 module.exports = { generateCertificate };
