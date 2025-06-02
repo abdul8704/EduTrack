@@ -22,7 +22,7 @@ export const EmpProgress = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/progress/${empId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/progress/${empId}`);
         setCourses(response.data.progress || []);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -37,7 +37,7 @@ export const EmpProgress = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/userdata/${empId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/userdata/${empId}`);
         setUserData(response.data.user || null);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -68,7 +68,7 @@ const handleMakeAdmin = async () => {
 
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/admin/${userId}/promote/${useremail.userId}`
+      `${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/promote/${useremail.userId}`
     );
 
     if (response.data.success) {

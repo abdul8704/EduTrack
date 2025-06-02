@@ -14,7 +14,7 @@ export const CourseIntro = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setPerc(response.data.percentComplete);

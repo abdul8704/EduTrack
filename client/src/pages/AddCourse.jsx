@@ -184,7 +184,7 @@ export const AddCourse = () => {
     if (!validateForm()) return;
     setIsSubmitting(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/bob@example.com/course/addnewcourse", courseData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/bob@example.com/course/addnewcourse`, courseData);
       if (response.data.success) {
         alert("Course created successfully!");
         setCourseData(INITIAL_COURSE_DATA);

@@ -38,7 +38,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${uId}/data/userinfo`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${uId}/data/userinfo`);
         setName(response.data.username.username);
         setLoading(false);
       } catch (error) {
@@ -53,7 +53,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
 
   const handleDownloadCertificate = async ({ courseName, courseInstructor }) => {
     try {
-      const response = await fetch('http://localhost:5000/api/certificate', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/certificate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -107,7 +107,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   };
   const handleEnrollClick = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/user/${uId}/${id}/enroll`);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/${uId}/${id}/enroll`);
 
       if (response.status === 200) {
         showPopup("Enrollment successful! You can now start the course.", {

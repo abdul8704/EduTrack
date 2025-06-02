@@ -18,7 +18,7 @@ export const CourseDeets = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/courseinfo/${courseId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/courseinfo/${courseId}`);
         setCourse(response.data.course);
         setContents(response.data.tableOfContents);
         setLoading(false);
@@ -33,7 +33,7 @@ export const CourseDeets = () => {
   useEffect(() => {
     const fetchEnrolledUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/allusers/${courseId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/allusers/${courseId}`);
         setEnrolledUsers(response.data.data);
         setUsersLoading(false);
       } catch (error) {

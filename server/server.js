@@ -14,6 +14,15 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173", // local dev
+            "https://learn-zuntra-k8ox.vercel.app/", // 🚨 replace this with actual domain
+        ],
+    })
+);
+
 app.use(express.json());
 app.use(cors());
 

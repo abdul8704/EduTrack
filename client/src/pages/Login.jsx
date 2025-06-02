@@ -37,7 +37,7 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login/existinguser", loginData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/existinguser`, loginData);
 
       if (response.status === 200) {
         const role = response.data.userDetails.role;
@@ -77,11 +77,11 @@ export const Login = () => {
 
     if (!isOtpPhase) {
       try {
-        await axios.post("http://localhost:5000/api/login/signup/check", {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/check`, {
           useremail: signupData.email
         });
 
-        const response = await axios.post("http://localhost:5000/api/login/signup/send-otp", {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/send-otp`, {
           useremail: signupData.email
         });
 
@@ -131,13 +131,13 @@ export const Login = () => {
       }
     } else {
       try {
-        const response = await axios.post("http://localhost:5000/api/login/signup/verify-otp", {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/verify-otp`, {
           useremail: signupData.email,
           otp: signupData.confirmpassword
         });
 
         if (response.status === 200) {
-          const signUp = await axios.post("http://localhost:5000/api/login/signup/newuser", {
+          const signUp = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/newuser`, {
             username: signupData.name,
             email: signupData.email,
             password: signupData.password

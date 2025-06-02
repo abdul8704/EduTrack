@@ -21,7 +21,7 @@ export const UserDashboard = () => {
     const fetchCourseData = async () => {
       try {
         // "bobsmith92"
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}`);
         setCourses({
           enrolledCourses: response.data.enrolledCourses,
           availableCourses: response.data.availableCourses

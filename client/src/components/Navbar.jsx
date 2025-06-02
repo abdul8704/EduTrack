@@ -66,7 +66,7 @@ export const Navbar = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/data/userinfo`);
         const user = response.data.username;
         if (user?.profilePicture) {
           setProfilePicture(user.profilePicture);

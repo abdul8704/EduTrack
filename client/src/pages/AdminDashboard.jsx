@@ -29,7 +29,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/course/allcourses`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/course/allcourses`);
         setCourses(response.data.allCourses);
         setLoading(false);
       } catch (error) {
@@ -44,7 +44,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/alice@example.com');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/alice@example.com`);
         setUsers(response.data.allUsers);
         setULoading(false);
       } catch (error) {

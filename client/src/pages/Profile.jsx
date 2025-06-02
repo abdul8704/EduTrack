@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 const fetchUserData = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/data/userinfo`);
     return response.data.username;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -17,7 +17,7 @@ const fetchUserData = async (userId) => {
 
 const fetchCourses = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}`);
     return response.data.completedCourses;
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -27,7 +27,7 @@ const fetchCourses = async (userId) => {
 
 const downloadCertificate = async ({ username, courseName, courseInstructor }) => {
   try {
-    const response = await fetch('http://localhost:5000/api/certificate', {
+    const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/api/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
