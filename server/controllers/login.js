@@ -53,7 +53,6 @@ const loginValidation = async (req, res) => {
 
 const signupValidation = async (req, res) => {
     const { username, email, password } = req.body;
-    console.log("Received signup request:", req.body);
     if (!username || !email || !password) {
         return res.status(400).json({
             success: false,
