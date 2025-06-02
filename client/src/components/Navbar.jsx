@@ -158,9 +158,14 @@ export const Navbar = () => {
                 <Link to={`/admin/dashboard/${userId}/employee/details`}>Admin Dashboard</Link>
               </div>
           )}
-          <Link to={`/user/profile/${userId}`}>
-            <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
-          </Link>
+          <div>
+            <Link to={`/user/profile/${userId}`}>
+              <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
+            </Link>
+            <div className="navbar-mobile-links">
+              <Link to={`/`}>Logout</Link>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

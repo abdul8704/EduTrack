@@ -24,11 +24,9 @@ function App() {
         <Route path="/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber" element={<CourseLearn />} />
         <Route path="/course/search/:userId/tags/:tags" element={<SearchResult/>} />
         <Route path="/admin/dashboard/:userId/:navId/details" element={<AdminDashboard/>}/>
-        <Route path="/admin/dashboard/:userId/details/:empId" element={<EmpProgress/>}/>
-        <Route path="/empprogress/:userId" element={<EmpProgress/>}/>
-        {/* <Route path="/coursedeets/:courseId" element={<CourseDeets />} /> */}
+        <Route path="/admin/dashboard/:userId/details/emp/:empId" element={<EmpProgress/>}/>
+        <Route path="/admin/dashboard/:userId/details/course/:courseId" element={<CourseDeets/>}/>
         <Route path="/admin/dashboard/:userId/course/addcourse" element={<AddCourse />} />
-        <Route path="/add" element={<AddCourse/>} />
         <Route path="*" element={<NotFound/>}/>
       </Routes>
       {/* <Footer /> */}

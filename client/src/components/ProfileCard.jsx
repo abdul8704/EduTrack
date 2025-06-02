@@ -6,7 +6,7 @@ export const ProfileCard = ({ adminId, photo, name, designation, email }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/admin/dashboard/${adminId}/details/${email}`);
+    navigate(`/admin/dashboard/${adminId}/details/emp/${email}`);
   };
 
   return (

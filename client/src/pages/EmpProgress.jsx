@@ -59,7 +59,7 @@ export const EmpProgress = () => {
   // Navigate to course details page
   const handleCardClick = (courseId) => {
     if (courseId) {
-      navigate(`/coursedeets/${courseId}`);
+      navigate(`/admin/dashboard/${adminId}/details/course/${courseId}`);
     }
   };
 
