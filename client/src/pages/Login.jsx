@@ -59,7 +59,6 @@ export const Login = () => {
         }
       }
     } catch (err) {
-      const status = err.response?.status;
       const errorMessage = err.response?.data?.message || "Something went wrong. Please try again.";
       setPopupMessage({
         message: errorMessage,
@@ -73,173 +72,218 @@ export const Login = () => {
     }
   };
 
-    const handleSignupSubmit = async (e) => {
-      e.preventDefault();
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
 
-      if (!isOtpPhase) {
-        try {
-          const existingUser = await axios.post("http://localhost:5000/api/login/signup/check", {
-            useremail: signupData.email
-          })
-          console.log("llloooo",existingUser)
-          
-              
-          const response = await axios.post("http://localhost:5000/api/login/signup/send-otp",
-            { useremail: signupData.email }
-          );
-          
-          if (response.status === 200) {
-            alert("OTP sent to your email");
-            setIsOtpPhase(true);
-            setSignupData({ ...signupData, confirmpassword: "" });
-          } else {
-            alert("Failed to send OTP: " + response.data.error);
-          }
-        } catch (err) {
-          if (err.response && err.response.status === 400 && err.response.data.message === "User already exists") {
-            alert("User with this email already exists");
-            setIsOtpPhase(false);
-            setSignupData({ name: "", email: "", password: "", confirmpassword: "" });
-            return; 
-          } else {
-            alert("Network error: " + err.message);
-          }
-        }
-      } else {
-        try {
-          const response = await axios.post("http://localhost:5000/api/login/signup/verify-otp", {
-              useremail: signupData.email,
-              otp: signupData.confirmpassword, 
+    if (!isOtpPhase) {
+      try {
+        await axios.post("http://localhost:5000/api/login/signup/check", {
+          useremail: signupData.email
+        });
+
+        const response = await axios.post("http://localhost:5000/api/login/signup/send-otp", {
+          useremail: signupData.email
+        });
+
+        if (response.status === 200) {
+          setPopupMessage({
+            message: "OTP sent to your email",
+            color: {
+              background: "#d1ecf1",
+              border: "#bee5eb",
+              text: "#0c5460"
             }
-          );
+          });
+          setIsOtpPhase(true);
+          setSignupData({ ...signupData, confirmpassword: "" });
+        } else {
+          setPopupMessage({
+            message: "Failed to send OTP: " + response.data.error,
+            color: {
+              background: "#f8d7da",
+              border: "#f5c6cb",
+              text: "#721c24"
+            }
+          });
+        }
+      } catch (err) {
+        if (err.response?.status === 400 && err.response.data.message === "User already exists") {
+          setPopupMessage({
+            message: "User with this email already exists",
+            color: {
+              background: "#fff3cd",
+              border: "#ffeeba",
+              text: "#856404"
+            }
+          });
+          setIsOtpPhase(false);
+          setSignupData({ name: "", email: "", password: "", confirmpassword: "" });
+        } else {
+          setPopupMessage({
+            message: "Network error: " + err.message,
+            color: {
+              background: "#f8d7da",
+              border: "#f5c6cb",
+              text: "#721c24"
+            }
+          });
+        }
+      }
+    } else {
+      try {
+        const response = await axios.post("http://localhost:5000/api/login/signup/verify-otp", {
+          useremail: signupData.email,
+          otp: signupData.confirmpassword
+        });
 
-          if (response.status === 200) {
-            alert("Signup successful");
-          } 
-          // TODO: put loading screen here until user is created
+        if (response.status === 200) {
           const signUp = await axios.post("http://localhost:5000/api/login/signup/newuser", {
             username: signupData.name,
             email: signupData.email,
             password: signupData.password
-          })
+          });
 
-          if(signUp.status === 200)
-              alert("user created!!");
+          if (signUp.status === 200) {
+            setPopupMessage({
+              message: "Signup successful! Welcome aboard 🎉",
+              color: {
+                background: "#d4edda",
+                border: "#c3e6cb",
+                text: "#155724"
+              }
+            });
 
-          navigate(`/user/dashboard/${signupData.email}`)
-          
-        } catch (err) {
-          if (err.response && err.response.status === 400) {
-            alert("Incorrect OTP");
-          } else {
-            alert("Error verifying OTP: " + err.message);
+            setTimeout(() => {
+              navigate(`/user/dashboard/${signupData.email}`);
+            }, 1500);
+          }
+        }
+      } catch (err) {
+        if (err.response?.status === 400) {
+          setPopupMessage({
+            message: "Incorrect OTP",
+            color: {
+              background: "#f8d7da",
+              border: "#f5c6cb",
+              text: "#721c24"
+            }
+          });
+        } else {
+          setPopupMessage({
+            message: "Error verifying OTP: " + err.message,
+            color: {
+              background: "#f8d7da",
+              border: "#f5c6cb",
+              text: "#721c24"
+            }
+          });
         }
       }
-    };
-  }
-    
-
+    }
+  };
 
   return (
     <>
-    <Navbar/>
-    <div className="login-main">
-      {popupMessage && (
-        <Popup
-          message={popupMessage.message}
-          color={popupMessage.color}
-        />
-      )}
+      <Navbar />
+      <div className="login-main">
+        {popupMessage && (
+          <Popup
+            message={popupMessage.message}
+            color={popupMessage.color}
+          />
+        )}
 
-      <div className="login-wrapper">
-        <div className="login-card-switch">
-          <div className="login-switch">
-            <input
-              type="checkbox"
-              className="login-toggle"
-              checked={isSignupMode}
-              onChange={handleToggleChange}
-            />
-            <span className="login-slider"></span>
-            <span className="login-card-side"></span>
-          </div>
-
-          <div className={`login-flip-card__inner ${isSignupMode ? 'flipped' : ''}`}>
-            <div className="login-flip-card__front">
-              <div className="login-title">Log in</div>
-              <form className="login-flip-card__form" onSubmit={handleLoginSubmit}>
-                <input
-                  className="login-flip-card__input"
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                  value={loginData.email}
-                  onChange={handleLoginChange}
-                  required
-                />
-                <input
-                  className="login-flip-card__input"
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  value={loginData.password}
-                  onChange={handleLoginChange}
-                  required
-                />
-                <button className="login-flip-card__btn" type="submit">
-                  Let's go!
-                </button>
-              </form>
+        <div className="login-wrapper">
+          <div className="login-card-switch">
+            <div className="login-switch">
+              <input
+                type="checkbox"
+                className="login-toggle"
+                checked={isSignupMode}
+                onChange={handleToggleChange}
+              />
+              <span className="login-slider"></span>
+              <span className="login-card-side"></span>
             </div>
 
-            <div className="login-flip-card__back">
-              <div className="login-title">Sign up</div>
-              <form className="login-flip-card__form" onSubmit={handleSignupSubmit}>
-                <input
-                  className="login-flip-card__input"
-                  placeholder="Name"
-                  name="name"
-                  type="text"
-                  value={signupData.name}
-                  onChange={handleSignupChange}
-                  required
-                />
-                <input
-                  className="login-flip-card__input"
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                  value={signupData.email}
-                  onChange={handleSignupChange}
-                  required
-                />
-                <input
-                  className="login-flip-card__input"
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  value={signupData.password}
-                  onChange={handleSignupChange}
-                  required
-                />
-                <input
-                  className="login-flip-card__input"
-                  name="confirmpassword"
-                  placeholder={isOtpPhase ? "Enter OTP" : "Confirm Password"}
-                  type={isOtpPhase ? "text" : "password"}
-                  value={signupData.confirmpassword}
-                  onChange={handleSignupChange}
-                  required
-                />
-                <button className="login-flip-card__btn" type="submit">
-                  Confirm!
-                </button>
-              </form>
+            <div className={`login-flip-card__inner ${isSignupMode ? 'flipped' : ''}`}>
+              {/* Login Side */}
+              <div className="login-flip-card__front">
+                <div className="login-title">Log in</div>
+                <form className="login-flip-card__form" onSubmit={handleLoginSubmit}>
+                  <input
+                    className="login-flip-card__input"
+                    name="email"
+                    placeholder="Email"
+                    type="email"
+                    value={loginData.email}
+                    onChange={handleLoginChange}
+                    required
+                  />
+                  <input
+                    className="login-flip-card__input"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    value={loginData.password}
+                    onChange={handleLoginChange}
+                    required
+                  />
+                  <button className="login-flip-card__btn" type="submit">
+                    Let's go!
+                  </button>
+                </form>
+              </div>
+
+              {/* Signup Side */}
+              <div className="login-flip-card__back">
+                <div className="login-title">Sign up</div>
+                <form className="login-flip-card__form" onSubmit={handleSignupSubmit}>
+                  <input
+                    className="login-flip-card__input"
+                    placeholder="Name"
+                    name="name"
+                    type="text"
+                    value={signupData.name}
+                    onChange={handleSignupChange}
+                    required
+                  />
+                  <input
+                    className="login-flip-card__input"
+                    name="email"
+                    placeholder="Email"
+                    type="email"
+                    value={signupData.email}
+                    onChange={handleSignupChange}
+                    required
+                  />
+                  <input
+                    className="login-flip-card__input"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    value={signupData.password}
+                    onChange={handleSignupChange}
+                    required
+                  />
+                  <input
+                    className="login-flip-card__input"
+                    name="confirmpassword"
+                    placeholder={isOtpPhase ? "Enter OTP" : "Confirm Password"}
+                    type={isOtpPhase ? "text" : "password"}
+                    value={signupData.confirmpassword}
+                    onChange={handleSignupChange}
+                    required
+                  />
+                  <button className="login-flip-card__btn" type="submit">
+                    Confirm!
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
