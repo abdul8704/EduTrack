@@ -37,6 +37,14 @@ export const Login = () => {
     e.preventDefault();
 
     try {
+      setPopupMessage({
+        message: "Please wait...",
+        color: {
+          background: "#d1ecf1",
+          border: "#bee5eb",
+          text: "#0c5460"
+        }
+      })
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/existinguser`, loginData);
 
       if (response.status === 200) {
@@ -80,7 +88,14 @@ export const Login = () => {
         await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/check`, {
           useremail: signupData.email
         });
-
+        setPopupMessage({
+          message: "Please wait...",
+          color: {
+            background: "#d1ecf1",
+            border: "#bee5eb",
+            text: "#0c5460"
+          }
+        });
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/send-otp`, {
           useremail: signupData.email
         });
@@ -131,19 +146,27 @@ export const Login = () => {
       }
     } else {
       try {
+        setPopupMessage({
+          message: "Please wait...",
+          color: {
+            background: "#d1ecf1",
+            border: "#bee5eb",
+            text: "#0c5460"
+          }
+        });
+
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/verify-otp`, {
           useremail: signupData.email,
           otp: signupData.confirmpassword
         });
-
+        
         if (response.status === 200) {
           const signUp = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/newuser`, {
             username: signupData.name,
             email: signupData.email,
             password: signupData.password
           });
-
-          if (signUp.status === 200) {
+          if (signUp.status === 201) {
             setPopupMessage({
               message: "Signup successful! Welcome aboard 🎉",
               color: {
@@ -155,7 +178,7 @@ export const Login = () => {
 
             setTimeout(() => {
               navigate(`/user/dashboard/${signupData.email}`);
-            }, 1500);
+            }, 900);
           }
         }
       } catch (err) {
