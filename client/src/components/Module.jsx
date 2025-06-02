@@ -4,6 +4,7 @@ import { Popup } from './Popup';
 import { Feedback } from './Feedback';
 import { useNavigate } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 export const Module = ({
   userId,
