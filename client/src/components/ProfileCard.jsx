@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ProfileCard.css';
 
-export const ProfileCard = ({ photo, name, designation, email }) => {
+export const ProfileCard = ({ adminId, photo, name, designation, email }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/empprogress/${email}`);
+    navigate(`/admin/dashboard/${adminId}/details/${email}`);
   };
 
   return (
