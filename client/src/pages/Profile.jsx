@@ -25,8 +25,6 @@ const fetchCourses = async (userId) => {
   }
 }
 
-import axios from 'axios';
-
 const downloadCertificate = async ({ username, courseName, courseInstructor }) => {
   try {
     const response = await axios.post(
