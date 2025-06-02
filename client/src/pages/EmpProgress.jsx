@@ -5,6 +5,8 @@ import axios from "axios";
 import { Navbar } from '../components/Navbar';
 
 export const EmpProgress = () => {
+  const { userId, empId } = useParams();
+  console.log(userId, empId)
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
   const useremail = useParams();
   const [courses, setCourses] = useState([]);
@@ -15,14 +17,12 @@ export const EmpProgress = () => {
 
   const navigate = useNavigate();
 
-  // Hardcoded logged-in admin ID - replace or get dynamically in real app
-  const adminId = "bob@example.com";
 
   // Fetch courses data
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${adminId}/progress/${useremail.userId}`);
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/progress/${empId}`);
         setCourses(response.data.progress || []);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -31,13 +31,13 @@ export const EmpProgress = () => {
       }
     };
     fetchCourseData();
-  }, [useremail, adminId]);
+  }, [useremail, userId]);
 
   // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/admin/${adminId}/userdata/${useremail.userId}`);
+        const response = await axios.get(`http://localhost:5000/api/admin/${userId}/userdata/${empId}`);
         setUserData(response.data.user || null);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -46,7 +46,7 @@ export const EmpProgress = () => {
       }
     };
     fetchUserData();
-  }, [useremail, adminId]);
+  }, [useremail, userId]);
 
   // Scroll lock on body only for this page
   useEffect(() => {
@@ -59,7 +59,7 @@ export const EmpProgress = () => {
   // Navigate to course details page
   const handleCardClick = (courseId) => {
     if (courseId) {
-      navigate(`/admin/dashboard/${adminId}/details/course/${courseId}`);
+      navigate(`/admin/dashboard/${userId}/details/course/${courseId}`);
     }
   };
 
@@ -68,7 +68,7 @@ const handleMakeAdmin = async () => {
 
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/admin/${adminId}/promote/${useremail.userId}`
+      `http://localhost:5000/api/admin/${userId}/promote/${useremail.userId}`
     );
 
     if (response.data.success) {
