@@ -10,6 +10,11 @@
   flex: 1;
 }
 
+.addcourse-title-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 /* Form layout */
 .addcourse-form {
   max-width: 56.25rem;
@@ -289,4 +294,25 @@
     display: block;
     margin-top: 0.625rem;
   }
+}
+
+.make-admin-btn {
+  background-color: #4CAF50;   /* Green background */
+  color: white;                /* White text */
+  padding: 0.625rem 1.25rem;   /* 10px 20px = 0.625rem 1.25rem */
+  border: none;                /* Remove default border */
+  border-radius: 0.5rem;       /* 8px = 0.5rem */
+  font-size: 1rem;             /* 16px = 1rem */
+  cursor: pointer;            /* Pointer on hover */
+  margin-top: 2vh;             /* 15px ≈ 2vh for vertical spacing */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.make-admin-btn:hover {
+  background-color: #45a049;  /* Darker green on hover */
+  transform: scale(1.05);     /* Slight zoom effect */
+}
+
+.make-admin-btn:active {
+  transform: scale(0.98);     /* Press down effect */
 }
