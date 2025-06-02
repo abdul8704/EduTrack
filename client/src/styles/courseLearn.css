@@ -185,6 +185,7 @@
   overflow-y: auto; /* Separate scrollbar for module content */
   overflow-x: hidden;
   height: 100vh; /* Full viewport height */
+  width: 80%;
 }
 
 .module-title {
