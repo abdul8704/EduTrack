@@ -152,6 +152,7 @@ export const Navbar = () => {
         <div className="navbar-search-desktop">
           <NavbarInput userId={userId} />
         </div>
+        {userId && (  
         <div className="navbar-profile-desktop">
           {role === "admin" && (
               <div className="navbar-mobile-links">
@@ -167,6 +168,7 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
+      )}
       </div>
     </nav>
   );

@@ -3,6 +3,7 @@ import "../styles/Login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../components/Popup";
+import { Navbar } from "../components/Navbar";
 
 export const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -87,6 +88,8 @@ export const Login = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="login-main">
       {popupMessage && (
         <Popup
@@ -184,5 +187,6 @@ export const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
