@@ -46,7 +46,7 @@ export const Login = () => {
         }
       })
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/existinguser`, loginData);
-
+      console.log(response)
       if (response.status === 200) {
         const role = response.data.userDetails.role;
         const popupData = {
@@ -154,18 +154,21 @@ export const Login = () => {
             text: "#0c5460"
           }
         });
+        console.log("verifying user")
 
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/verify-otp`, {
           useremail: signupData.email,
           otp: signupData.confirmpassword
         });
-        
+        console.log("u r verifed")
         if (response.status === 200) {
+          console.log("Cooking you")
           const signUp = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/newuser`, {
             username: signupData.name,
             email: signupData.email,
             password: signupData.password
           });
+          console.log(signUp)
           if (signUp.status === 201) {
             setPopupMessage({
               message: "Signup successful! Welcome aboard 🎉",
@@ -177,8 +180,10 @@ export const Login = () => {
             });
 
             setTimeout(() => {
-              navigate(`/user/dashboard/${signupData.email}`);
+              navigate(`/user/dashboard/${signUp.data.userid}`);
             }, 900);
+          }else{
+            console.log("HOLA")
           }
         }
       } catch (err) {

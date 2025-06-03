@@ -170,7 +170,7 @@ const getCourseById = async (req, res) => {
 const getSubModuleByCourseId = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
-        const userExists = await User.findOne({userid})
+        const userExists = await User.findOne({userid: userid})
         if(!userExists)
                 return res.status(404).json({success: false, message: "invalid user"});
         

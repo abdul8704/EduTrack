@@ -1,4 +1,6 @@
 const User = require("../models/userDetails");
+const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 const loginValidation = async (req, res) => {
     const { email, password } = req.body;
@@ -19,8 +21,9 @@ const loginValidation = async (req, res) => {
                 message: "User not found.",
             });
         }
-
-        if (user.passwordHash !== password) {
+        console.log(req.body)
+        const correctPass = await bcrypt.compare(password, user.passwordHash);
+        if (!correctPass) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid password.",
@@ -29,11 +32,9 @@ const loginValidation = async (req, res) => {
 
         // Assuming you want to return some user details on successful login
         const userDetails = {
-            username: user.username,
-            userid: user.userid,
-            email: user.email,
-            profilePicture: user.profilePicture,
+            userid: user._id,
             role: user.role,
+            username: user.username
         };
 
         return res.status(200).json({
@@ -60,29 +61,42 @@ const signupValidation = async (req, res) => {
         });
     }
     try {
+        console.log(password)
+        const hashedpass = await bcrypt.hash(
+            password,
+            Number(process.env.HASH_SALT)
+        );
+
         const newUser = new User({
             username: username,
             userid: email,
             email: email,
-            passwordHash: password, // In a real application, hash the password
-            profilePicture: "https://static-00.iconduck.com/assets.00/avatar-default-icon-988x1024-zsfboql5.png", // Default or placeholder image
+            passwordHash: hashedpass, // In a real application, hash the password
+            profilePicture:
+                "https://static-00.iconduck.com/assets.00/avatar-default-icon-988x1024-zsfboql5.png", // Default or placeholder image
             role: "user", // Default role
         });
 
         await newUser.save();
+
+        const unique_id = await User.findOne({ email: email });
+
+        await User.updateOne(
+            { email: email },
+            {
+                $set: {
+                    userid: unique_id._id,
+                },
+            }
+        );
         return res.status(201).json({
             success: true,
             message: "User registered successfully.",
-            userDetails: {
-                username: newUser.username,
-                userid: newUser.userid,
-                email: newUser.email,
-                profilePicture: newUser.profilePicture,
-                role: newUser.role,
-            },
+            userid: unique_id._id,
         });
     }catch (error) {
         console.error("Error during signup:", error);
+
         return res.status(500).json({
             success: false,
             message: "Server error.",

@@ -31,15 +31,16 @@ const verifyOTPController = async (req, res) => {
     const { useremail, otp } = req.body;
     try {
         const storedOTP = await authOTP.findOne({ useremail: useremail });
-        if (storedOTP.otp === parseInt(otp)) {
+        
+        if (storedOTP.otp === Number(otp)) {
             await authOTP.deleteOne({ useremail: useremail });
             return res
                 .status(200)
                 .json({ message: "OTP verified successfully" });
         }
+    
         return res.status(400).json({ message: "Invalid or expired OTP" });
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ success: false, error: error.message})
     }
 };
