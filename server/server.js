@@ -14,6 +14,9 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.json());
+app.options("*", cors());
+
 app.use(
     cors({
         origin: [
@@ -26,7 +29,7 @@ app.use(
     })  
 );
 
-app.use(express.json());
+;
 
 app.use("/api/login/", loginRouter);
 app.use("/api/user/", userRouter);
