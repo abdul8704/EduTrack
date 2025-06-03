@@ -19,6 +19,7 @@ app.use(
         origin: [
             "http://localhost:5173", // local dev
             "https://learn-zuntra-k8ox.vercel.app/",
+            "https://learn-zuntra-az9i.vercel.app/",
             "https://learn-zuntra-az9i-abdul-azizs-projects-d53958bd.vercel.app/",
             "https://learn-zuntra-az9i-git-master-abdul-azizs-projects-d53958bd.vercel.app/", // 🚨 replace this with actual domain
         ],
