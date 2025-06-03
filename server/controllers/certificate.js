@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
+const os = require("os");
 
 const generateCertificate = async (req, res) => {
-  console.log("Received certificate request:", req.body);
     try {
         const { name, course, date, instructor } = req.body;
 
@@ -17,10 +17,15 @@ const generateCertificate = async (req, res) => {
         const [month, day, year] = date.split("/");
         const formattedDate = `${day}/${month}/${year}`;
 
+
+
+        const isLinux = os.platform() === "linux";
+
         const browser = await puppeteer.launch({
             headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            args: isLinux ? ["--no-sandbox", "--disable-setuid-sandbox"] : [],
         });
+        
         
 
         const page = await browser.newPage();
@@ -203,7 +208,7 @@ const generateCertificate = async (req, res) => {
     </html>
     `;
 
-        await page.setContent(html, { waitUntil: "networkidle0" });
+        await page.setContent(html, { waitUntil: "networkidle0", timeout: 0 });
 
         const pdfBuffer = await page.pdf({
             format: "A4",

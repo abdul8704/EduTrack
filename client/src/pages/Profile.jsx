@@ -5,6 +5,8 @@ import '../styles/profile.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
+import { Popup } from '../components/Popup';
+
 const fetchUserData = async (userId) => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/data/userinfo`);
@@ -25,7 +27,7 @@ const fetchCourses = async (userId) => {
   }
 }
 
-const downloadCertificate = async ({ username, courseName, courseInstructor }) => {
+const downloadCertificate = async ({ username, courseName, courseInstructor, showPopup }) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/api/certificate`,
@@ -82,6 +84,12 @@ export const Profile =  () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [popup, setPopup] = useState(null);
+
+  const showPopup = (message, color) => {
+    setPopup({ message, color });
+    setTimeout(() => setPopup(null), 4000);
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -105,7 +113,8 @@ export const Profile =  () => {
     downloadCertificate({
       username: userData.username,
       courseName: courses.find(course => course.courseId === courseId)?.courseName || 'Unknown Course',
-      courseInstructor: courses.find(course => course.courseId === courseId)?.courseInstructor || 'Unknown Instructor'
+      courseInstructor: courses.find(course => course.courseId === courseId)?.courseInstructor || 'Unknown Instructor',
+      showPopup
     })
   };
 

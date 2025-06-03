@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "postinstall": "bash ./render-build.sh"
+    "postinstall": "render-build.bat"
   },
   "keywords": [],
   "dependencies": {
