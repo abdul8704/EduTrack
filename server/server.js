@@ -17,17 +17,16 @@ const app = express();
 app.use(
     cors({
         origin: [
-            "http://localhost:5173", // local dev
+            "http://localhost:5173", 
             "https://learn-zuntra-k8ox.vercel.app/",
             "https://learn-zuntra-az9i.vercel.app/",
             "https://learn-zuntra-az9i-abdul-azizs-projects-d53958bd.vercel.app/",
             "https://learn-zuntra-az9i-git-master-abdul-azizs-projects-d53958bd.vercel.app/", // 🚨 replace this with actual domain
         ],
-    })
+    })  
 );
 
 app.use(express.json());
-app.use(cors());
 
 app.use("/api/login/", loginRouter);
 app.use("/api/user/", userRouter);
