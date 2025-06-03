@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
 
 const generateCertificate = async (req, res) => {
+  console.log("Puppeteer executable path:", puppeteer.executablePath());
+
     try {
         const { name, course, date, instructor } = req.body;
 
@@ -18,6 +20,9 @@ const generateCertificate = async (req, res) => {
 
         const browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            executablePath:
+                process.env.PUPPETEER_EXECUTABLE_PATH ||
+                "/usr/bin/google-chrome",
         });
 
         const page = await browser.newPage();
