@@ -15,21 +15,25 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-app.options("*", cors());
+const corsOptions = {
+    origin: [
+        "http://localhost:5173",
+        "https://learn-zuntra-k8ox.vercel.app",
+        "https://learn-zuntra-az9i.vercel.app",
+        "https://learn-zuntra-az9i-abdul-azizs-projects-d53958bd.vercel.app",
+        "https://learn-zuntra-az9i-git-master-abdul-azizs-projects-d53958bd.vercel.app",
+    ],
+    credentials: true, // Include cookies and auth headers if needed
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(
-    cors({
-        origin: [
-            "http://localhost:5173", 
-            "https://learn-zuntra-k8ox.vercel.app/",
-            "https://learn-zuntra-az9i.vercel.app/",
-            "https://learn-zuntra-az9i-abdul-azizs-projects-d53958bd.vercel.app/",
-            "https://learn-zuntra-az9i-git-master-abdul-azizs-projects-d53958bd.vercel.app/", // 🚨 replace this with actual domain
-        ],
-    })  
-);
+app.use(cors(corsOptions));
 
-;
+// Handle preflight requests
+app.options("*", cors(corsOptions));
+
+
 
 app.use("/api/login/", loginRouter);
 app.use("/api/user/", userRouter);
