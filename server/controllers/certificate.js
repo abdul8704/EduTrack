@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 
 const generateCertificate = async (req, res) => {
   console.log("Puppeteer executable path:", puppeteer.executablePath());
-
+  console.log("Received certificate request:", req.body);
     try {
         const { name, course, date, instructor } = req.body;
 
