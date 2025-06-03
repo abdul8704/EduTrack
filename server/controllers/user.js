@@ -417,6 +417,30 @@ const enrollUserInCourse = async (req, res) => {
     }
 }
 
+const updateRating = async (req, res) => {
+    const {userid, courseid} = req.params;
+    const {rating} = req.body
+    try{
+        const courseData = await CourseDetails.findOne({courseId: courseid})
+        const updatedCompletions = courseData.courseCompletions + 1;
+        const updatedRating = (courseData.courseRating + rating) / updatedCompletions;
+        
+        await CourseDetails.updateOne({ courseId: courseid }, 
+            {
+                $set: {
+                    courseCompletions: updatedCompletions, 
+                    courseRating: updatedRating
+                } 
+            
+        });       
+        
+        return res.status(200).json({ success: true, message: "rating updated successfully"})
+    }catch(err){
+        res.status(500).json({ success: false, message: "nope.", msg: err.message})
+    }
+
+}
+
 module.exports = {
     getUserInfoByUserId,
     getAllCourses,
@@ -426,4 +450,5 @@ module.exports = {
     searchCourse,
     enrollUserInCourse,
     getProgressMatrixByCourseId,
+    updateRating
 };
