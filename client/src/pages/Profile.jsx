@@ -130,7 +130,7 @@ export const Profile =  () => {
     <Navbar />
     <div className="profile-container">
       <aside className="profile-navbar">
-        <button className="profile-backButton" onClick={() => window.history.back()}>
+        <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
           ←
         </button>
         <div className="profile-profileSection">

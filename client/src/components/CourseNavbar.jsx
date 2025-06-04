@@ -36,7 +36,7 @@ export const CourseNavbar = ({
 
   return (
     <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
-        <button className="profile-backButton" onClick={() => window.history.back()}>
+        <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
           ←
         </button>
       {modules.map((module, index) => {
