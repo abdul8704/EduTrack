@@ -307,30 +307,55 @@ const updateProgress = async (req, res) => {
 } 
 
 const searchCourse = async (req, res) => {
-    let tags =
-        req.query.tags?.split(",").map((t) => t.trim().toLowerCase()) || [];
-    
+    let tags = [];
+
+    if (req.query.tags && req.query.tags.trim() !== "") {
+        tags = req.query.tags
+            .split(",")
+            .map((t) => t.trim().toLowerCase())
+            .filter((t) => t.length > 0);
+    }
+
     try {
         const courses = await CourseDetails.aggregate([
+            // Normalize DB tags to lowercase
+            {
+                $addFields: {
+                    tagsLower: {
+                        $map: {
+                            input: "$tags",
+                            as: "tag",
+                            in: { $toLower: "$$tag" },
+                        },
+                    },
+                },
+            },
+            // Match intersection count
             {
                 $addFields: {
                     matchingTags: {
                         $size: {
-                            $setIntersection: ["$tags", tags]
-                        }
-                    }
-                }
+                            $setIntersection: ["$tagsLower", tags],
+                        },
+                    },
+                },
             },
             {
                 $match: {
-                    matchingTags: { $gt: 0 } // only courses with at least 1 matching tag
-                }
+                    matchingTags: { $gt: 0 },
+                },
             },
             {
                 $sort: {
-                    matchingTags: -1 // most matches first
-                }
-            }
+                    matchingTags: -1,
+                },
+            },
+            {
+                $project: {
+                    matchingTags: 0,
+                    tagsLower: 0,
+                },
+            },
         ]);
 
         if (courses.length === 0) {
@@ -342,8 +367,8 @@ const searchCourse = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            courses: courses.map(course => ({
-                _id:course._id,
+            courses: courses.map((course) => ({
+                _id: course._id,
                 courseId: course.courseId,
                 courseName: course.courseName,
                 courseRating: course.courseRating,
@@ -352,16 +377,16 @@ const searchCourse = async (req, res) => {
                 tags: course.tags,
             })),
         });
-
     } catch (error) {
-            console.error("Error searching courses:", error);
-            return res.status(500).json({
-                success: false,
-                message: "Server error while searching courses",
-                errorMessage: error.message,
-            });
+        console.error("Error searching courses:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error while searching courses",
+            errorMessage: error.message,
+        });
     }
-}
+};
+
 
 const enrollUserInCourse = async (req, res) => {
     const { userid, courseid } = req.params;
@@ -418,28 +443,47 @@ const enrollUserInCourse = async (req, res) => {
 }
 
 const updateRating = async (req, res) => {
-    const {userid, courseid} = req.params;
-    const {rating} = req.body
-    try{
-        const courseData = await CourseDetails.findOne({courseId: courseid})
-        const updatedCompletions = courseData.courseCompletions + 1;
-        const updatedRating = (courseData.courseRating + rating) / updatedCompletions;
-        
-        await CourseDetails.updateOne({ courseId: courseid }, 
+    const { userid, courseid } = req.params;
+    const { rating } = req.body;
+
+    try {
+        const courseData = await CourseDetails.findOne({ courseId: courseid });
+
+        if (!courseData) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Course not found" });
+        }
+
+        const prevCompletions = courseData.courseCompletions;
+        const prevRating = courseData.courseRating;
+        const newCompletions = prevCompletions + 1;
+
+        const newAvgRating =
+            (prevRating * prevCompletions + rating) / newCompletions;
+
+        await CourseDetails.updateOne(
+            { courseId: courseid },
             {
                 $set: {
-                    courseCompletions: updatedCompletions, 
-                    courseRating: updatedRating
-                } 
-            
-        });       
-        
-        return res.status(200).json({ success: true, message: "rating updated successfully"})
-    }catch(err){
-        res.status(500).json({ success: false, message: "nope.", msg: err.message})
-    }
+                    courseCompletions: newCompletions,
+                    courseRating: parseFloat(newAvgRating.toFixed(2)),
+                },
+            }
+        );
 
-}
+        return res
+            .status(200)
+            .json({ success: true, message: "Rating updated successfully" });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: err.message,
+        });
+    }
+};
+
 
 module.exports = {
     getUserInfoByUserId,
