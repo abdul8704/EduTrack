@@ -68,19 +68,38 @@ html{
   flex-wrap: nowrap;
 }
 
-.navbar-right-section a {
+.navbar-right-section a,
+.navbar-right-section a,
+.navbar-mobile-menu a {
+  position: relative;
   font-weight: 500;
   color: #0b0b0d;
   text-decoration: none;
   padding: 0 0.5rem;
   text-align: center;
   transition: color 0.3s;
-  flex: none;
-  width: auto;
 }
 
-.navbar-right-section a:hover {
-  color: #BADA55;
+.navbar-right-section a::after,
+.navbar-mobile-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #040402;
+  transition: width 0.3s ease;
+}
+
+.navbar-right-section a:hover::after,
+.navbar-mobile-menu a:hover::after {
+  width: 100%;
+}
+
+.navbar-right-section a:hover,
+.navbar-mobile-menu a:hover {
+  color: #0b0b08;
 }
 
 /* Button */
@@ -263,14 +282,17 @@ html{
 
 .navbar-mobile-links {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
+  flex-direction: row;
+  /* make items align horizontally */
+  gap: 0.5rem;
+  width: auto;
+  /* allow content to define width */
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 .navbar-mobile-menu a:hover {
-  color: #BADA55;
+  color: #1c1f12;
 }
 
 .navbar-mobile-menu .navbar-button {
