@@ -1,4 +1,7 @@
-/* Footer */
+html{
+  font-family: Poppins;
+}
+
 .footer {
   padding: .25em;
   background-color: #282c34;
@@ -21,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -126,11 +129,13 @@
   width: 100%;
   height: 2.25rem;
   background: #fff;
-  border: 0.125rem solid #2f2ee9;
+  border: 0.125rem solid #26d962;
   border-radius: 1.25rem;
   padding: 0 0.5rem;
   transition: border 0.3s ease;
   position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar-form:focus-within {
@@ -147,6 +152,7 @@
   padding: 0.5rem 0.75rem;
   width: 100%;
   box-sizing: border-box;
+  font-family: Poppins;
 }
 
 /* Buttons Container - NEW */
@@ -229,7 +235,8 @@
 /* Mobile menu */
 .navbar-mobile-menu {
   position: fixed;
-  top: 5rem; /* matches navbar height */
+  top: 5rem;
+  /* matches navbar height */
   right: 0;
   left: 0;
   background-color: rgb(220, 233, 237);
@@ -239,7 +246,7 @@
   flex-direction: column;
   gap: 1rem;
   z-index: 9999;
-  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   border-radius: 0 0 0.5rem 0.5rem;
   box-sizing: border-box;

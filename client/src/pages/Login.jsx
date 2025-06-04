@@ -199,7 +199,7 @@ export const Login = () => {
             setTimeout(() => {
               navigate(`/user/dashboard/${signUp.data.userid}`);
             }, 900);
-          } 
+          }
         }
       } catch (err) {
         if (err.response?.status === 400) {

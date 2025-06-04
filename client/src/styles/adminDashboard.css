@@ -1,6 +1,7 @@
 .admnav-container {
   display: flex;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
+  /* Full viewport height */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
@@ -15,12 +16,15 @@
   flex-direction: column;
   padding: 2rem 1rem;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  overflow-y: auto; /* Scrollbar only if needed */
+  overflow-y: auto;
+  /* Scrollbar only if needed */
   overflow-x: hidden;
   box-sizing: border-box;
   z-index: 10;
-  height: 100vh; /* Ensure full height */
-  flex-shrink: 0; /* Prevent collapsing */
+  height: 100vh;
+  /* Ensure full height */
+  flex-shrink: 0;
+  /* Prevent collapsing */
   position: sticky;
   top: 0;
 }
@@ -37,7 +41,7 @@
   overflow: hidden;
 }
 
-.admnav-navbar.admnav-collapsed > *:not(.admnav-hamburger) {
+.admnav-navbar.admnav-collapsed>*:not(.admnav-hamburger) {
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
@@ -131,7 +135,7 @@
     overflow: hidden;
   }
 
-  .admnav-navbar.admnav-collapsed > *:not(.admnav-hamburger) {
+  .admnav-navbar.admnav-collapsed>*:not(.admnav-hamburger) {
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
@@ -142,7 +146,7 @@
     display: block;
   }
 
-  .admnav-navbar:not(.admnav-collapsed) > .admnav-hamburger {
+  .admnav-navbar:not(.admnav-collapsed)>.admnav-hamburger {
     display: none;
   }
 
@@ -150,6 +154,7 @@
     padding: 1rem;
   }
 }
+
 .admnav-navbar {
   transition: max-width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
 }
@@ -157,4 +162,3 @@
 .admnav-navbar.admnav-collapsed {
   transition: max-width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
 }
-

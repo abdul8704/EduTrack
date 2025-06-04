@@ -107,19 +107,19 @@
   transition: 0.3s;
 }
 
-.login-toggle:checked + .login-slider {
+.login-toggle:checked+.login-slider {
   background-color: var(--input-focus);
 }
 
-.login-toggle:checked + .login-slider:before {
+.login-toggle:checked+.login-slider:before {
   transform: translateX(1.875rem);
 }
 
-.login-toggle:checked ~ .login-card-side:before {
+.login-toggle:checked~.login-card-side:before {
   text-decoration: none;
 }
 
-.login-toggle:checked ~ .login-card-side:after {
+.login-toggle:checked~.login-card-side:after {
   text-decoration: underline;
 }
 

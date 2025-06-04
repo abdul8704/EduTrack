@@ -6,7 +6,7 @@ import { Navbar } from '../components/Navbar';
 
 export const EmpProgress = () => {
   const { userId, empId } = useParams();
-  console.log(userId, empId)
+  console.log(userId, "ee", empId)
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
   const useremail = useParams();
   const [courses, setCourses] = useState([]);
@@ -63,24 +63,24 @@ export const EmpProgress = () => {
     }
   };
 
-const handleMakeAdmin = async () => {
-  if (!userData) return alert("User data not loaded yet");
+  const handleMakeAdmin = async () => {
+    if (!userData) return alert("User data not loaded yet");
 
-  try {
-    const response = await axios.put(
-      `${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/promote/${useremail.userId}`
-    );
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/${userId}/promote/${useremail.userId}`
+      );
 
-    if (response.data.success) {
-      alert("User promoted to admin successfully!");
-    } else {
-      alert("Failed to promote user: " + response.data.message);
+      if (response.data.success) {
+        alert("User promoted to admin successfully!");
+      } else {
+        alert("Failed to promote user: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Error promoting user:", error);
+      alert("Error promoting user to admin");
     }
-  } catch (error) {
-    console.error("Error promoting user:", error);
-    alert("Error promoting user to admin");
-  }
-};
+  };
 
 
   if (loading) return <div>Loading...</div>;

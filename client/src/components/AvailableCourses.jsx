@@ -3,7 +3,7 @@ import '../styles/enrolledCourses.css';
 import { CoursesCard } from './CoursesCard';
 import { useParams } from 'react-router-dom';
 
-export const AvailableCourses = ({title, available }) => {
+export const AvailableCourses = ({ title, available }) => {
   const scrollRef = useRef(null);
   const { userId } = useParams();
   return (

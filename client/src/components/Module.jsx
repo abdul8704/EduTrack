@@ -95,7 +95,7 @@ export const Module = ({
         text: "#a71d2a"
       });
     }
-    
+
   };
 
   return (

@@ -31,10 +31,10 @@ export const CourseIntro = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="course-page">
-      <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
-    </div>
+      <Navbar />
+      <div className="course-page">
+        <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc} />
+      </div>
     </>
   );
 };

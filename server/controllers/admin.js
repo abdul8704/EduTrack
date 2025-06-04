@@ -15,13 +15,16 @@ const getAllCourses = async (req, res) => {
             .json({ success: false, message: "Access denied. Admins only." });
 
     try {
-        const allCourses = await Courses.find({}, {
-            courseId: 1,
-            courseName: 1,
-            courseImage: 1,
-            courseInstructor: 1,
-            courseRating: 1,
-        });
+        const allCourses = await Courses.find(
+            {},
+            {
+                courseId: 1,
+                courseName: 1,
+                courseImage: 1,
+                courseInstructor: 1,
+                courseRating: 1,
+            }
+        );
 
         res.status(200).json({ success: true, allCourses: allCourses });
     } catch (error) {
@@ -32,7 +35,7 @@ const getAllCourses = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
 
 const getAllUsers = async (req, res) => {
     if (!isAdmin(req.params.adminid))
@@ -70,6 +73,7 @@ const getUserById = async (req, res) => {
                 position: 1,
             }
         );
+        console.log("HERE", user, userid);
 
         if (!user) {
             return res.status(404).json({
@@ -145,21 +149,33 @@ const addNewUser = async (req, res) => {
 
         const admin = await User.findOne({ userid: adminid });
         if (!admin || admin.role !== "admin") {
-            return res.status(403).json({ success: false, message: "Access denied. Admins only." });
+            return res
+                .status(403)
+                .json({
+                    success: false,
+                    message: "Access denied. Admins only.",
+                });
         }
 
         const user = await User.findOne({ userid: targetUserid });
         if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
         }
 
         user.role = "admin";
         await user.save();
 
-        return res.json({ success: true, message: "User promoted to admin successfully" });
+        return res.json({
+            success: true,
+            message: "User promoted to admin successfully",
+        });
     } catch (error) {
         console.error("Error promoting user:", error);
-        return res.status(500).json({ success: false, message: "Server error" });
+        return res
+            .status(500)
+            .json({ success: false, message: "Server error" });
     }
 };
 
@@ -205,7 +221,7 @@ const getUserForCourse = async (req, res) => {
                 username: user ? user.username : "Unknown User",
                 userId: progress.userId,
                 completion: progress.percentComplete,
-                profilePicture: user ? user.profilePicture : null
+                profilePicture: user ? user.profilePicture : null,
             });
         });
         res.status(200).json({ success: true, data: data });
@@ -229,7 +245,7 @@ const updateUserRole = async (req, res) => {
     try {
         const user = await User.findOneAndUpdate(
             { userid: userid },
-            { role: newRole },
+            { role: newRole }
         );
 
         if (!user) {
@@ -283,7 +299,8 @@ const addNewCourse = async (req, res) => {
         const newCourse = new Courses({
             courseId: courseId,
             courseName: courseName,
-            courseImage: courseImage || "https://example.com/default-course-image.jpg", // Placeholder image URL
+            courseImage:
+                courseImage || "https://example.com/default-course-image.jpg", // Placeholder image URL
             courseInstructor: instructorName,
             courseDescription: description,
             tags: tags || [],
@@ -332,7 +349,7 @@ const addNewCourse = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
 
 const getCourseInfoById = async (req, res) => {
     if (!isAdmin(req.params.adminid)) {

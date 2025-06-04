@@ -152,21 +152,21 @@ export const Navbar = () => {
         <div className="navbar-search-desktop">
           <NavbarInput userId={userId} />
         </div>
-        {userId && (  
-        <div className="navbar-profile-desktop">
-          {role === "admin" && (
+        {userId && (
+          <div className="navbar-profile-desktop">
+            {role === "admin" && (
               <div className="navbar-mobile-links">
                 <Link to={`/admin/dashboard/${userId}/employee/details`}>Admin Dashboard</Link>
               </div>
-          )}
+            )}
             <div className="navbar-mobile-links">
               <Link to={`/`}>Logout</Link>
             </div>
             <Link to={`/user/profile/${userId}`}>
               <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
             </Link>
-        </div>
-      )}
+          </div>
+        )}
       </div>
     </nav>
   );

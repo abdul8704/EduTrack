@@ -16,7 +16,7 @@ const courseDetailsSchema = new mongoose.Schema({
     },
     courseCompletions: {
         type: Number,
-        default: 0
+        default: 0,
     },
     courseRating: {
         type: Number,
