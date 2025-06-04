@@ -93,12 +93,12 @@ const UserDetails = () => {
               alt="Profile" 
               className="deets-profile-img"
             />
-          </div>
             {isEditing && (
               <span className="deets-change-link" onClick={openProfilePopup}>
                 Change Profile Picture
               </span>
             )}
+          </div>
         </div>
 
         <div className="deets-form-section">
@@ -141,7 +141,7 @@ const UserDetails = () => {
             <div className="deets-value">{userDetails.position}</div>
           </div>
 
-          <div className="deets-field-group">
+          <div className="deets-field-group full-width">
             <label className="deets-label">Current Courses</label>
             <ul className="deets-courses-container">
               {userDetails.currentCourses.map((course, idx) => (

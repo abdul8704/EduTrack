@@ -1,5 +1,5 @@
 .deets-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
@@ -78,25 +78,26 @@
 }
 
 .deets-content {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .deets-profile-section {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .deets-profile-picture {
   position: relative;
-  margin-bottom: 20px;
+  text-align: center;
 }
 
 .deets-profile-img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #e9ecef;
@@ -129,15 +130,20 @@
 }
 
 .deets-form-section {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
+  align-items: start;
 }
 
 .deets-field-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.deets-field-group.full-width {
+  grid-column: 1 / -1;
 }
 
 .deets-label {
@@ -208,19 +214,25 @@
 
 .deets-courses-container {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .deets-course-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 10px 16px;
   background-color: #e3f2fd;
   border: 1px solid #bbdefb;
   border-radius: 6px;
   transition: background-color 0.3s ease;
+  width: auto;
+  min-width: fit-content;
+  white-space: nowrap;
 }
 
 .deets-course-item:hover {
@@ -293,59 +305,6 @@
   background-color: #138496;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .deets-container {
-    margin: 10px;
-    padding: 15px;
-  }
-  
-  .deets-content {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  
-  .deets-header {
-    flex-direction: column;
-    gap: 15px;
-    align-items: stretch;
-  }
-  
-  .deets-action-buttons {
-    justify-content: center;
-  }
-  
-  .deets-title {
-    font-size: 2rem;
-    text-align: center;
-  }
-  
-  .deets-profile-img {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .deets-add-course {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-@media (max-width: 480px) {
-  .deets-title {
-    font-size: 1.75rem;
-  }
-  
-  .deets-profile-img {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .deets-action-buttons {
-    flex-direction: column;
-  }
-}
-
 .deets-change-link {
   color: #007bff;
   cursor: pointer;
@@ -357,14 +316,6 @@
 
 .deets-change-link:hover {
   text-decoration: none;
-}
-
-.deets-change-link {
-  color: #007bff;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top: 0.5rem;
-  display: inline-block;
 }
 
 .deets-popup-overlay {
@@ -414,4 +365,489 @@
 
 .deets-popup-btn.cancel {
   background: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .deets-form-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .deets-container {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .deets-form-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .deets-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .deets-action-buttons {
+    justify-content: center;
+  }
+  
+  .deets-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .deets-profile-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .deets-add-course {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .deets-title {
+    font-size: 1.75rem;
+  }.deets-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.deets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.deets-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.deets-edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.deets-edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.deets-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.deets-save-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.deets-save-btn:hover {
+  background-color: #1e7e34;
+}
+
+.deets-cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.deets-cancel-btn:hover {
+  background-color: #545b62;
+}
+
+.deets-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.deets-profile-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.deets-profile-picture {
+  position: relative;
+  text-align: center;
+}
+
+.deets-profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #e9ecef;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.deets-picture-upload {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.deets-file-input {
+  display: none;
+}
+
+.deets-upload-label {
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #495057;
+  transition: all 0.3s ease;
+}
+
+.deets-upload-label:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.deets-form-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  align-items: start;
+}
+
+.deets-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deets-field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.deets-label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.deets-value {
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #495057;
+  min-height: 20px;
+}
+
+.deets-readonly {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.deets-input {
+  padding: 12px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #495057;
+  transition: border-color 0.3s ease;
+}
+
+.deets-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.deets-select {
+  padding: 12px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #495057;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.deets-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.deets-role {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.deets-note {
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.deets-courses-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deets-course-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  width: auto;
+  min-width: fit-content;
+  white-space: nowrap;
+}
+
+.deets-course-item:hover {
+  background-color: #d1ecf1;
+}
+
+.deets-course-name {
+  font-size: 15px;
+  color: #0277bd;
+  font-weight: 500;
+}
+
+.deets-remove-course {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.deets-remove-course:hover {
+  background-color: #c82333;
+}
+
+.deets-add-course {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.deets-course-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #495057;
+  transition: border-color 0.3s ease;
+}
+
+.deets-course-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.deets-add-course-btn {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.deets-add-course-btn:hover {
+  background-color: #138496;
+}
+
+.deets-change-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.deets-change-link:hover {
+  text-decoration: none;
+}
+
+.deets-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.deets-popup {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.deets-popup-input {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.deets-popup-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.deets-popup-btn {
+  padding: 0.5rem 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.deets-popup-btn.cancel {
+  background: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .deets-form-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .deets-container {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .deets-form-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .deets-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .deets-action-buttons {
+    justify-content: center;
+  }
+  
+  .deets-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .deets-profile-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .deets-add-course {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .deets-title {
+    font-size: 1.75rem;
+  }
+  
+  .deets-profile-img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .deets-action-buttons {
+    flex-direction: column;
+  }
+}
+  
+  .deets-profile-img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .deets-action-buttons {
+    flex-direction: column;
+  }
 }
