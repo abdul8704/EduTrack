@@ -24,7 +24,7 @@ const NavbarInput = ({ userId }) => {
     <form className="navbar-form" onSubmit={handleSubmit}>
       <input
         className="navbar-input"
-        placeholder="Type your text"
+        placeholder="Search courses..."
         required
         type="text"
         value={input}
