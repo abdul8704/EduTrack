@@ -1,245 +1,179 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/userdetails.css';
+import '../styles/UserDetails.css';
 
-export const UserDetails = () => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [userDetails, setUserDetails] = useState({
-        username: '',
-        userid: '',
-        email: '',
-        passwordHash: '',
-        profilePicture: 'default-profile-pic.png',
-        role: 'user',
-        position: 'Software Engineer',
-        currentCourses: []
+const UserDetails = () => {
+  const [userDetails, setUserDetails] = useState({
+    username: '',
+    userid: '',
+    email: '',
+    passwordHash: '',
+    profilePicture: 'default-profile-pic.png',
+    role: 'user',
+    position: 'Software Engineer',
+    currentCourses: []
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDetails, setEditedDetails] = useState({ ...userDetails });
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [newProfileURL, setNewProfileURL] = useState('');
+
+  useEffect(() => {
+    const mockUserData = {
+      username: 'john_doe',
+      userid: 'USER123456',
+      email: 'john.doe@example.com',
+      passwordHash: '••••••••',
+      profilePicture: 'default-profile-pic.png',
+      role: 'user',
+      position: 'Senior Software Engineer',
+      currentCourses: ['React Fundamentals', 'Node.js Advanced', 'MongoDB Basics']
+    };
+    setUserDetails(mockUserData);
+    setEditedDetails(mockUserData);
+  }, []);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditedDetails({ ...userDetails });
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setShowProfilePopup(false);
+    setEditedDetails({ ...userDetails });
+  };
+
+  const handleSave = () => {
+    setUserDetails({
+      ...userDetails,
+      username: editedDetails.username,
+      profilePicture: editedDetails.profilePicture
     });
-    const [editedDetails, setEditedDetails] = useState({});
-    const [newCourse, setNewCourse] = useState('');
+    setIsEditing(false);
+    setShowProfilePopup(false);
+    console.log('Saved:', editedDetails);
+  };
 
-    // Mock data - replace with actual API call
-    useEffect(() => {
-        // Simulate fetching user data
-        const mockUserData = {
-            username: 'john_doe',
-            userid: 'user_12345',
-            email: 'john.doe@example.com',
-            passwordHash: '••••••••••••',
-            profilePicture: 'default-profile-pic.png',
-            role: 'user',
-            position: 'Software Engineer',
-            currentCourses: ['React Development', 'Node.js Fundamentals', 'MongoDB Basics']
-        };
-        setUserDetails(mockUserData);
-        setEditedDetails(mockUserData);
-    }, []);
+  const handleInputChange = (field, value) => {
+    setEditedDetails(prev => ({ ...prev, [field]: value }));
+  };
 
-    const handleEdit = () => {
-        setIsEditing(true);
-        setEditedDetails({ ...userDetails });
-    };
+  const openProfilePopup = () => {
+    setNewProfileURL('');
+    setShowProfilePopup(true);
+  };
 
-    const handleCancel = () => {
-        setIsEditing(false);
-        setEditedDetails({ ...userDetails });
-        setNewCourse('');
-    };
+  const applyNewProfilePicture = () => {
+    if (newProfileURL.trim()) {
+      handleInputChange('profilePicture', newProfileURL.trim());
+      setShowProfilePopup(false);
+    }
+  };
 
-    const handleSave = () => {
-        // Here you would typically make an API call to save the data
-        setUserDetails({ ...editedDetails });
-        setIsEditing(false);
-        setNewCourse('');
-        console.log('Saving user details:', editedDetails);
-    };
+  return (
+    <div className="deets-container">
+      <div className="deets-header">
+        <h1 className="deets-title">User Details</h1>
+        {!isEditing ? (
+          <button className="deets-edit-btn" onClick={handleEdit}>Edit Profile</button>
+        ) : (
+          <div className="deets-action-buttons">
+            <button className="deets-save-btn" onClick={handleSave}>Save</button>
+            <button className="deets-cancel-btn" onClick={handleCancel}>Cancel</button>
+          </div>
+        )}
+      </div>
 
-    const handleInputChange = (field, value) => {
-        setEditedDetails(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            // In a real app, you'd upload the file and get a URL
-            const fileName = file.name;
-            handleInputChange('profilePicture', fileName);
-        }
-    };
-
-    return (
-        <div className="deets-container">
-            <div className="deets-header">
-                <h1 className="deets-title">User Details</h1>
-                {!isEditing ? (
-                    <button className="deets-edit-btn" onClick={handleEdit}>
-                        Edit Profile
-                    </button>
-                ) : (
-                    <div className="deets-action-buttons">
-                        <button className="deets-save-btn" onClick={handleSave}>
-                            Save Changes
-                        </button>
-                        <button className="deets-cancel-btn" onClick={handleCancel}>
-                            Cancel
-                        </button>
-                    </div>
-                )}
-            </div>
-
-            <div className="deets-content">
-                <div className="deets-profile-section">
-                    <div className="deets-profile-picture">
-                        <img 
-                            src={`/images/${isEditing ? editedDetails.profilePicture : userDetails.profilePicture}`} 
-                            alt="Profile"
-                            className="deets-profile-img"
-                            onError={(e) => {
-                                e.target.src = '/images/default-profile-pic.png';
-                            }}
-                        />
-                        {isEditing && (
-                            <div className="deets-file-input-wrapper">
-                                <input
-                                    type="file"
-                                    id="profilePicture"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                    className="deets-file-input"
-                                />
-                                <label htmlFor="profilePicture" className="deets-file-label">
-                                    Change Picture
-                                </label>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <div className="deets-form-grid">
-                    <div className="deets-field">
-                        <label className="deets-label">Username</label>
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                value={editedDetails.username}
-                                onChange={(e) => handleInputChange('username', e.target.value)}
-                                className="deets-input"
-                            />
-                        ) : (
-                            <span className="deets-value">{userDetails.username}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field">
-                        <label className="deets-label">User ID</label>
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                value={editedDetails.userid}
-                                onChange={(e) => handleInputChange('userid', e.target.value)}
-                                className="deets-input"
-                            />
-                        ) : (
-                            <span className="deets-value">{userDetails.userid}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field">
-                        <label className="deets-label">Email</label>
-                        {isEditing ? (
-                            <input
-                                type="email"
-                                value={editedDetails.email}
-                                onChange={(e) => handleInputChange('email', e.target.value)}
-                                className="deets-input"
-                            />
-                        ) : (
-                            <span className="deets-value">{userDetails.email}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field">
-                        <label className="deets-label">Password</label>
-                        {isEditing ? (
-                            <input
-                                type="password"
-                                value={editedDetails.passwordHash}
-                                onChange={(e) => handleInputChange('passwordHash', e.target.value)}
-                                className="deets-input"
-                                placeholder="Enter new password"
-                            />
-                        ) : (
-                            <span className="deets-value">{userDetails.passwordHash}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field">
-                        <label className="deets-label">Role</label>
-                        {isEditing ? (
-                            <select
-                                value={editedDetails.role}
-                                onChange={(e) => handleInputChange('role', e.target.value)}
-                                className="deets-select"
-                            >
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        ) : (
-                            <span className="deets-value deets-role">{userDetails.role}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field">
-                        <label className="deets-label">Position</label>
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                value={editedDetails.position}
-                                onChange={(e) => handleInputChange('position', e.target.value)}
-                                className="deets-input"
-                            />
-                        ) : (
-                            <span className="deets-value">{userDetails.position}</span>
-                        )}
-                    </div>
-
-                    <div className="deets-field deets-courses-field">
-                        <label className="deets-label">Current Courses</label>
-                        <div className="deets-courses-container">
-                            {(isEditing ? editedDetails.currentCourses : userDetails.currentCourses).map((course, index) => (
-                                <div key={index} className="deets-course-tag">
-                                    <span>{course}</span>
-                                    {isEditing && (
-                                        <button
-                                            onClick={() => handleRemoveCourse(index)}
-                                            className="deets-remove-course"
-                                        >
-                                            ×
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                            {isEditing && (
-                                <div className="deets-add-course">
-                                    <input
-                                        type="text"
-                                        value={newCourse}
-                                        onChange={(e) => setNewCourse(e.target.value)}
-                                        placeholder="Add new course"
-                                        className="deets-course-input"
-                                        onKeyPress={(e) => e.key === 'Enter' && handleAddCourse()}
-                                    />
-                                    <button onClick={handleAddCourse} className="deets-add-course-btn">
-                                        Add
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div className="deets-content">
+        <div className="deets-profile-section">
+          <div className="deets-profile-picture">
+            <img 
+              src={isEditing ? editedDetails.profilePicture : userDetails.profilePicture} 
+              alt="Profile" 
+              className="deets-profile-img"
+            />
+          </div>
+            {isEditing && (
+              <span className="deets-change-link" onClick={openProfilePopup}>
+                Change Profile Picture
+              </span>
+            )}
         </div>
-    );
+
+        <div className="deets-form-section">
+          <div className="deets-field-group">
+            <label className="deets-label">Username</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={editedDetails.username}
+                onChange={(e) => handleInputChange('username', e.target.value)}
+                className="deets-input"
+              />
+            ) : (
+              <div className="deets-value">{userDetails.username}</div>
+            )}
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">User ID</label>
+            <div className="deets-value deets-readonly">{userDetails.userid}</div>
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">Email</label>
+            <div className="deets-value">{userDetails.email}</div>
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">Password</label>
+            <div className="deets-value">{userDetails.passwordHash}</div>
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">Role</label>
+            <div className="deets-value deets-role">{userDetails.role}</div>
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">Position</label>
+            <div className="deets-value">{userDetails.position}</div>
+          </div>
+
+          <div className="deets-field-group">
+            <label className="deets-label">Current Courses</label>
+            <ul className="deets-courses-container">
+              {userDetails.currentCourses.map((course, idx) => (
+                <li key={idx} className="deets-course-item">
+                  {course}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {showProfilePopup && (
+        <div className="deets-popup-overlay">
+          <div className="deets-popup">
+            <h3>Enter Image URL</h3>
+            <input
+              type="text"
+              value={newProfileURL}
+              onChange={(e) => setNewProfileURL(e.target.value)}
+              placeholder="https://example.com/profile.jpg"
+              className="deets-popup-input"
+            />
+            <div className="deets-popup-buttons">
+              <button className="deets-popup-btn" onClick={applyNewProfilePicture}>Apply</button>
+              <button className="deets-popup-btn cancel" onClick={() => setShowProfilePopup(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
+
+export default UserDetails;
