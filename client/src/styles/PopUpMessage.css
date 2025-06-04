@@ -12,11 +12,13 @@
 }
 
 .popup-message.success {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
+  /* Green */
 }
 
 .popup-message.failure {
-  background-color: #F44336; /* Red */
+  background-color: #F44336;
+  /* Red */
 }
 
 @keyframes slideUp {
@@ -24,6 +26,7 @@
     transform: translateY(50px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

@@ -4,14 +4,14 @@ import '../styles/feedback.css';
 import axios from "axios";
 
 
-export const Feedback =  () => {
+export const Feedback = () => {
   const { userId, courseId } = useParams();
   const navigate = useNavigate();
   const [popup, setPopup] = useState(null);
   const showPopup = (message, color) => {
     setPopup({ message, color });
     setTimeout(() => setPopup(null), 4000);
-    };
+  };
 
   const smilies = [
     { emoji: '😠', label: 'Very Bad' },
@@ -27,18 +27,18 @@ export const Feedback =  () => {
       emoji: smilies[index].emoji,
       label: smilies[index].label,
     };
-    
+
     console.log("Feedback Submitted:", feedback);
-    try{
+    try {
       await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/course/${courseId}/feedback`, {
         rating: feedback.rating
       })
-        showPopup("FeedBack submitted successfuly!", {
-          background: "#d4edda",
-          border: "#c3e6cb",
-          text: "#155724"
-        });
-    }catch(error){
+      showPopup("FeedBack submitted successfuly!", {
+        background: "#d4edda",
+        border: "#c3e6cb",
+        text: "#155724"
+      });
+    } catch (error) {
       console.log(error)
     }
 

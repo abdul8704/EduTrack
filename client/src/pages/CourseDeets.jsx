@@ -62,38 +62,38 @@ export const CourseDeets = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="coursedeets-container">
-      <aside className="coursedeets-navbar">
-        <button className="coursedeets-back-button" onClick={() => window.history.back()}>
-          ←
-        </button>
-        <div className="coursedeets-profile-section">
-          <div className="coursedeets-profile-image">
-            <img src={navCourse.courseImage} alt="Course" />
+      <Navbar />
+      <div className="coursedeets-container">
+        <aside className="coursedeets-navbar">
+          <button className="coursedeets-back-button" onClick={() => window.history.back()}>
+            ←
+          </button>
+          <div className="coursedeets-profile-section">
+            <div className="coursedeets-profile-image">
+              <img src={navCourse.courseImage} alt="Course" />
+            </div>
+            <div className="coursedeets-profile-details">
+              <div className="coursedeets-profile-name">{navCourse.courseName}</div>
+              <div className="coursedeets-profile-email">{navCourse.courseInstructor}</div>
+              <div className="coursedeets-profile-designation">{navCourse.courseRating} ⭐</div>
+            </div>
           </div>
-          <div className="coursedeets-profile-details">
-            <div className="coursedeets-profile-name">{navCourse.courseName}</div>
-            <div className="coursedeets-profile-email">{navCourse.courseInstructor}</div>
-            <div className="coursedeets-profile-designation">{navCourse.courseRating} ⭐</div>
+          <div className="coursedeets-divider">
+            <div className="coursedeets-toc">
+              <h3>Table of Contents</h3>
+              {navContents.map((module, index) => (
+                <div key={index} className="coursedeets-module">
+                  <strong>{module.moduleTitle}</strong>
+                  <ul>
+                    {module.submodules.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="coursedeets-divider">
-          <div className="coursedeets-toc">
-            <h3>Table of Contents</h3>
-            {navContents.map((module, index) => (
-              <div key={index} className="coursedeets-module">
-                <strong>{module.moduleTitle}</strong>
-                <ul>
-                  {module.submodules.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
+        </aside>
 
         <main className="coursedeets-content">
           <h2 className="coursedeets-heading">Enrolled</h2>
@@ -129,7 +129,7 @@ export const CourseDeets = () => {
           )}
         </main>
 
-    </div>
+      </div>
     </>
   );
 };

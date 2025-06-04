@@ -36,9 +36,9 @@ export const CourseNavbar = ({
 
   return (
     <div className={`course-navbar ${isCollapsed ? 'collapsed' : ''}`}>
-        <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
-          ←
-        </button>
+      <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
+        ←
+      </button>
       {modules.map((module, index) => {
         const isActiveModule = Number(moduleNo) === index;
         const showSubmodules = activeIndex === index || isActiveModule;
@@ -49,9 +49,8 @@ export const CourseNavbar = ({
         return (
           <div key={module.moduleTitle} className="course-module-wrapper">
             <button
-              className={`course-nav-btn ${
-                isActiveModule ? 'course-active-module' : ''
-              } ${moduleCompleted ? 'course-complete-module' : ''}`}
+              className={`course-nav-btn ${isActiveModule ? 'course-active-module' : ''
+                } ${moduleCompleted ? 'course-complete-module' : ''}`}
               onClick={() => toggleModule(index)}
             >
               {module.moduleTitle}
@@ -68,9 +67,8 @@ export const CourseNavbar = ({
                   return (
                     <button
                       key={sub}
-                      className={`course-submodule-item ${
-                        isActiveSubmodule ? 'course-active-submodule' : ''
-                      } ${submoduleCompleted ? 'course-complete-submodule' : ''}`}
+                      className={`course-submodule-item ${isActiveSubmodule ? 'course-active-submodule' : ''
+                        } ${submoduleCompleted ? 'course-complete-submodule' : ''}`}
                       onClick={() => handleSubmoduleClick(index, subIndex)}
                     >
                       {sub}

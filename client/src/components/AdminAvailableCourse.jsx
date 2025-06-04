@@ -3,7 +3,7 @@ import '../styles/enrolledCourses.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const AdminAvailableCourse = ({ available }) => {
-  const { userId }=useParams();
+  const { userId } = useParams();
   const scrollRef = useRef(null);
   const navigate = useNavigate();
 

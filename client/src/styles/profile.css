@@ -195,16 +195,16 @@
   .profile-navbar {
     width: 18rem;
   }
-  
+
   .profile-content {
     padding: 1.5rem 2rem;
   }
-  
+
   .profile-courseCard {
     width: 48%;
     margin: 0.5rem;
   }
-  
+
   .profile-heading {
     font-size: 1.8rem;
   }
@@ -217,14 +217,14 @@
     height: auto;
     min-height: calc(89vh);
   }
-  
+
   .profile-navbar {
     width: 100%;
     border-right: none;
     border-bottom: 0.08rem solid rgb(62, 60, 60);
     padding: 1rem;
   }
-  
+
   .profile-profileSection {
     flex-direction: row;
     align-items: center;
@@ -232,60 +232,60 @@
     gap: 1rem;
     padding: 0.5rem;
   }
-  
+
   .profile-profileImage {
     margin-bottom: 0;
   }
-  
+
   .profile-profileImg {
     width: 80px;
     height: 80px;
   }
-  
+
   .profile-profileName {
     font-size: 1.2rem;
     margin-bottom: 0.2rem;
     text-align: left;
   }
-  
+
   .profile-profileDesignation {
     font-size: 0.9rem;
     margin-bottom: 0.3rem;
     text-align: left;
   }
-  
+
   .profile-profileEmail {
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
     text-align: left;
   }
-  
+
   .profile-content {
     padding: 1rem 1.5rem;
   }
-  
+
   .profile-heading {
     font-size: 1.6rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .profile-courseCard {
     width: 100%;
     margin: 0.5rem 0;
   }
-  
+
   .profile-courseImage {
     width: 100px;
   }
-  
+
   .profile-courseDetails {
     padding: 1rem;
   }
-  
+
   .profile-courseName {
     font-size: 1.1rem;
   }
-  
+
   .profile-courseInstructor {
     font-size: 0.9rem;
   }
@@ -296,79 +296,79 @@
   .profile-navbar {
     padding: 0.8rem;
   }
-  
+
   .profile-profileSection {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 0.5rem;
   }
-  
+
   .profile-profileImage {
     margin-bottom: 0.5rem;
   }
-  
+
   .profile-profileImg {
     width: 70px;
     height: 70px;
   }
-  
+
   .profile-profileName {
     font-size: 1.1rem;
     text-align: center;
   }
-  
+
   .profile-profileDesignation {
     font-size: 0.85rem;
     text-align: center;
   }
-  
+
   .profile-profileEmail {
     font-size: 0.75rem;
     padding: 0.4rem 0.6rem;
     text-align: center;
   }
-  
+
   .profile-content {
     padding: 1rem;
   }
-  
+
   .profile-heading {
     font-size: 1.4rem;
     margin-bottom: 1rem;
   }
-  
+
   .profile-courseCard {
     flex-direction: column;
     width: 100%;
     margin: 0.5rem 0;
   }
-  
+
   .profile-courseImage {
     width: 100%;
     height: 150px;
     border-radius: 16px 16px 0 0;
   }
-  
+
   .profile-courseDetails {
     padding: 1rem;
     text-align: center;
   }
-  
+
   .profile-courseName {
     font-size: 1rem;
   }
-  
+
   .profile-courseInstructor {
     font-size: 0.85rem;
   }
-  
+
   .profile-actionButtons {
     flex-direction: row;
     padding: 1rem;
     gap: 0.5rem;
   }
-  
+
   .profile-actionButton {
     width: 35px;
     height: 35px;
@@ -380,27 +380,27 @@
   .profile-content {
     padding: 0.8rem;
   }
-  
+
   .profile-heading {
     font-size: 1.3rem;
   }
-  
+
   .profile-profileName {
     font-size: 1rem;
   }
-  
+
   .profile-profileDesignation {
     font-size: 0.8rem;
   }
-  
+
   .profile-profileEmail {
     font-size: 0.7rem;
   }
-  
+
   .profile-courseName {
     font-size: 0.95rem;
   }
-  
+
   .profile-courseInstructor {
     font-size: 0.8rem;
   }
