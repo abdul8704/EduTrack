@@ -99,7 +99,6 @@ const getAllCourses = async (req, res) => {
     }
 };
 
-
 const getCourseById = async (req, res) => {
     try {
         const { userid, courseId } = req.params;
@@ -120,9 +119,8 @@ const getCourseById = async (req, res) => {
             {
                 percentComplete: 1,
             }
-        )
-        if( !progress)
-            progress = { percentComplete: -1 };
+        );
+        if (!progress) progress = { percentComplete: -1 };
         if (!course)
             return res.status(404).json({
                 success: false,
@@ -170,10 +168,12 @@ const getCourseById = async (req, res) => {
 const getSubModuleByCourseId = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
-        const userExists = await User.findOne({userid: userid})
-        if(!userExists)
-                return res.status(404).json({success: false, message: "invalid user"});
-        
+        const userExists = await User.findOne({ userid: userid });
+        if (!userExists)
+            return res
+                .status(404)
+                .json({ success: false, message: "invalid user" });
+
         const course = await CourseContent.findOne({ courseId });
         if (!course)
             return res.status(404).json({
@@ -222,37 +222,41 @@ const getSubModuleByCourseId = async (req, res) => {
 
 const getProgressMatrixByCourseId = async (req, res) => {
     const { userid, courseid } = req.params;
-    try{
-        const progressMatrix = await Progress.findOne({ userId: userid, courseId: courseid }, 
-                {
-                    moduleStatus: 1,
-                }
+    try {
+        const progressMatrix = await Progress.findOne(
+            { userId: userid, courseId: courseid },
+            {
+                moduleStatus: 1,
+            }
         );
         res.status(200).json({
             success: true,
             progressMatrix: progressMatrix ? progressMatrix.moduleStatus : null,
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error fetching progress matrix:", error);
         return res.status(500).json({
             success: false,
             message: "Unable to get progress matrix",
             errorMessage: error.message,
         });
-    }    
-}
+    }
+};
 
 const updateProgress = async (req, res) => {
     const { userid, courseId, moduleNumber, subModuleNumber } = req.params;
     try {
         const user = await User.findOne({ userid });
         if (!user) {
-            return res.status(404).json({ success: false, message: "invalid user found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "invalid user found" });
         }
         const course = await CourseContent.findOne({ courseId });
         if (!course || course.length === 0) {
-            return res.status(404).json({ success: false, message: "Course not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Course not found" });
         }
         const moduleIndex = parseInt(moduleNumber);
         const subModuleIndex = parseInt(subModuleNumber);
@@ -261,14 +265,18 @@ const updateProgress = async (req, res) => {
             moduleIndex < 0 ||
             moduleIndex >= course.modules.length
         ) {
-            return res.status(400).json({ success: false, message: "Invalid module index" });
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid module index" });
         }
         if (
             isNaN(subModuleIndex) ||
             subModuleIndex < 0 ||
             subModuleIndex >= course.modules[moduleIndex].submodules.length
         ) {
-            return res.status(400).json({ success: false, message: "Invalid submodule index" });
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid submodule index" });
         }
         const currentProgress = await Progress.findOne({
             userId: userid,
@@ -276,17 +284,34 @@ const updateProgress = async (req, res) => {
         });
 
         if (!currentProgress) {
-            return res.status(404).json({ success: false, message: "This user has not enrolled in this course" });
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message: "This user has not enrolled in this course",
+                });
         }
 
-        currentProgress.moduleStatus.completedModules[moduleIndex][subModuleIndex] = true;
+        currentProgress.moduleStatus.completedModules[moduleIndex][
+            subModuleIndex
+        ] = true;
 
         let totalTrueCount = 0;
-        
-        for(let i = 0; i < currentProgress.moduleStatus.completedModules.length; i++) {
-            totalTrueCount += currentProgress.moduleStatus.completedModules[i].filter(Boolean).length;
+
+        for (
+            let i = 0;
+            i < currentProgress.moduleStatus.completedModules.length;
+            i++
+        ) {
+            totalTrueCount +=
+                currentProgress.moduleStatus.completedModules[i].filter(
+                    Boolean
+                ).length;
         }
-        const updatedPercentComplete = Math.round(totalTrueCount / (currentProgress.moduleStatus.totalSubModules) * 100);
+        const updatedPercentComplete = Math.round(
+            (totalTrueCount / currentProgress.moduleStatus.totalSubModules) *
+                100
+        );
         currentProgress.percentComplete = updatedPercentComplete;
         await currentProgress.save();
 
@@ -295,8 +320,7 @@ const updateProgress = async (req, res) => {
             message: "Progress updated successfully",
             UpdatedPercentComplete: updatedPercentComplete,
         });
-
-    }catch (error) {
+    } catch (error) {
         console.error("Error updating progress:", error);
         return res.status(500).json({
             success: false,
@@ -304,7 +328,7 @@ const updateProgress = async (req, res) => {
             errorMessage: error.message,
         });
     }
-} 
+};
 
 const searchCourse = async (req, res) => {
     let tags = [];
@@ -387,27 +411,44 @@ const searchCourse = async (req, res) => {
     }
 };
 
-
 const enrollUserInCourse = async (req, res) => {
     const { userid, courseid } = req.params;
 
     try {
         const user = await User.findOne({ userid });
         if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
         }
 
         if (user.currentCourses.includes(courseid)) {
-            return res.status(400).json({ success: false, message: "User already enrolled in this course" });
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message: "User already enrolled in this course",
+                });
         }
 
         user.currentCourses.push(courseid);
         await user.save();
 
-        const courseDetails = await CourseDetails.findOne({ courseId: courseid });
-        const courseContent = await CourseContent.findOne({ courseId: courseid });
+        const courseDetails = await CourseDetails.findOne({
+            courseId: courseid,
+        });
+        const courseContent = await CourseContent.findOne({
+            courseId: courseid,
+        });
         if (!courseContent) {
-            return res.status(404).json({ success: false, message: "Course not found hehe", cc: courseContent, dd: courseDetails });
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message: "Course not found hehe",
+                    cc: courseContent,
+                    dd: courseDetails,
+                });
         }
 
         const newProgress = new Progress({
@@ -431,7 +472,12 @@ const enrollUserInCourse = async (req, res) => {
         });
         await newProgress.save();
 
-        return res.status(200).json({ success: true, message: "User enrolled in course successfully" });
+        return res
+            .status(200)
+            .json({
+                success: true,
+                message: "User enrolled in course successfully",
+            });
     } catch (error) {
         console.error("Error enrolling user in course:", error);
         return res.status(500).json({
@@ -440,7 +486,7 @@ const enrollUserInCourse = async (req, res) => {
             errorMessage: error.message,
         });
     }
-}
+};
 
 const updateRating = async (req, res) => {
     const { userid, courseid } = req.params;
@@ -484,7 +530,6 @@ const updateRating = async (req, res) => {
     }
 };
 
-
 module.exports = {
     getUserInfoByUserId,
     getAllCourses,
@@ -494,5 +539,5 @@ module.exports = {
     searchCourse,
     enrollUserInCourse,
     getProgressMatrixByCourseId,
-    updateRating
+    updateRating,
 };
