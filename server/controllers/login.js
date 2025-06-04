@@ -118,8 +118,25 @@ const checkExistingUser = async (req, res) => {
     
     return res.status(200).json({ success: true, message: "user doesnt exist" })
 }
+
+const resetUserPassword = async(req, res) => {
+    const { email, newPassword } = req.body;
+    try{
+        const newPass = await bcrypt.hash(newPassword, Number(process.env.HASH_SALT))
+        await User.updateOne({ email: email }, {
+            $set: {
+                passwordHash: newPass
+            }
+        })
+
+        res.status(200).json({ success: true, message: "dandanaka done"})
+    } catch(err){
+        res.status(500).json({ success: false, message: err.message })
+    }
+}
 module.exports = {
     loginValidation,
     signupValidation,
     checkExistingUser,
+    resetUserPassword,
 };
