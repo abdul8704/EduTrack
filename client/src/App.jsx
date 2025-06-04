@@ -11,6 +11,7 @@ import { CourseDeets } from './pages/CourseDeets';
 import { Profile } from "./pages/Profile";
 import { SearchResult } from "./components/SearchResult";
 import { NotFound } from "./pages/NotFound";
+import { UserDetails } from "./pages/UserDetails";
 
 function App() {
   return (
