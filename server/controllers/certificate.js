@@ -6,18 +6,14 @@ const generateCertificate = async (req, res) => {
         const { name, course, date, instructor } = req.body;
 
         if (!name || !course || !date || !instructor) {
-            return res
-                .status(400)
-                .json({
-                    message: "Name, course, date, and instructor are required.",
-                });
+            return res.status(400).json({
+                message: "Name, course, date, and instructor are required.",
+            });
         }
 
         // Convert mm/dd/yyyy to dd/mm/yyyy
         const [month, day, year] = date.split("/");
         const formattedDate = `${day}/${month}/${year}`;
-
-
 
         const isLinux = os.platform() === "linux";
 
@@ -25,8 +21,6 @@ const generateCertificate = async (req, res) => {
             headless: "new",
             args: isLinux ? ["--no-sandbox", "--disable-setuid-sandbox"] : [],
         });
-        
-        
 
         const page = await browser.newPage();
 

@@ -1,6 +1,6 @@
 const User = require("../models/userDetails");
-const bcrypt = require('bcrypt')
-require('dotenv').config()
+const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 const loginValidation = async (req, res) => {
     const { email, password } = req.body;
@@ -21,7 +21,7 @@ const loginValidation = async (req, res) => {
                 message: "User not found.",
             });
         }
-        console.log(req.body)
+        console.log(req.body);
         const correctPass = await bcrypt.compare(password, user.passwordHash);
         if (!correctPass) {
             return res.status(401).json({
@@ -34,7 +34,7 @@ const loginValidation = async (req, res) => {
         const userDetails = {
             userid: user._id,
             role: user.role,
-            username: user.username
+            username: user.username,
         };
 
         return res.status(200).json({
@@ -50,7 +50,7 @@ const loginValidation = async (req, res) => {
             errorMessage: error.message,
         });
     }
-}
+};
 
 const signupValidation = async (req, res) => {
     const { username, email, password } = req.body;
@@ -61,7 +61,7 @@ const signupValidation = async (req, res) => {
         });
     }
     try {
-        console.log(password)
+        console.log(password);
         const hashedpass = await bcrypt.hash(
             password,
             Number(process.env.HASH_SALT)
@@ -94,7 +94,7 @@ const signupValidation = async (req, res) => {
             message: "User registered successfully.",
             userid: unique_id._id,
         });
-    }catch (error) {
+    } catch (error) {
         console.error("Error during signup:", error);
 
         return res.status(500).json({
@@ -103,9 +103,7 @@ const signupValidation = async (req, res) => {
             errorMessage: error.message,
         });
     }
-}
-
-
+};
 
 const checkExistingUser = async (req, res) => {
     const { useremail } = req.body;
@@ -115,25 +113,33 @@ const checkExistingUser = async (req, res) => {
         return res
             .status(400)
             .json({ success: false, message: "User already exists" });
-    
-    return res.status(200).json({ success: true, message: "user doesnt exist" })
-}
 
-const resetUserPassword = async(req, res) => {
+    return res
+        .status(200)
+        .json({ success: true, message: "user doesnt exist" });
+};
+
+const resetUserPassword = async (req, res) => {
     const { email, newPassword } = req.body;
-    try{
-        const newPass = await bcrypt.hash(newPassword, Number(process.env.HASH_SALT))
-        await User.updateOne({ email: email }, {
-            $set: {
-                passwordHash: newPass
+    try {
+        const newPass = await bcrypt.hash(
+            newPassword,
+            Number(process.env.HASH_SALT)
+        );
+        await User.updateOne(
+            { email: email },
+            {
+                $set: {
+                    passwordHash: newPass,
+                },
             }
-        })
+        );
 
-        res.status(200).json({ success: true, message: "dandanaka done"})
-    } catch(err){
-        res.status(500).json({ success: false, message: err.message })
+        res.status(200).json({ success: true, message: "dandanaka done" });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
     }
-}
+};
 module.exports = {
     loginValidation,
     signupValidation,

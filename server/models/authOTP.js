@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const otpVerifySchema = new mongoose.Schema({
     useremail: {
