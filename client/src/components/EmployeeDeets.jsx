@@ -9,7 +9,7 @@ export const EmployeeDeets = ({ profile }) => {
   if (!profile || profile.length === 0) {
     return <div>No employee data available.</div>;
   }
-
+``
   return (
     <div className="enrolled-container">
       <h2 className="enrolled-title">Employee Details</h2>
@@ -22,6 +22,7 @@ export const EmployeeDeets = ({ profile }) => {
             name={user.username}
             designation={user.position}
             email={user.email}
+            userid={user.userid}
           />
         ))}
       </div>

@@ -95,32 +95,40 @@ export const CourseDeets = () => {
         </div>
       </aside>
 
-      <main className="coursedeets-content">
-        <h2 className="coursedeets-heading">Enrolled</h2>
-        <div className="coursedeets-courses">
-          {enrolledUsers.map(person => (
-            <div className="coursedeets-course-card" key={person.userId} onClick={() => handleCardClick(person.userId)}>
-              <img
-                className="coursedeets-course-image"
-                src={person.profilePicture}
-                onError={(e) => (e.target.src = '/default-user.png')}
-                alt={person.username}
-              />
-              <div className="coursedeets-course-details">
-                <div className="coursedeets-course-name">{person.username}</div>
-                <div className="coursedeets-course-instructor">software engineer</div>
-                <div className="coursedeets-progress-bar">
-                  <div
-                    className="coursedeets-progress-fill"
-                    style={{ width: `${person.completion}%` }}
-                  />
-                </div>
-                <div className="coursedeets-progress-percent">{person.completion}%</div>
-              </div>
+        <main className="coursedeets-content">
+          <h2 className="coursedeets-heading">Enrolled</h2>
+
+          {enrolledUsers.length === 0 ? (
+            <div className="coursedeets-no-users">
+              No users have enrolled in this course yet.
             </div>
-          ))}
-        </div>
-      </main>
+          ) : (
+            <div className="coursedeets-courses">
+              {enrolledUsers.map(person => (
+                <div className="coursedeets-course-card" key={person.userId} onClick={() => handleCardClick(person.userId)}>
+                  <img
+                    className="coursedeets-course-image"
+                    src={person.profilePicture}
+                    onError={(e) => (e.target.src = '/default-user.png')}
+                    alt={person.username}
+                  />
+                  <div className="coursedeets-course-details">
+                    <div className="coursedeets-course-name">{person.username}</div>
+                    <div className="coursedeets-course-instructor">software engineer</div>
+                    <div className="coursedeets-progress-bar">
+                      <div
+                        className="coursedeets-progress-fill"
+                        style={{ width: `${person.completion}%` }}
+                      />
+                    </div>
+                    <div className="coursedeets-progress-percent">{person.completion}%</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+
     </div>
     </>
   );

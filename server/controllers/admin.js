@@ -39,7 +39,7 @@ const getAllUsers = async (req, res) => {
         return res
             .status(403)
             .json({ success: false, message: "Access denied. Admins only." });
-
+            
     const userData = await User.find(
         {},
         {
@@ -70,6 +70,7 @@ const getUserById = async (req, res) => {
                 position: 1,
             }
         );
+        console.log("HERE", user, userid)
 
         if (!user) {
             return res.status(404).json({
