@@ -92,7 +92,7 @@ const handleMakeAdmin = async () => {
       <div className="empprog-container">
         {/* Sidebar */}
         <aside className="empprog-navbar">
-          <button className="coursedeets-back-button" onClick={() => window.history.back()}>
+          <button className="coursedeets-back-button" onClick={() => navigate(`/user/dashboard/${userId}`)}>
             ←
           </button>
           <div className="empprog-profile-section">
