@@ -1,3 +1,18 @@
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .enrolled-container {
   display: flex;
   flex-direction: column;
@@ -48,6 +63,31 @@
   flex-direction: column;
   transition: transform 0.3s ease;
   flex-shrink: 0;
+
+  /* ✨ New Animation */
+  opacity: 0;
+  animation: floatIn 0.6s ease-out forwards;
+}
+
+/* Delay for each card to create staggered effect */
+.enrolled-course-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.enrolled-course-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.enrolled-course-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.enrolled-course-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.enrolled-course-card:nth-child(5) {
+  animation-delay: 0.5s;
 }
 
 .enrolled-course-card:hover {

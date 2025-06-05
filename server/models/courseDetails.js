@@ -14,6 +14,10 @@ const courseDetailsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    courseCompletions: {
+        type: Number,
+        default: 0,
+    },
     courseRating: {
         type: Number,
         min: 0,

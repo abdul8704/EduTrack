@@ -1,12 +1,16 @@
 .profile-card {
-  width: 18.75rem; /* 300px = 18.75rem */
+  width: 18.75rem;
+  /* 300px = 18.75rem */
   background: white;
-  border-radius: 0.9375rem; /* 15px = 0.9375rem */
-  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1); /* 8px 20px */
+  border-radius: 0.9375rem;
+  /* 15px = 0.9375rem */
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1);
+  /* 8px 20px */
   text-align: center;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
-  margin: 1.25rem auto; /* 20px = 1.25rem */
+  margin: 1.25rem auto;
+  /* 20px = 1.25rem */
   transition: transform 0.3s;
 }
 
@@ -16,32 +20,39 @@
 
 .profile-top {
   background: #dce9ed;
-  height: 10vh; /* Use vh to make it height responsive */
+  height: 10vh;
+  /* Use vh to make it height responsive */
 }
 
 .profile-photo {
-  width: 6.25rem; /* 100px = 6.25rem */
+  width: 6.25rem;
+  /* 100px = 6.25rem */
   height: 6.25rem;
   border-radius: 50%;
-  border: 0.3125rem solid white; /* 5px = 0.3125rem */
-  margin-top: -3.125rem; /* -50px = -3.125rem */
+  border: 0.3125rem solid white;
+  /* 5px = 0.3125rem */
+  margin-top: -3.125rem;
+  /* -50px = -3.125rem */
   object-fit: cover;
 }
 
 .profile-details {
-  padding: 1.25rem; /* 20px = 1.25rem */
+  padding: 1.25rem;
+  /* 20px = 1.25rem */
 }
 
 .profile-name {
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 0.625rem 0 0.3125rem; /* 10px and 5px */
+  margin: 0.625rem 0 0.3125rem;
+  /* 10px and 5px */
 }
 
 .profile-designation {
   font-size: 0.95rem;
   color: #555;
-  margin-bottom: 0.5rem; /* 8px = 0.5rem */
+  margin-bottom: 0.5rem;
+  /* 8px = 0.5rem */
 }
 
 .profile-email {

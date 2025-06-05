@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './course.css';
+// import './course.css';
 
 export const CourseLayout = ({ sidebarContent, children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

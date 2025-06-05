@@ -8,10 +8,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "postinstall": "node render-postinstall.js"
   },
   "keywords": [],
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
@@ -19,7 +21,7 @@
     "express-async-errors": "^3.1.1",
     "mongoose": "^8.15.0",
     "nodemailer": "^7.0.3",
-    "puppeteer": "^24.9.0"
+    "puppeteer": "^24.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

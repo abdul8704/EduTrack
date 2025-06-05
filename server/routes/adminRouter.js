@@ -13,10 +13,7 @@ router.get(
     "/:adminid/progress/:employeeid",
     adminController.getProgressByUserId
 );
-router.patch(
-    "/:adminid/updateuserrole",
-    adminController.updateUserRole
-);
+router.patch("/:adminid/updateuserrole", adminController.updateUserRole);
 router.post("/:adminid/course/addnewcourse", adminController.addNewCourse);
 
 module.exports = router;

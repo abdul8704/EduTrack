@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CourseDetails } from '../components/CourseDetails';
-import '../styles/CourseIntro.css';
+import '../styles/courseIntro.css';
 import { Navbar } from '../components/Navbar';
 export const CourseIntro = () => {
   const { userId, courseId } = useParams();
@@ -14,7 +14,7 @@ export const CourseIntro = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/${courseId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/${courseId}`);
         setCourse(response.data.data);
         setContents(response.data.contents);
         setPerc(response.data.percentComplete);
@@ -31,10 +31,10 @@ export const CourseIntro = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="course-page">
-      <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc}/>
-    </div>
+      <Navbar />
+      <div className="course-page">
+        <CourseDetails uId={userId} id={courseId} courseData={course} contentsData={contents} percent={perc} />
+      </div>
     </>
   );
 };

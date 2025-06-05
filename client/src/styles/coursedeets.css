@@ -18,6 +18,13 @@
   position: relative;
 }
 
+.coursedeets-no-users {
+  font-size: 1.1rem;
+  color: gray;
+  margin-top: 20px;
+  text-align: center;
+}
+
 /* Profile */
 .coursedeets-profile-section {
   display: flex;
@@ -262,15 +269,15 @@
   .coursedeets-navbar {
     width: 22rem;
   }
-  
+
   .coursedeets-content {
     padding: 2.5rem 4rem;
   }
-  
+
   .coursedeets-course-card {
     width: 32%;
   }
-  
+
   .coursedeets-heading {
     font-size: 2.5rem;
   }
@@ -281,11 +288,11 @@
   .coursedeets-navbar {
     width: 18rem;
   }
-  
+
   .coursedeets-content {
     padding: 2rem 2.5rem;
   }
-  
+
   .coursedeets-course-card {
     width: 48%;
   }
@@ -296,39 +303,39 @@
   .coursedeets-navbar {
     width: 16rem;
   }
-  
+
   .coursedeets-content {
     padding: 1.5rem 2rem;
   }
-  
+
   .coursedeets-heading {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .coursedeets-course-card {
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
   }
-  
+
   .coursedeets-courses {
     gap: 1.25rem;
   }
-  
+
   .coursedeets-profile-image img {
     width: 80px;
     height: 80px;
   }
-  
+
   .coursedeets-profile-name {
     font-size: 1.2rem;
   }
-  
+
   .coursedeets-toc {
     font-size: 0.8rem;
   }
-  
+
   .coursedeets-module ul {
     font-size: 0.8rem;
   }
@@ -341,7 +348,7 @@
     height: auto;
     min-height: calc(89vh);
   }
-  
+
   .coursedeets-navbar {
     width: 100%;
     height: auto;
@@ -350,90 +357,90 @@
     padding: 1rem;
     position: relative;
   }
-  
+
   .coursedeets-back-button {
     position: static;
     margin-bottom: 1rem;
     align-self: flex-start;
   }
-  
+
   .coursedeets-profile-section {
     flex-direction: row;
     align-items: center;
     text-align: left;
     padding: 1rem;
   }
-  
+
   .coursedeets-profile-image {
     margin-right: 1rem;
   }
-  
+
   .coursedeets-profile-image img {
     width: 60px;
     height: 60px;
     margin-bottom: 0;
   }
-  
+
   .coursedeets-profile-details {
     flex: 1;
   }
-  
+
   .coursedeets-profile-name,
   .coursedeets-profile-designation,
   .coursedeets-profile-email {
     text-align: left;
   }
-  
+
   .coursedeets-divider {
     margin-top: 1rem;
   }
-  
+
   .coursedeets-toc {
     padding: 0.75rem;
   }
-  
+
   .coursedeets-toc h3 {
     font-size: 0.9rem;
   }
-  
+
   .coursedeets-module {
     margin-top: 0.75rem;
   }
-  
+
   .coursedeets-module strong {
     font-size: 0.85rem;
   }
-  
+
   .coursedeets-module ul {
     font-size: 0.75rem;
     padding-left: 1rem;
   }
-  
+
   .coursedeets-content {
     padding: 1.5rem;
     overflow-y: visible;
   }
-  
+
   .coursedeets-heading {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .coursedeets-course-card {
     width: 100%;
     padding: 1.25rem;
   }
-  
+
   .coursedeets-course-image {
     width: 70px;
     height: 70px;
     margin-right: 1rem;
   }
-  
+
   .coursedeets-course-name {
     font-size: 1.1rem;
   }
-  
+
   .coursedeets-course-instructor {
     font-size: 0.9rem;
   }
@@ -446,7 +453,7 @@
     height: auto;
     min-height: calc(89vh);
   }
-  
+
   .coursedeets-navbar {
     width: 100%;
     height: auto;
@@ -454,78 +461,78 @@
     border-bottom: 0.08rem solid rgb(62, 60, 60);
     padding: 0.75rem;
   }
-  
+
   .coursedeets-back-button {
     position: static;
     margin-bottom: 0.75rem;
     font-size: 1.2rem;
     padding: 0.4rem 0.6rem;
   }
-  
+
   .coursedeets-profile-section {
     flex-direction: row;
     align-items: center;
     padding: 0.75rem;
   }
-  
+
   .coursedeets-profile-image {
     margin-right: 0.75rem;
   }
-  
+
   .coursedeets-profile-image img {
     width: 50px;
     height: 50px;
     margin-bottom: 0;
   }
-  
+
   .coursedeets-profile-name {
     font-size: 1rem;
     text-align: left;
   }
-  
+
   .coursedeets-profile-designation {
     font-size: 0.85rem;
     text-align: left;
   }
-  
+
   .coursedeets-profile-email {
     font-size: 0.8rem;
     text-align: left;
     padding: 0.3rem 0.5rem;
   }
-  
+
   .coursedeets-toc {
     padding: 0.5rem;
   }
-  
+
   .coursedeets-toc h3 {
     font-size: 0.85rem;
     margin-bottom: 0.4rem;
   }
-  
+
   .coursedeets-module {
     margin-top: 0.5rem;
   }
-  
+
   .coursedeets-module strong {
     font-size: 0.8rem;
     margin-bottom: 0.3rem;
   }
-  
+
   .coursedeets-module ul {
     font-size: 0.7rem;
     padding-left: 0.75rem;
   }
-  
+
   .coursedeets-content {
     padding: 1rem;
   }
-  
+
   .coursedeets-heading {
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
-  
+
   .coursedeets-course-card {
     width: 100%;
     padding: 1rem;
@@ -533,7 +540,7 @@
     align-items: flex-start;
     text-align: left;
   }
-  
+
   .coursedeets-course-image {
     width: 60px;
     height: 60px;
@@ -541,25 +548,25 @@
     margin-bottom: 0.75rem;
     align-self: center;
   }
-  
+
   .coursedeets-course-details {
     width: 100%;
     text-align: center;
   }
-  
+
   .coursedeets-course-name {
     font-size: 1rem;
   }
-  
+
   .coursedeets-course-instructor {
     font-size: 0.85rem;
     margin-bottom: 0.6rem;
   }
-  
+
   .coursedeets-progress-bar {
     margin-bottom: 0.4rem;
   }
-  
+
   .coursedeets-progress-percent {
     font-size: 0.8rem;
   }
@@ -572,7 +579,7 @@
     height: auto;
     min-height: calc(89vh);
   }
-  
+
   .coursedeets-navbar {
     width: 100%;
     height: auto;
@@ -580,80 +587,80 @@
     border-bottom: 0.08rem solid rgb(62, 60, 60);
     padding: 0.5rem;
   }
-  
+
   .coursedeets-back-button {
     position: static;
     margin-bottom: 0.5rem;
     font-size: 1rem;
     padding: 0.3rem 0.5rem;
   }
-  
+
   .coursedeets-profile-section {
     flex-direction: column;
     align-items: center;
     padding: 0.5rem;
     text-align: center;
   }
-  
+
   .coursedeets-profile-image img {
     width: 60px;
     height: 60px;
     margin-bottom: 0.5rem;
   }
-  
+
   .coursedeets-profile-name {
     font-size: 1rem;
     margin-bottom: 0.2rem;
   }
-  
+
   .coursedeets-profile-designation {
     font-size: 0.8rem;
     margin-bottom: 0.3rem;
   }
-  
+
   .coursedeets-profile-email {
     font-size: 0.75rem;
     padding: 0.25rem 0.4rem;
   }
-  
+
   .coursedeets-toc {
     padding: 0.4rem;
   }
-  
+
   .coursedeets-toc h3 {
     font-size: 0.8rem;
     margin-bottom: 0.3rem;
   }
-  
+
   .coursedeets-module {
     margin-top: 0.4rem;
   }
-  
+
   .coursedeets-module strong {
     font-size: 0.75rem;
     margin-bottom: 0.25rem;
   }
-  
+
   .coursedeets-module ul {
     font-size: 0.65rem;
     padding-left: 0.5rem;
     max-width: 95%;
   }
-  
+
   .coursedeets-content {
     padding: 0.75rem;
   }
-  
+
   .coursedeets-heading {
     font-size: 1.3rem;
     margin-bottom: 1rem;
     text-align: center;
   }
-  
+
   .coursedeets-courses {
     gap: 0.75rem;
   }
-  
+
   .coursedeets-course-card {
     width: 100%;
     padding: 0.75rem;
@@ -661,33 +668,33 @@
     align-items: center;
     text-align: center;
   }
-  
+
   .coursedeets-course-image {
     width: 50px;
     height: 50px;
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
-  
+
   .coursedeets-course-details {
     width: 100%;
   }
-  
+
   .coursedeets-course-name {
     font-size: 0.9rem;
     margin-bottom: 0.2rem;
   }
-  
+
   .coursedeets-course-instructor {
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .coursedeets-progress-bar {
     height: 8px;
     margin-bottom: 0.3rem;
   }
-  
+
   .coursedeets-progress-percent {
     font-size: 0.75rem;
   }
@@ -698,41 +705,41 @@
   .coursedeets-content {
     padding: 0.5rem;
   }
-  
+
   .coursedeets-heading {
     font-size: 1.1rem;
   }
-  
+
   .coursedeets-navbar {
     padding: 0.4rem;
   }
-  
+
   .coursedeets-course-card {
     padding: 0.5rem;
   }
-  
+
   .coursedeets-course-image {
     width: 40px;
     height: 40px;
   }
-  
+
   .coursedeets-course-name {
     font-size: 0.85rem;
   }
-  
+
   .coursedeets-course-instructor {
     font-size: 0.75rem;
   }
-  
+
   .coursedeets-profile-image img {
     width: 50px;
     height: 50px;
   }
-  
+
   .coursedeets-toc {
     padding: 0.3rem;
   }
-  
+
   .coursedeets-module ul {
     font-size: 0.6rem;
   }
@@ -744,30 +751,30 @@
     height: auto;
     min-height: 100vh;
   }
-  
+
   .coursedeets-navbar {
     padding: 0.5rem;
   }
-  
+
   .coursedeets-profile-section {
     flex-direction: row;
     padding: 0.5rem;
   }
-  
+
   .coursedeets-profile-image {
     margin-right: 0.5rem;
   }
-  
+
   .coursedeets-profile-image img {
     width: 40px;
     height: 40px;
     margin-bottom: 0;
   }
-  
+
   .coursedeets-toc {
     padding: 0.3rem;
   }
-  
+
   .coursedeets-content {
     padding: 0.75rem;
   }
@@ -779,18 +786,18 @@
     flex-direction: column;
     height: auto;
   }
-  
+
   .coursedeets-navbar {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid #ccc;
     page-break-after: always;
   }
-  
+
   .coursedeets-back-button {
     display: none;
   }
-  
+
   .coursedeets-course-card {
     width: 100%;
     break-inside: avoid;

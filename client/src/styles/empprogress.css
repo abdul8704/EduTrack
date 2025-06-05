@@ -190,15 +190,15 @@ body.empprog-lock-scroll {
   .empprog-navbar {
     width: 22rem;
   }
-  
+
   .empprog-content {
     padding: 2.5rem 4rem;
   }
-  
+
   .empprog-heading {
     font-size: 2.2rem;
   }
-  
+
   .empprog-course-card {
     width: 48%;
   }
@@ -209,11 +209,11 @@ body.empprog-lock-scroll {
   .empprog-navbar {
     width: 18rem;
   }
-  
+
   .empprog-content {
     padding: 2rem 2.5rem;
   }
-  
+
   .empprog-course-card {
     width: 47%;
   }
@@ -225,51 +225,51 @@ body.empprog-lock-scroll {
     width: 16rem;
     padding: 1.5rem 0.8rem;
   }
-  
+
   .empprog-profile-section {
     padding: 1.5rem 0.5rem;
   }
-  
+
   .empprog-profile-image img {
     width: 80px;
     height: 80px;
   }
-  
+
   .empprog-profile-name {
     font-size: 1.1rem;
   }
-  
+
   .empprog-profile-designation {
     font-size: 0.9rem;
   }
-  
+
   .empprog-profile-email {
     font-size: 0.8rem;
   }
-  
+
   .empprog-content {
     padding: 1.5rem 2rem;
   }
-  
+
   .empprog-heading {
     font-size: 1.8rem;
   }
-  
+
   .empprog-course-card {
     width: 100%;
     margin-bottom: 0.5rem;
   }
-  
+
   .empprog-course-image {
     width: 70px;
     height: 70px;
     margin-right: 1rem;
   }
-  
+
   .empprog-course-name {
     font-size: 1.1rem;
   }
-  
+
   .empprog-course-instructor {
     font-size: 0.9rem;
   }
@@ -293,36 +293,36 @@ body.empprog-lock-scroll {
     padding: 1rem;
     overflow-x: auto;
   }
-  
+
   .empprog-profile-section {
     flex-direction: row;
     align-items: center;
     padding: 1rem;
     min-width: max-content;
   }
-  
+
   .empprog-profile-image {
     margin-right: 1rem;
   }
-  
+
   .empprog-profile-image img {
     width: 60px;
     height: 60px;
     margin-bottom: 0;
   }
-  
+
   .empprog-profile-name {
     font-size: 1rem;
     text-align: left;
     margin-bottom: 0.2rem;
   }
-  
+
   .empprog-profile-designation {
     font-size: 0.85rem;
     text-align: left;
     margin-bottom: 0.2rem;
   }
-  
+
   .empprog-profile-email {
     font-size: 0.75rem;
     text-align: left;
@@ -333,7 +333,7 @@ body.empprog-lock-scroll {
     padding: 1.5rem;
     flex: 1;
   }
-  
+
   .empprog-heading {
     font-size: 1.6rem;
     text-align: center;
@@ -355,16 +355,16 @@ body.empprog-lock-scroll {
     align-self: center;
     max-width: 200px;
   }
-  
+
   .empprog-course-details {
     width: 100%;
     text-align: center;
   }
-  
+
   .empprog-course-name {
     font-size: 1.1rem;
   }
-  
+
   .empprog-course-instructor {
     font-size: 0.9rem;
   }
@@ -386,29 +386,29 @@ body.empprog-lock-scroll {
     padding: 0.8rem;
     overflow-x: auto;
   }
-  
+
   .empprog-profile-section {
     flex-direction: column;
     align-items: center;
     padding: 1rem 0.5rem;
   }
-  
+
   .empprog-profile-image img {
     width: 50px;
     height: 50px;
     margin-bottom: 0.5rem;
   }
-  
+
   .empprog-profile-name {
     font-size: 0.9rem;
     margin-bottom: 0.2rem;
   }
-  
+
   .empprog-profile-designation {
     font-size: 0.75rem;
     margin-bottom: 0.3rem;
   }
-  
+
   .empprog-profile-email {
     font-size: 0.7rem;
     padding: 0.2rem 0.3rem;
@@ -418,7 +418,7 @@ body.empprog-lock-scroll {
     padding: 1rem;
     flex: 1;
   }
-  
+
   .empprog-heading {
     font-size: 1.4rem;
     text-align: center;
@@ -443,21 +443,21 @@ body.empprog-lock-scroll {
     margin-right: 0;
     margin-bottom: 0.8rem;
   }
-  
+
   .empprog-course-details {
     width: 100%;
   }
-  
+
   .empprog-course-name {
     font-size: 1rem;
     margin-bottom: 0.4rem;
   }
-  
+
   .empprog-course-instructor {
     font-size: 0.85rem;
     margin-bottom: 0.6rem;
   }
-  
+
   .empprog-progress-percent {
     font-size: 0.8rem;
   }
@@ -468,36 +468,36 @@ body.empprog-lock-scroll {
   .empprog-content {
     padding: 0.8rem;
   }
-  
+
   .empprog-heading {
     font-size: 1.2rem;
   }
-  
+
   .empprog-course-card {
     padding: 0.8rem;
   }
-  
+
   .empprog-course-image {
     width: 60px;
     height: 60px;
   }
-  
+
   .empprog-course-name {
     font-size: 0.9rem;
   }
-  
+
   .empprog-course-instructor {
     font-size: 0.8rem;
   }
-  
+
   .empprog-profile-name {
     font-size: 0.8rem;
   }
-  
+
   .empprog-profile-designation {
     font-size: 0.7rem;
   }
-  
+
   .empprog-profile-email {
     font-size: 0.65rem;
   }

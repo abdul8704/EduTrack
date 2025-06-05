@@ -13,7 +13,7 @@ export const SearchResult = () => {
     const fetchCourseData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/alice@example.com/course/search?tags=${tag}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/alice@example.com/course/search?tags=${tag}`
         );
         setCourse(response.data.courses);
       } catch (error) {

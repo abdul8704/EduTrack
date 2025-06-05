@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { CoursesCard } from './CoursesCard';
-import '../styles/EnrolledCourses.css';
+import '../styles/enrolledCourses.css';
 import { useParams } from 'react-router-dom';
 export const EnrolledCourses = ({ enrolled }) => {
   const { userId } = useParams();

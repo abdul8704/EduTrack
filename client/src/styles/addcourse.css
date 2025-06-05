@@ -220,7 +220,8 @@
 .addcourse-lecture,
 .addcourse-assignment {
   position: relative;
-  padding-top: 2.5rem; /* space for the delete button */
+  padding-top: 2.5rem;
+  /* space for the delete button */
 }
 
 /* Position delete buttons neatly */
@@ -258,6 +259,7 @@
   margin-bottom: 8px;
 
 }
+
 .addcourse-assignment {
   position: relative;
   padding-right: 30px;
@@ -266,6 +268,7 @@
   padding: 12px;
   margin-bottom: 16px;
 }
+
 /* Responsive */
 @media (max-width: 48rem) {
   .addcourse-form {

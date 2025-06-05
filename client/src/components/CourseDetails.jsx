@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/CourseIntro.css';
+import '../styles/courseIntro.css';
 import { useNavigate } from 'react-router-dom';
 import { Popup } from './Popup';
 import axios from 'axios';
@@ -38,7 +38,7 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${uId}/data/userinfo`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${uId}/data/userinfo`);
         setName(response.data.username.username);
         setLoading(false);
       } catch (error) {
@@ -51,33 +51,33 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
   if (loading) return <div>Loading...</div>;
   if (!username) return <div>USER NOT FOUND...</div>
 
+
+
   const handleDownloadCertificate = async ({ courseName, courseInstructor }) => {
     try {
-      const response = await fetch('http://localhost:5000/api/certificate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/certificate`,
+        {
           name: username,
           course: courseName,
           instructor: courseInstructor,
           date: new Date().toLocaleDateString()
-        }),
-      });
+        },
+        {
+          responseType: 'blob', // Important: tells Axios to expect a file (like PDF)
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Backend error:', errorText);
-        throw new Error('Failed to generate certificate');
-      }
-
-      const blob = await response.blob();
-      if (blob.type !== 'application/pdf') {
-        const text = await blob.text();
+      if (response.data.type !== 'application/pdf') {
+        const text = await response.data.text();
         console.error('Unexpected response:', text);
         throw new Error('Invalid PDF content received');
       }
 
-      const url = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `${courseName}.pdf`);
@@ -102,12 +102,13 @@ export const CourseDetails = ({ uId, id, courseData, contentsData, percent }) =>
     }
   };
 
+
   const handleStartClick = () => {
     navigate(`/course/learn/${uId}/${id}/0/0`);
   };
   const handleEnrollClick = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/user/${uId}/${id}/enroll`);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/${uId}/${id}/enroll`);
 
       if (response.status === 200) {
         showPopup("Enrollment successful! You can now start the course.", {

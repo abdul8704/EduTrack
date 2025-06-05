@@ -5,12 +5,15 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Slightly darker for better contrast */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Slightly darker for better contrast */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; /* Ensure it's above navbars or other components */
-  backdrop-filter: blur(2px); /* Optional blur effect */
+  z-index: 999;
+  /* Ensure it's above navbars or other components */
+  backdrop-filter: blur(2px);
+  /* Optional blur effect */
 }
 
 /* Feedback popup container */
@@ -54,6 +57,7 @@
     transform: scale(0.85);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;

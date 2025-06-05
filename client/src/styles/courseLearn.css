@@ -1,9 +1,11 @@
 .course-container {
   display: flex;
-  height: 100vh; /* Fixed height to prevent overall scroll */
+  height: 100vh;
+  /* Fixed height to prevent overall scroll */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
-  overflow: hidden; /* Prevent overall scrollbar */
+  overflow: hidden;
+  /* Prevent overall scrollbar */
   position: relative;
 }
 
@@ -16,13 +18,15 @@
   flex-direction: column;
   padding: 2rem 1rem 2rem 2rem;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  overflow-y: auto; /* Separate scrollbar for navbar */
+  overflow-y: auto;
+  /* Separate scrollbar for navbar */
   overflow-x: hidden;
   box-sizing: border-box;
   transition: all 0.3s ease;
   position: relative;
   z-index: 100;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
+  /* Full viewport height */
 }
 
 .course-navbar.collapsed {
@@ -31,10 +35,11 @@
   border-right: none;
   box-shadow: none;
   align-items: center;
-  overflow-y: hidden; /* Hide scrollbar when collapsed */
+  overflow-y: hidden;
+  /* Hide scrollbar when collapsed */
 }
 
-.course-navbar.collapsed > *:not(.course-collapse-bar) {
+.course-navbar.collapsed>*:not(.course-collapse-bar) {
   opacity: 0;
   pointer-events: none;
   height: 0;
@@ -60,7 +65,8 @@
   justify-content: center;
   z-index: 101;
   transition: all 0.3s ease;
-  height: 100%; /* Match navbar height exactly */
+  height: 100%;
+  /* Match navbar height exactly */
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
@@ -81,7 +87,7 @@
   text-align: left;
   font-size: 1rem;
   border-radius: 0.5rem;
-  border-left: 0.5rem solid #da5555; 
+  border-left: 0.5rem solid #da5555;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: none;
@@ -116,7 +122,7 @@
   color: #555;
   cursor: pointer;
   transition: background 0.2s ease;
-  border-left: 0.5rem solid #da5555; 
+  border-left: 0.5rem solid #da5555;
   border-right: none;
   border-top: none;
   border-bottom: none;
@@ -132,9 +138,11 @@
   padding: 2rem;
   background: #ffffff;
   transition: all 0.3s ease;
-  overflow-y: auto; /* Separate scrollbar for module section */
+  overflow-y: auto;
+  /* Separate scrollbar for module section */
   overflow-x: hidden;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
+  /* Full viewport height */
   box-sizing: border-box;
 }
 
@@ -159,7 +167,7 @@
   background: #bada55;
   color: #000000;
   box-shadow: 0 0 0.5rem #bada55aa;
-  border-left: 0.5rem solid #62684e; 
+  border-left: 0.5rem solid #62684e;
   border-right: none;
   border-top: none;
   border-bottom: none;
@@ -172,7 +180,8 @@
 
 /* Completed submodule style */
 .course-complete-submodule {
-  border-left: 0.5rem solid #9ccc65; /* light green border */
+  border-left: 0.5rem solid #9ccc65;
+  /* light green border */
 }
 
 /* ────────────── Module section ────────────── */
@@ -182,9 +191,11 @@
   border-radius: 10px;
   flex-grow: 1;
   box-sizing: border-box;
-  overflow-y: auto; /* Separate scrollbar for module content */
+  overflow-y: auto;
+  /* Separate scrollbar for module content */
   overflow-x: hidden;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
+  /* Full viewport height */
   width: 80%;
 }
 
@@ -302,7 +313,7 @@
   }
 
   /* In mobile, when NOT collapsed (expanded), show all content */
-  .course-navbar:not(.collapsed) > *:not(.course-collapse-bar) {
+  .course-navbar:not(.collapsed)>*:not(.course-collapse-bar) {
     opacity: 1 !important;
     pointer-events: auto !important;
     height: auto !important;
@@ -310,7 +321,7 @@
   }
 
   /* In mobile, when collapsed, hide content */
-  .course-navbar.collapsed > *:not(.course-collapse-bar) {
+  .course-navbar.collapsed>*:not(.course-collapse-bar) {
     opacity: 0;
     pointer-events: none;
     height: 0;
@@ -324,7 +335,7 @@
   }
 
   /* When navbar is NOT collapsed (expanded), hide module completely */
-  .course-navbar:not(.collapsed) ~ .module-container {
+  .course-navbar:not(.collapsed)~.module-container {
     width: 0;
     padding: 0;
     overflow: hidden;
@@ -333,7 +344,7 @@
   }
 
   /* When navbar is collapsed, module takes full width */
-  .course-navbar.collapsed ~ .module-container {
+  .course-navbar.collapsed~.module-container {
     width: 100%;
     flex-grow: 1;
   }

@@ -24,7 +24,7 @@ const NavbarInput = ({ userId }) => {
     <form className="navbar-form" onSubmit={handleSubmit}>
       <input
         className="navbar-input"
-        placeholder="Type your text"
+        placeholder="Search courses..."
         required
         type="text"
         value={input}
@@ -66,7 +66,7 @@ export const Navbar = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}/data/userinfo`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/data/userinfo`);
         const user = response.data.username;
         if (user?.profilePicture) {
           setProfilePicture(user.profilePicture);
@@ -152,21 +152,21 @@ export const Navbar = () => {
         <div className="navbar-search-desktop">
           <NavbarInput userId={userId} />
         </div>
-        {userId && (  
-        <div className="navbar-profile-desktop">
-          {role === "admin" && (
+        {userId && (
+          <div className="navbar-profile-desktop">
+            {role === "admin" && (
               <div className="navbar-mobile-links">
                 <Link to={`/admin/dashboard/${userId}/employee/details`}>Admin Dashboard</Link>
               </div>
-          )}
+            )}
             <div className="navbar-mobile-links">
               <Link to={`/`}>Logout</Link>
             </div>
             <Link to={`/user/profile/${userId}`}>
               <img src={profilePicture} alt="Profile" className="navbar-profile-picture" />
             </Link>
-        </div>
-      )}
+          </div>
+        )}
       </div>
     </nav>
   );
