@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../styles/editprofile.css'; // Assuming you have a CSS file for styling
 
 export const EditProfile = ({ onClose, onSave, userData = {} }) => {
-  const [role, setRole ]= useState(null);
-  setRole("user");
+  // const [role, setRole ]= useState(null);
+  // setRole("user");
   const [formData, setFormData] = useState({
     username: '',
     profilePicture: ''
