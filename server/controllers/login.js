@@ -21,7 +21,6 @@ const loginValidation = async (req, res) => {
                 message: "User not found.",
             });
         }
-        console.log(req.body);
         const correctPass = await bcrypt.compare(password, user.passwordHash);
         if (!correctPass) {
             return res.status(401).json({
@@ -61,7 +60,6 @@ const signupValidation = async (req, res) => {
         });
     }
     try {
-        console.log(password);
         const hashedpass = await bcrypt.hash(
             password,
             Number(process.env.HASH_SALT)

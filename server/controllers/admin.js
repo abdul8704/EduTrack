@@ -73,7 +73,6 @@ const getUserById = async (req, res) => {
                 position: 1,
             }
         );
-        console.log("HERE", user, userid);
 
         if (!user) {
             return res.status(404).json({
@@ -149,12 +148,10 @@ const addNewUser = async (req, res) => {
 
         const admin = await User.findOne({ userid: adminid });
         if (!admin || admin.role !== "admin") {
-            return res
-                .status(403)
-                .json({
-                    success: false,
-                    message: "Access denied. Admins only.",
-                });
+            return res.status(403).json({
+                success: false,
+                message: "Access denied. Admins only.",
+            });
         }
 
         const user = await User.findOne({ userid: targetUserid });
@@ -411,28 +408,33 @@ const getCourseInfoById = async (req, res) => {
 };
 
 const editProfileAdmin = async (req, res) => {
-    const { adminid } = req.params
-    const { userid, username, profilePicURL, position } = req.body;
-    if (!isAdmin(req.params.adminid)) {
+    const { adminid } = req.params;
+    const { userid, username, profilePicURL, position, role } = req.body;
+    if (!isAdmin(adminid)) {
         return res
             .status(403)
             .json({ success: false, message: "Access denied. Admins only." });
     }
-    try{
-        await User.updateOne({ userid: userid }, 
+    try {
+        await User.updateOne(
+            { userid: userid },
             {
                 $set: {
                     username: username,
                     profilePicture: profilePicURL,
-                    position: position
-                }    
+                    position: position,
+                    role: role,
+                },
             }
-        )
-        res.status(201).json({ success: true, message: "details successfully updated"})
-    } catch(error){
-        res.status(500).json({ success: false, message: error.message })
+        );
+        res.status(201).json({
+            success: true,
+            message: "details successfully updated",
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
 module.exports = {
     getAllUsers,

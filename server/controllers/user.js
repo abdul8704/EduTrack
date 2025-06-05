@@ -284,12 +284,10 @@ const updateProgress = async (req, res) => {
         });
 
         if (!currentProgress) {
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "This user has not enrolled in this course",
-                });
+            return res.status(404).json({
+                success: false,
+                message: "This user has not enrolled in this course",
+            });
         }
 
         currentProgress.moduleStatus.completedModules[moduleIndex][
@@ -423,12 +421,10 @@ const enrollUserInCourse = async (req, res) => {
         }
 
         if (user.currentCourses.includes(courseid)) {
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message: "User already enrolled in this course",
-                });
+            return res.status(400).json({
+                success: false,
+                message: "User already enrolled in this course",
+            });
         }
 
         user.currentCourses.push(courseid);
@@ -441,14 +437,12 @@ const enrollUserInCourse = async (req, res) => {
             courseId: courseid,
         });
         if (!courseContent) {
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message: "Course not found hehe",
-                    cc: courseContent,
-                    dd: courseDetails,
-                });
+            return res.status(404).json({
+                success: false,
+                message: "Course not found hehe",
+                cc: courseContent,
+                dd: courseDetails,
+            });
         }
 
         const newProgress = new Progress({
@@ -472,12 +466,10 @@ const enrollUserInCourse = async (req, res) => {
         });
         await newProgress.save();
 
-        return res
-            .status(200)
-            .json({
-                success: true,
-                message: "User enrolled in course successfully",
-            });
+        return res.status(200).json({
+            success: true,
+            message: "User enrolled in course successfully",
+        });
     } catch (error) {
         console.error("Error enrolling user in course:", error);
         return res.status(500).json({
@@ -531,22 +523,26 @@ const updateRating = async (req, res) => {
 };
 
 const editProfile = async (req, res) => {
-    const { userid } = req.params
-    const {  username, profilePicURL } = req.body;
-    try{
-        await User.updateOne({ userid: userid }, 
+    const { userid } = req.params;
+    const { username, profilePicURL } = req.body;
+    try {
+        await User.updateOne(
+            { userid: userid },
             {
                 $set: {
                     username: username,
                     profilePicture: profilePicURL,
-                }    
+                },
             }
-        )
-        res.status(201).json({ success: true, message: "details successfully updated"})
-    } catch(error){
-        res.status(500).json({ success: false, message: error.message })
+        );
+        res.status(201).json({
+            success: true,
+            message: "details successfully updated",
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
 module.exports = {
     getUserInfoByUserId,
@@ -558,5 +554,5 @@ module.exports = {
     enrollUserInCourse,
     getProgressMatrixByCourseId,
     updateRating,
-    editProfile
+    editProfile,
 };

@@ -88,22 +88,29 @@ export const Profile = () => {
   const navigate = useNavigate();
   const [popup, setPopup] = useState(null);
   const [showEditProfile, setShowEditProfile] = useState(false)
+  const [thisUserRole, setThisUserRole] = useState('')
 
   const showPopup = (message, color) => {
     setPopup({ message, color });
     setTimeout(() => setPopup(null), 4000);
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      const fetchedUser = await fetchUserData(userId);
-      const fetchedCourses = await fetchCourses(userId);
-      setUserData(fetchedUser);
-      setCourses(fetchedCourses);
-      setLoading(false);
-    };
+  const loadData = async () => {
+    setLoading(true);
+    const fetchedUser = await fetchUserData(userId);
+    const fetchedCourses = await fetchCourses(userId);
+    setUserData(fetchedUser);
+    setCourses(fetchedCourses);
+    setLoading(false);
+  };
 
+  useEffect(() => {
+    const getrole = async () => {
+      const role = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/common/profile/role/${userId}`)
+      setThisUserRole(role.data.role)
+    }
+
+    getrole();
     loadData();
   }, []);
 
@@ -129,40 +136,43 @@ export const Profile = () => {
   if (loading) return <div className="profile-loading">Loading...</div>;
 
   const userDatas = {
-  username: userData.username,
-  email: userData.email,
-  userid: userId,
-  role: userData.role,
-  position: userData.position,
-  profilePicture: userData.profilePicture
-};
+    username: userData.username,
+    email: userData.email,
+    userid: userId,
+    role: userData.role,
+    position: userData.position,
+    profilePicture: userData.profilePicture
+  };
 
   return (
     <>
       <Navbar />
       <div className="profile-container">
-<aside className="profile-navbar">
-  <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
-    ←
-  </button>
-  <div className="profile-profileSection">
-    <div className="profile-profileImage">
-      <img src={userData.profilePicture} alt="Profile" className="profile-profileImg" />
-    </div>
-    <div className="profile-profileDetails">
-      <div className="profile-profileName">{userData.username}</div>
-      <div className="profile-profileDesignation">{userData.position}</div>
-      <div className="profile-profileEmail">{userData.email}</div>
-    </div>
-    <button className="profile-edit-btn"onClick={() => setShowEditProfile(true)}>Edit Profile</button>
-  </div>
+        <aside className="profile-navbar">
+          <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
+            ←
+          </button>
+          <div className="profile-profileSection">
+            <div className="profile-profileImage">
+              <img src={userData.profilePicture} alt="Profile" className="profile-profileImg" />
+            </div>
+            <div className="profile-profileDetails">
+              <div className="profile-profileName">{userData.username}</div>
+              <div className="profile-profileDesignation">{userData.position}</div>
+              <div className="profile-profileEmail">{userData.email}</div>
+            </div>
+            <button className="profile-edit-btn" onClick={() => setShowEditProfile(true)}>Edit Profile</button>
+          </div>
 
-  {showEditProfile && (
-    <div className="overlay">
-      <EditProfile userData={userDatas} onClose={() => setShowEditProfile(false)} />
-    </div>
-  )}
-</aside>
+          {showEditProfile && (
+            <div className="overlay">
+              <EditProfile userData={userDatas} thisUserRole={thisUserRole} thisUserId={userId} onClose={() => setShowEditProfile(false)} onSave={() => {
+                setShowEditProfile(false);
+                loadData(); // <-- refresh after save
+              }} />
+            </div>
+          )}
+        </aside>
 
 
         <main className="profile-content">

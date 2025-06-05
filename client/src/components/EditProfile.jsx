@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/editprofile.css'; // CSS assumed
+import axios from 'axios';
 
-export const EditProfile = ({ onClose, onSave, userData = {} }) => {
-  const [role, setRole] = useState('admin'); // Change to 'user' to test user mode
+export const EditProfile = ({ onClose, onSave, userData = {}, thisUserRole, thisUserId }) => {
+  const [role, setRole] = useState(''); // Cha nge to 'user' to test user mode
+  useEffect(() => {
+    setRole(thisUserRole);
+  }, [thisUserRole])
 
   const [formData, setFormData] = useState({
     username: '',
@@ -56,8 +60,24 @@ export const EditProfile = ({ onClose, onSave, userData = {} }) => {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      if (onSave) onSave(formData);
+      if (role === 'user') {
+        await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/${role}/${thisUserId}/user/data/editprofile`, {
+          username: formData.username,
+          profilePicURL: formData.profilePicture,
+        })
+      }
+
+      else if (role === 'admin') {
+        await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/${role}/${thisUserId}/user/data/editprofile`, {
+          userid: thisUserId,
+          username: formData.username,
+          profilePicURL: formData.profilePicture,
+          position: formData.position,
+          role: formData.role
+        })
+      }
+
+      if (onSave) onSave();
       if (onClose) onClose();
     } catch (error) {
       console.error('Error saving profile:', error);
@@ -129,7 +149,7 @@ export const EditProfile = ({ onClose, onSave, userData = {} }) => {
                   />
                 </div>
 
-                <div className="form-group full-width">
+                {/* <div className="form-group full-width">
                   <label>User ID</label>
                   <input
                     type="text"
@@ -138,7 +158,7 @@ export const EditProfile = ({ onClose, onSave, userData = {} }) => {
                     readOnly
                     disabled
                   />
-                </div>
+                </div> */}
 
                 <div className="form-group full-width">
                   <label>Email</label>
@@ -151,6 +171,36 @@ export const EditProfile = ({ onClose, onSave, userData = {} }) => {
                   />
                 </div>
               </>
+            )}
+
+            {role === 'admin' && (
+              <div className="profile-image-section">
+                <div className="image-preview-container">
+                  {formData.profilePicture && formData.profilePicture !== 'default-profile-pic.png' ? (
+                    <img
+                      src={formData.profilePicture}
+                      alt="Profile preview"
+                      className="profile-image-preview"
+                      onError={(e) => {
+                        e.target.src = 'default-profile-pic.png';
+                      }}
+                    />
+                  ) : (
+                    <div className="profile-image-placeholder">
+                      <span>Default Image</span>
+                    </div>
+                  )}
+                </div>
+                <div className="image-upload-container">
+                  <button
+                    type="button"
+                    onClick={() => setShowImageUrlPopup(true)}
+                    className="image-upload-btn"
+                  >
+                    Change Photo
+                  </button>
+                </div>
+              </div>
             )}
 
             {role === 'admin' && (

@@ -6,7 +6,6 @@ import { Navbar } from '../components/Navbar';
 
 export const EmpProgress = () => {
   const { userId, empId } = useParams();
-  console.log(userId, "ee", empId)
   const defaultImage = 'https://randomuser.me/api/portraits/women/49.jpg';
   const useremail = useParams();
   const [courses, setCourses] = useState([]);

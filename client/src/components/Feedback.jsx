@@ -28,7 +28,6 @@ export const Feedback = () => {
       label: smilies[index].label,
     };
 
-    console.log("Feedback Submitted:", feedback);
     try {
       await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/course/${courseId}/feedback`, {
         rating: feedback.rating
@@ -39,7 +38,7 @@ export const Feedback = () => {
         text: "#155724"
       });
     } catch (error) {
-      console.log(error)
+      console.err(error)
     }
 
     navigate(`/course/intro/${userId}/${courseId}`);
