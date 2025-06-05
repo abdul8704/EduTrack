@@ -530,6 +530,24 @@ const updateRating = async (req, res) => {
     }
 };
 
+const editProfile = async (req, res) => {
+    const { userid } = req.params
+    const {  username, profilePicURL } = req.body;
+    try{
+        await User.updateOne({ userid: userid }, 
+            {
+                $set: {
+                    username: username,
+                    profilePicture: profilePicURL,
+                }    
+            }
+        )
+        res.status(201).json({ success: true, message: "details successfully updated"})
+    } catch(error){
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
 module.exports = {
     getUserInfoByUserId,
     getAllCourses,
@@ -540,4 +558,5 @@ module.exports = {
     enrollUserInCourse,
     getProgressMatrixByCourseId,
     updateRating,
+    editProfile
 };

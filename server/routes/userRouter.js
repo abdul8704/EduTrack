@@ -20,4 +20,6 @@ router.patch(
 router.get("/:userid/course/search", userController.searchCourse);
 router.post("/:userid/:courseid/enroll", userController.enrollUserInCourse);
 router.post("/:userid/course/:courseid/feedback", userController.updateRating);
+router.patch("/:userid/data/profile/editprofile", userController.editProfile)
+
 module.exports = router;

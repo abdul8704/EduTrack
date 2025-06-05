@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
 
 router.get("/:adminid/userdata/:userid", adminController.getUserById);
@@ -15,5 +14,6 @@ router.get(
 );
 router.patch("/:adminid/updateuserrole", adminController.updateUserRole);
 router.post("/:adminid/course/addnewcourse", adminController.addNewCourse);
+router.patch("/:adminid/user/data/editprofile", adminController.editProfileAdmin)
 
 module.exports = router;

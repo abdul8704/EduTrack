@@ -410,6 +410,30 @@ const getCourseInfoById = async (req, res) => {
     }
 };
 
+const editProfileAdmin = async (req, res) => {
+    const { adminid } = req.params
+    const { userid, username, profilePicURL, position } = req.body;
+    if (!isAdmin(req.params.adminid)) {
+        return res
+            .status(403)
+            .json({ success: false, message: "Access denied. Admins only." });
+    }
+    try{
+        await User.updateOne({ userid: userid }, 
+            {
+                $set: {
+                    username: username,
+                    profilePicture: profilePicURL,
+                    position: position
+                }    
+            }
+        )
+        res.status(201).json({ success: true, message: "details successfully updated"})
+    } catch(error){
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
 module.exports = {
     getAllUsers,
     getAllCourses,
@@ -420,4 +444,5 @@ module.exports = {
     updateUserRole,
     addNewCourse,
     getCourseInfoById,
+    editProfileAdmin,
 };
