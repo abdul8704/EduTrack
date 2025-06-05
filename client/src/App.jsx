@@ -11,7 +11,6 @@ import { CourseDeets } from './pages/CourseDeets';
 import { Profile } from "./pages/Profile";
 import { SearchResult } from "./components/SearchResult";
 import { NotFound } from "./pages/NotFound";
-import UserDetails  from "./pages/UserDetails";
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
         <Route path="/admin/dashboard/:userId/details/emp/:empId" element={<EmpProgress />} />
         <Route path="/admin/dashboard/:userId/details/course/:courseId" element={<CourseDeets />} />
         <Route path="/admin/dashboard/:userId/course/addcourse" element={<AddCourse />} />
-        <Route path="/deets" element={<UserDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <Footer /> */}
