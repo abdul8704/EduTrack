@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Popup } from '../components/Popup';
+import { EditProfile } from '../components/EditProfile';
+
 
 const fetchUserData = async (userId) => {
   try {
@@ -85,6 +87,7 @@ export const Profile = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [popup, setPopup] = useState(null);
+  const [showEditProfile, setShowEditProfile] = useState(false)
 
   const showPopup = (message, color) => {
     setPopup({ message, color });
@@ -125,31 +128,48 @@ export const Profile = () => {
 
   if (loading) return <div className="profile-loading">Loading...</div>;
 
+  const userDatas = {
+  username: userData.username,
+  email: userData.email,
+  userid: userId,
+  role: userData.role,
+  position: userData.position,
+  profilePicture: userData.profilePicture
+};
+
   return (
     <>
       <Navbar />
       <div className="profile-container">
-        <aside className="profile-navbar">
-          <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
-            ←
-          </button>
-          <div className="profile-profileSection">
-            <div className="profile-profileImage">
-              <img src={userData.profilePicture} alt="Profile" className="profile-profileImg" />
-            </div>
-            <div className="profile-profileDetails">
-              <div className="profile-profileName">{userData.username}</div>
-              <div className="profile-profileDesignation">{userData.position}</div>
-              <div className="profile-profileEmail">{userData.email}</div>
-            </div>
-          </div>
-        </aside>
+<aside className="profile-navbar">
+  <button className="profile-backButton" onClick={() => navigate(`/user/dashboard/${userId}`)}>
+    ←
+  </button>
+  <div className="profile-profileSection">
+    <div className="profile-profileImage">
+      <img src={userData.profilePicture} alt="Profile" className="profile-profileImg" />
+    </div>
+    <div className="profile-profileDetails">
+      <div className="profile-profileName">{userData.username}</div>
+      <div className="profile-profileDesignation">{userData.position}</div>
+      <div className="profile-profileEmail">{userData.email}</div>
+    </div>
+    <button className="profile-edit-btn"onClick={() => setShowEditProfile(true)}>Edit Profile</button>
+  </div>
+
+  {showEditProfile && (
+    <div className="overlay">
+      <EditProfile userData={userDatas} onClose={() => setShowEditProfile(false)} />
+    </div>
+  )}
+</aside>
+
 
         <main className="profile-content">
-          <h2 className="profile-heading">Progress</h2>
+          <h2 className="profile-heading">Completed Courses</h2>
           <div className="profile-courses">
             {courses.length === 0 ? (
-              <div>The person is very busy... not even one course enrolled...</div>
+              <div>The person is very busy... not even one course completed...</div>
             ) : (
               courses.map(course => (
                 <div
