@@ -4,6 +4,14 @@ LearnZuntra is a full-stack e-learning platform where users can explore courses,
 
 ---
 
+## 🌍Live Preview
+https://learn-zuntra-az9i.vercel.app/
+
+To see the admin view, use 
+- Email = "backups795@gmail.com"
+- Password = "1234"
+
+
 ## 🚀 Features
 
 ### 👨‍🎓 For Users
