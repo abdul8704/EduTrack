@@ -1,6 +1,6 @@
 # 📚 EduTrack
 
-LearnZuntra is a full-stack e-learning platform where users can explore courses, enroll, take quizzes, and track their learning progress — while admins can monitor learners and manage user-course engagement.
+EduTrack is a full-stack e-learning platform where users can explore courses, enroll, take quizzes, and track their learning progress — while admins can monitor learners and manage user-course engagement.
 
 ---
 
@@ -56,8 +56,8 @@ To see the admin view, use
 
 - Clone the repository
 ```
-git clone https://github.com/yourusername/learnzuntra.git
-cd learnzuntra
+git clone https://github.com/yourusername/EduTrack.git
+cd EduTrack
 ```
 
 - Install dependencies
