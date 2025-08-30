@@ -1,4 +1,4 @@
-# 📚 LearnZuntra
+# 📚 EduTrack
 
 LearnZuntra is a full-stack e-learning platform where users can explore courses, enroll, take quizzes, and track their learning progress — while admins can monitor learners and manage user-course engagement.
 
