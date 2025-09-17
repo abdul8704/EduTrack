@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/navbar.css';
-import logo from '../assets/zuntraLogo.avif';
+import logo from '../assets/EduTrack.png';
 
 const DEFAULT_PROFILE_PIC = "https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg";
 

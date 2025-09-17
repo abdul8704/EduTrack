@@ -56,7 +56,8 @@ html{
 }
 
 .navbar-logo {
-  height: 2.5rem;
+  height: 7.5rem;
+  width: auto;
   object-fit: contain;
 }
 

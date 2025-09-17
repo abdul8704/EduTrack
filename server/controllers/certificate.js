@@ -194,7 +194,7 @@ const generateCertificate = async (req, res) => {
           <div class="instructor-name">${instructor}</div>
           <div class="signature">Instructor Signature</div>
 
-          <div class="footer-text">Zuntra Learning</div>
+          <div class="footer-text">EduTrack</div>
           <div class="date">${formattedDate}</div>
         </div>
       </div>
