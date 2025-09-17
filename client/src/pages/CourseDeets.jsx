@@ -1,6 +1,7 @@
 // CourseDeets.jsx
 import React from 'react';
 import '../styles/coursedeets.css';
+import { UserProgressChartJS } from '../components/UserProgressChartJS';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios";
@@ -108,20 +109,29 @@ export const CourseDeets = () => {
                 <div className="coursedeets-course-card" key={person.userId} onClick={() => handleCardClick(person.userId)}>
                   <img
                     className="coursedeets-course-image"
-                    src={person.profilePicture}
+                    src={person.profilePicture || '/default-user.png' }
                     onError={(e) => (e.target.src = '/default-user.png')}
                     alt={person.username}
                   />
                   <div className="coursedeets-course-details">
                     <div className="coursedeets-course-name">{person.username}</div>
                     <div className="coursedeets-course-instructor">software engineer</div>
-                    <div className="coursedeets-progress-bar">
-                      <div
-                        className="coursedeets-progress-fill"
-                        style={{ width: `${person.completion}%` }}
-                      />
+                    <div className="coursedeets-progress-row">
+                      <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center' }}>
+                        <div className="coursedeets-progress-bar">
+                          <div
+                            className="coursedeets-progress-fill"
+                            style={{ width: `${person.completion}%` }}
+                          />
+                        </div>
+                        <div className="coursedeets-progress-percent">{person.completion}%</div>
+                      </div>
+                      {person.progressHistory && person.progressHistory.length >= 1 && (
+                        <div className="coursedeets-progress-graph" onClick={e => e.stopPropagation()}>
+                          <UserProgressChartJS history={person.progressHistory} title="Progress Over Time" height={120} />
+                        </div>
+                      )}
                     </div>
-                    <div className="coursedeets-progress-percent">{person.completion}%</div>
                   </div>
                 </div>
               ))}

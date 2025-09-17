@@ -118,9 +118,10 @@ const getCourseById = async (req, res) => {
             { userId: userid, courseId: courseId },
             {
                 percentComplete: 1,
+                progressHistory: 1,
             }
         );
-        if (!progress) progress = { percentComplete: -1 };
+        if (!progress) progress = { percentComplete: -1, progressHistory: [] };
         if (!course)
             return res.status(404).json({
                 success: false,
@@ -153,6 +154,7 @@ const getCourseById = async (req, res) => {
             percentComplete: progress.percentComplete
                 ? progress.percentComplete
                 : 0,
+            progressHistory: progress.progressHistory || [],
             contents: formattedContents,
         });
     } catch (error) {
@@ -310,6 +312,25 @@ const updateProgress = async (req, res) => {
             (totalTrueCount / currentProgress.moduleStatus.totalSubModules) *
                 100
         );
+        // Only add to history if percent increases
+        if (
+            !currentProgress.progressHistory ||
+            currentProgress.progressHistory.length === 0 ||
+            updatedPercentComplete > currentProgress.percentComplete
+        ) {
+            // Only one entry per day
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const lastEntry = currentProgress.progressHistory.length > 0 ? currentProgress.progressHistory[currentProgress.progressHistory.length - 1] : null;
+            const lastEntryDate = lastEntry ? new Date(lastEntry.date) : null;
+            if (!lastEntryDate || lastEntryDate < today) {
+                currentProgress.progressHistory.push({ percent: updatedPercentComplete, date: new Date() });
+            } else {
+                // If already an entry today, update it
+                lastEntry.percent = updatedPercentComplete;
+                lastEntry.date = new Date();
+            }
+        }
         currentProgress.percentComplete = updatedPercentComplete;
         await currentProgress.save();
 
@@ -450,6 +471,7 @@ const enrollUserInCourse = async (req, res) => {
             courseId: courseid,
             courseName: courseDetails.courseName,
             percentComplete: 0,
+            progressHistory: [{ percent: 0, date: new Date() }],
             moduleStatus: {
                 totalSubModules: courseContent.modules.reduce(
                     (total, module) => total + module.submodules.length,

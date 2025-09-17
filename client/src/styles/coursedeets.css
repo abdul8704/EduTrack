@@ -140,14 +140,18 @@
 /* Course Card */
 .coursedeets-course-card {
   display: flex;
-  align-items: center;
-  width: 45%;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 420px;
   background: #e9f1f7;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 1rem;
+  padding: 1rem 1.25rem;
+  margin: 0 auto;
   transition: transform 0.3s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .coursedeets-course-card:hover {
@@ -155,17 +159,18 @@
 }
 
 .coursedeets-course-image {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 0.8rem;
   object-fit: cover;
-  margin-right: 1.5rem;
+  margin-bottom: 0.75rem;
   flex-shrink: 0;
 }
 
 .coursedeets-course-details {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 .coursedeets-course-name {
@@ -187,6 +192,7 @@
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 0.5rem;
+  flex: 1;
 }
 
 .coursedeets-progress-fill {
@@ -199,6 +205,43 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: #333;
+  margin-left: 0.5rem;
+}
+
+/* Graph wrapper for chartjs */
+.coursedeets-progress-graph {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 0.5rem ;
+  padding-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Layout for progress bar and chart */
+.coursedeets-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .coursedeets-course-card {
+    max-width: 100%;
+    padding: 0.75rem 0.5rem;
+  }
+  .coursedeets-progress-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  .coursedeets-progress-graph {
+    padding: 0.25rem 0;
+  }
 }
 
 /* Table of Contents */

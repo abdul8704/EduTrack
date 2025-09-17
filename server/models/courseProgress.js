@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const progressEntrySchema = new mongoose.Schema({
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
+    percent: {
+        type: Number,
+        required: true,
+    },
+}, { _id: false });
+
 const courseProgressSchema = new mongoose.Schema({
     userId: {
         type: String,
@@ -17,6 +29,10 @@ const courseProgressSchema = new mongoose.Schema({
         // no of true/ mat.length * mat[0].length
         type: Number,
         required: true,
+    },
+    progressHistory: {
+        type: [progressEntrySchema],
+        default: [],
     },
     moduleStatus: {
         totalSubModules: {

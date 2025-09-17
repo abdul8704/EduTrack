@@ -196,6 +196,7 @@ const getUserForCourse = async (req, res) => {
                 userId: 1,
                 courseName: 1,
                 percentComplete: 1,
+                progressHistory: 1,
             }
         );
 
@@ -218,6 +219,7 @@ const getUserForCourse = async (req, res) => {
                 username: user ? user.username : "Unknown User",
                 userId: progress.userId,
                 completion: progress.percentComplete,
+                progressHistory: progress.progressHistory || [],
                 profilePicture: user ? user.profilePicture : null,
             });
         });
