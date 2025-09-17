@@ -11,7 +11,7 @@ export const CoursesCard = ({ userId, courseId, title, image, instructor, rating
   return (
     <div className="enrolled-course-card" onClick={handleClick}>
       <img src={image} alt={title} className="enrolled-course-image" />
-      <div className="enrolled-course-title">{title}</div>
+      <div className="enrolled-course-title text-red-500">{title}</div>
       <div className="enrolled-course-bottom">
         <div className="enrolled-course-instructor">by {instructor}</div>
         <div className="enrolled-course-rating">⭐ {rating}</div>
