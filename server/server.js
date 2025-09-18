@@ -18,6 +18,7 @@ const app = express();
 app.use(express.json());
 const corsOptions = {
     origin: [
+        "https://edu-track-flax.vercel.app",
         "http://localhost:5173",
         "https://learn-zuntra-k8ox.vercel.app",
         "https://learn-zuntra-az9i.vercel.app",
