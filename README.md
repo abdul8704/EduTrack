@@ -5,7 +5,7 @@ EduTrack is a full-stack e-learning platform where users can explore courses, en
 ---
 
 ## 🌍Live Preview
-https://learn-zuntra-az9i.vercel.app/
+https://edu-track-flax.vercel.app/
 
 To see the admin view, use 
 - Email = "backups795@gmail.com"
@@ -56,7 +56,7 @@ To see the admin view, use
 
 - Clone the repository
 ```
-git clone https://github.com/yourusername/EduTrack.git
+git clone https://github.com/abdul8704/EduTrack.git
 cd EduTrack
 ```
 
