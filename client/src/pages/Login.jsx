@@ -60,7 +60,7 @@ export const Login = () => {
 
     try {
       setPopupMessage({
-        message: "Please wait...",
+        message: "Please wait... This site is hosted for free on Render. The first request may take up to 50 seconds to respond — please hang tight!",
         color: {
           background: "#d1ecf1",
           border: "#bee5eb",
@@ -110,7 +110,7 @@ export const Login = () => {
           useremail: signupData.email
         });
         setPopupMessage({
-          message: "Please wait...",
+          message: "Loading.. This site is hosted for free on Render. The first request may take up to 50 seconds to respond — please hang tight!",
           color: {
             background: "#d1ecf1",
             border: "#bee5eb",
