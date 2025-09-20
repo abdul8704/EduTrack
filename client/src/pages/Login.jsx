@@ -1,3 +1,26 @@
+// Simple spinner for button
+const Spinner = () => (
+  <span style={{
+    display: 'inline-block',
+    width: 18, height: 18,
+    border: '3px solid #c3e6cb',
+    borderTop: '3px solid #2563eb',
+    borderRadius: '50%',
+    marginRight: 8,
+    verticalAlign: 'middle',
+    animation: 'spin 1s linear infinite',
+  }} />
+);
+
+// Inject spinner keyframes into the document head once
+function useSpinnerKeyframes() {
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+}
 import React, { useState, useEffect } from "react";
 import "../styles/Login.css";
 import axios from "axios";
@@ -6,6 +29,7 @@ import { Popup } from "../components/Popup";
 // import { Navbar } from "../components/Navbar";
 
 export const Login = () => {
+  useSpinnerKeyframes();
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
   const [forgotPasswordData, setForgotPasswordData] = useState({ email: "", otp: "", password: "", confirmpassword: "" });
@@ -14,6 +38,8 @@ export const Login = () => {
   const [forgotPasswordStep, setForgotPasswordStep] = useState("email"); // "email", "otp", "password"
   const [popupMessage, setPopupMessage] = useState(null);
   const [isSignupMode, setIsSignupMode] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -57,7 +83,7 @@ export const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    setLoginLoading(true);
     try {
       setPopupMessage({
         message: "Please wait... This site is hosted for free on Render. The first request may take up to 50 seconds to respond — please hang tight!",
@@ -98,12 +124,14 @@ export const Login = () => {
         }
       });
       console.error("Login error:", err);
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-
+    setSignupLoading(true);
     if (!isOtpPhase) {
       try {
         await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/login/signup/check`, {
@@ -164,6 +192,8 @@ export const Login = () => {
             }
           });
         }
+      } finally {
+        setSignupLoading(false);
       }
     } else {
       try {
@@ -221,6 +251,8 @@ export const Login = () => {
             }
           });
         }
+      } finally {
+        setSignupLoading(false);
       }
     }
   };
@@ -508,8 +540,8 @@ export const Login = () => {
                         onChange={handleLoginChange}
                         required
                       />
-                      <button className="login-flip-card__btn" type="submit">
-                        Let's go!
+                      <button className="login-flip-card__btn" type="submit" disabled={loginLoading} style={loginLoading ? { opacity: 0.7, pointerEvents: 'none' } : {}}>
+                        {loginLoading && <Spinner />}Let's go!
                       </button>
                     </form>
 
@@ -570,8 +602,8 @@ export const Login = () => {
                         onChange={handleSignupChange}
                         required
                       />
-                      <button className="login-flip-card__btn" type="submit">
-                        Confirm!
+                      <button className="login-flip-card__btn" type="submit" disabled={signupLoading} style={signupLoading ? { opacity: 0.7, pointerEvents: 'none' } : {}}>
+                        {signupLoading && <Spinner />}Confirm!
                       </button>
                     </form>
                   </div>
