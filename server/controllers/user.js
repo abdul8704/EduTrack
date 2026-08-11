@@ -3,6 +3,46 @@ const CourseContent = require("../models/courseContent");
 const Progress = require("../models/courseProgress");
 const User = require("../models/userDetails");
 
+// The completion matrix is a module-by-submodule grid of booleans, so "how far
+// along is this learner" is a count of the true cells over the course total.
+const countCompletedSubModules = (completedModules) =>
+    completedModules.reduce(
+        (total, moduleRow) => total + moduleRow.filter(Boolean).length,
+        0
+    );
+
+const toPercentComplete = (completed, totalSubModules) =>
+    Math.round((completed / totalSubModules) * 100);
+
+// History keeps one point per day: the first completion of a day appends, and
+// later ones overwrite that day's entry so the chart stays a daily series.
+const recordProgressPoint = (progress, percent) => {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const history = progress.progressHistory;
+    const lastEntry = history.length > 0 ? history[history.length - 1] : null;
+    const lastEntryDate = lastEntry ? new Date(lastEntry.date) : null;
+
+    if (!lastEntryDate || lastEntryDate < startOfToday) {
+        history.push({ percent, date: new Date() });
+        return;
+    }
+
+    lastEntry.percent = percent;
+    lastEntry.date = new Date();
+};
+
+const parseIndex = (raw, upperBound) => {
+    const index = parseInt(raw);
+
+    if (Number.isNaN(index) || index < 0 || index >= upperBound) {
+        return null;
+    }
+
+    return index;
+};
+
 const getUserInfoByUserId = async (req, res) => {
     const { userid } = req.params;
     try {
@@ -260,26 +300,25 @@ const updateProgress = async (req, res) => {
                 .status(404)
                 .json({ success: false, message: "Course not found" });
         }
-        const moduleIndex = parseInt(moduleNumber);
-        const subModuleIndex = parseInt(subModuleNumber);
-        if (
-            isNaN(moduleIndex) ||
-            moduleIndex < 0 ||
-            moduleIndex >= course.modules.length
-        ) {
+        const moduleIndex = parseIndex(moduleNumber, course.modules.length);
+
+        if (moduleIndex === null) {
             return res
                 .status(400)
                 .json({ success: false, message: "Invalid module index" });
         }
-        if (
-            isNaN(subModuleIndex) ||
-            subModuleIndex < 0 ||
-            subModuleIndex >= course.modules[moduleIndex].submodules.length
-        ) {
+
+        const subModuleIndex = parseIndex(
+            subModuleNumber,
+            course.modules[moduleIndex].submodules.length
+        );
+
+        if (subModuleIndex === null) {
             return res
                 .status(400)
                 .json({ success: false, message: "Invalid submodule index" });
         }
+
         const currentProgress = await Progress.findOne({
             userId: userid,
             courseId: courseId,
@@ -292,45 +331,23 @@ const updateProgress = async (req, res) => {
             });
         }
 
-        currentProgress.moduleStatus.completedModules[moduleIndex][
-            subModuleIndex
-        ] = true;
+        const { moduleStatus } = currentProgress;
+        moduleStatus.completedModules[moduleIndex][subModuleIndex] = true;
 
-        let totalTrueCount = 0;
-
-        for (
-            let i = 0;
-            i < currentProgress.moduleStatus.completedModules.length;
-            i++
-        ) {
-            totalTrueCount +=
-                currentProgress.moduleStatus.completedModules[i].filter(
-                    Boolean
-                ).length;
-        }
-        const updatedPercentComplete = Math.round(
-            (totalTrueCount / currentProgress.moduleStatus.totalSubModules) *
-                100
+        const updatedPercentComplete = toPercentComplete(
+            countCompletedSubModules(moduleStatus.completedModules),
+            moduleStatus.totalSubModules
         );
+
         // Only add to history if percent increases
         if (
             !currentProgress.progressHistory ||
             currentProgress.progressHistory.length === 0 ||
             updatedPercentComplete > currentProgress.percentComplete
         ) {
-            // Only one entry per day
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const lastEntry = currentProgress.progressHistory.length > 0 ? currentProgress.progressHistory[currentProgress.progressHistory.length - 1] : null;
-            const lastEntryDate = lastEntry ? new Date(lastEntry.date) : null;
-            if (!lastEntryDate || lastEntryDate < today) {
-                currentProgress.progressHistory.push({ percent: updatedPercentComplete, date: new Date() });
-            } else {
-                // If already an entry today, update it
-                lastEntry.percent = updatedPercentComplete;
-                lastEntry.date = new Date();
-            }
+            recordProgressPoint(currentProgress, updatedPercentComplete);
         }
+
         currentProgress.percentComplete = updatedPercentComplete;
         await currentProgress.save();
 
