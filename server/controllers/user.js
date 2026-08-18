@@ -43,6 +43,44 @@ const parseIndex = (raw, upperBound) => {
     return index;
 };
 
+const createCompletionMatrix = (modules, initialValue = false) =>
+    modules.map((module) => Array(module.submodules.length).fill(initialValue));
+
+const createCompletionDateMatrix = (modules) =>
+    modules.map((module) => Array(module.submodules.length).fill(null));
+
+const normalizeModuleStatus = (moduleStatus, modules) => {
+    const normalizedCompletedModules = modules.map((module, moduleIndex) => {
+        const existingRow = moduleStatus?.completedModules?.[moduleIndex];
+
+        return module.submodules.map((_, subModuleIndex) =>
+            Boolean(existingRow?.[subModuleIndex])
+        );
+    });
+
+    const normalizedCompletionDates = modules.map((module, moduleIndex) => {
+        const existingRow = moduleStatus?.moduleCompletionDates?.[moduleIndex];
+
+        return module.submodules.map((_, subModuleIndex) => {
+            const rawDate = existingRow?.[subModuleIndex];
+            const parsedDate = rawDate ? new Date(rawDate) : null;
+
+            return parsedDate && !Number.isNaN(parsedDate.valueOf())
+                ? parsedDate
+                : null;
+        });
+    });
+
+    return {
+        totalSubModules: modules.reduce(
+            (total, module) => total + module.submodules.length,
+            0
+        ),
+        completedModules: normalizedCompletedModules,
+        moduleCompletionDates: normalizedCompletionDates,
+    };
+};
+
 const getUserInfoByUserId = async (req, res) => {
     const { userid } = req.params;
     try {
@@ -331,8 +369,19 @@ const updateProgress = async (req, res) => {
             });
         }
 
+        currentProgress.moduleStatus = normalizeModuleStatus(
+            currentProgress.moduleStatus,
+            course.modules
+        );
+
         const { moduleStatus } = currentProgress;
+        const wasCompleted = moduleStatus.completedModules[moduleIndex][subModuleIndex];
+
         moduleStatus.completedModules[moduleIndex][subModuleIndex] = true;
+        if (!wasCompleted) {
+            moduleStatus.moduleCompletionDates[moduleIndex][subModuleIndex] =
+                new Date();
+        }
 
         const updatedPercentComplete = toPercentComplete(
             countCompletedSubModules(moduleStatus.completedModules),
@@ -494,13 +543,9 @@ const enrollUserInCourse = async (req, res) => {
                     (total, module) => total + module.submodules.length,
                     0
                 ),
-                completedModules: Array.from(
-                    { length: courseContent.modules.length },
-                    () =>
-                        Array(courseContent.modules[0].submodules.length).fill(
-                            false
-                        )
-                ),
+                completedModules: createCompletionMatrix(courseContent.modules),
+                moduleCompletionDates:
+                    createCompletionDateMatrix(courseContent.modules),
             },
         });
         await newProgress.save();
