@@ -23,7 +23,6 @@ const courseNoteSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
 // Notes are always read back for one learner on one module at a time.
 courseNoteSchema.index({ userId: 1, courseId: 1, moduleNumber: 1 });
 
