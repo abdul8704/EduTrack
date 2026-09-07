@@ -1,6 +1,6 @@
 // Profile.jsx
 import React, { useState, useEffect } from 'react';
-import { Download, RotateCcw } from 'lucide-react';
+import { Download, RotateCcw, FileText } from 'lucide-react';
 import '../styles/profile.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -79,6 +79,47 @@ const downloadCertificate = async ({ username, courseName, courseInstructor, sho
   }
 };
 
+const downloadMonthlyReport = async ({ userId, showPopup }) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/api/certificate/monthly/${userId}`,
+      {
+        responseType: 'blob',
+      }
+    );
+
+    const blob = response.data;
+    if (blob.type !== 'application/pdf') {
+      const text = await blob.text();
+      console.error('Unexpected response:', text);
+      throw new Error('Invalid PDF content received');
+    }
+
+    const currentMonth = new Date().toISOString().slice(0, 7);
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${userId}-${currentMonth}-learning-report.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    showPopup("Monthly report generated successfully!", {
+      background: "#d4edda",
+      border: "#c3e6cb",
+      text: "#155724"
+    });
+  } catch (error) {
+    console.error('Monthly report download error:', error);
+    showPopup("Error downloading monthly report: " + error.message, {
+      background: "#f8d7da",
+      border: "#f5c6cb",
+      text: "#721c24"
+    });
+  }
+};
+
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -133,6 +174,15 @@ export const Profile = () => {
     navigate(`/course/learn/${userId}/${courseId}/0/0`);
   };
 
+  const handleDownloadMonthlyReport = async () => {
+    showPopup("Preparing your monthly learning report PDF...", {
+      background: "#d4edda",
+      border: "#c3e6cb",
+      text: "#155724"
+    });
+    await downloadMonthlyReport({ userId, showPopup });
+  };
+
   if (loading) return <div className="profile-loading">Loading...</div>;
 
   const userDatas = {
@@ -177,6 +227,14 @@ export const Profile = () => {
 
         <main className="profile-content">
           <h2 className="profile-heading">Completed Courses</h2>
+          <button
+            className="profile-edit-btn"
+            onClick={handleDownloadMonthlyReport}
+            style={{ marginTop: "0", marginBottom: "1rem", width: "fit-content" }}
+          >
+            <FileText size={16} style={{ marginRight: "0.5rem" }} />
+            Download This Month's Report
+          </button>
           <div className="profile-courses">
             {courses.length === 0 ? (
               <div>The person is very busy... not even one course completed...</div>
@@ -214,6 +272,9 @@ export const Profile = () => {
           </div>
         </main>
       </div>
+      {popup && (
+        <Popup message={popup.message} color={popup.color} />
+      )}
     </>
   );
 };

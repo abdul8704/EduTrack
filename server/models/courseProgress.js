@@ -43,6 +43,10 @@ const courseProgressSchema = new mongoose.Schema({
             type: [[Boolean]], // row for each module, column for each submodule
             default: [],
         },
+        moduleCompletionDates: {
+            type: [[Date]], // row for each module, column for each submodule
+            default: [],
+        },
     },
 });
 
