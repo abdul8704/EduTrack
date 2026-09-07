@@ -2,6 +2,7 @@ const CourseDetails = require("../models/courseDetails");
 const CourseContent = require("../models/courseContent");
 const Progress = require("../models/courseProgress");
 const User = require("../models/userDetails");
+const UserStats = require("../models/userStats");
 
 // The completion matrix is a module-by-submodule grid of booleans, so "how far
 // along is this learner" is a count of the true cells over the course total.
@@ -583,6 +584,112 @@ const editProfile = async (req, res) => {
     }
 };
 
+const getUserStats = async (req, res) => {
+    const { userid } = req.params;
+
+    try {
+        const user = await User.findOne({ userid: userid });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        const progressRecords = await Progress.find({ userId: userid });
+
+        const totalEnrolled = progressRecords.length;
+        let totalCompleted = 0;
+        let totalOngoing = 0;
+        let totalProgressSum = 0;
+        let latestActiveDate = null;
+
+        const activityDatesSet = new Set();
+
+        progressRecords.forEach((record) => {
+            if (record.percentComplete === 100) {
+                totalCompleted++;
+            } else {
+                totalOngoing++;
+            }
+            totalProgressSum += record.percentComplete || 0;
+
+            if (record.progressHistory && Array.isArray(record.progressHistory)) {
+                record.progressHistory.forEach((historyItem) => {
+                    if (historyItem.date) {
+                        const dateStr = new Date(historyItem.date).toISOString().split("T")[0];
+                        activityDatesSet.add(dateStr);
+
+                        const itemDate = new Date(historyItem.date);
+                        if (!latestActiveDate || itemDate > latestActiveDate) {
+                            latestActiveDate = itemDate;
+                        }
+                    }
+                });
+            }
+        });
+
+        const averageProgress = totalEnrolled > 0
+            ? Math.round(totalProgressSum / totalEnrolled)
+            : 0;
+
+        const sortedDates = Array.from(activityDatesSet).sort((a, b) => new Date(b) - new Date(a));
+        let streak = 0;
+
+        if (sortedDates.length > 0) {
+            const todayStr = new Date().toISOString().split("T")[0];
+            const yesterdayDate = new Date();
+            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+            const yesterdayStr = yesterdayDate.toISOString().split("T")[0];
+
+            let checkDate = new Date(sortedDates[0]);
+            if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
+                streak = 1;
+                for (let i = 1; i < sortedDates.length; i++) {
+                    const prevDate = new Date(checkDate);
+                    prevDate.setDate(prevDate.getDate() - 1);
+                    const expectedPrevStr = prevDate.toISOString().split("T")[0];
+
+                    if (sortedDates[i] === expectedPrevStr) {
+                        streak++;
+                        checkDate = new Date(sortedDates[i]);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        const statsData = {
+            userId: userid,
+            totalEnrolled,
+            totalCompleted,
+            totalOngoing,
+            averageProgress,
+            learningStreak: streak,
+            lastActiveDate: latestActiveDate || new Date(),
+        };
+
+        await UserStats.findOneAndUpdate(
+            { userId: userid },
+            { $set: statsData },
+            { upsert: true, new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            stats: statsData,
+        });
+    } catch (error) {
+        console.error("Error fetching user stats:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error while fetching user stats",
+            errorMessage: error.message,
+        });
+    }
+};
+
 module.exports = {
     getUserInfoByUserId,
     getAllCourses,
@@ -594,4 +701,6 @@ module.exports = {
     getProgressMatrixByCourseId,
     updateRating,
     editProfile,
+    getUserStats,
 };
+

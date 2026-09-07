@@ -92,7 +92,8 @@ erDiagram
 
 ### User Operations
 - `GET /api/user/:userid` - Retrieves all courses, categorizing them into available, enrolled, and completed for the user. [server/routes/userRouter.js:5]
-- `GET /api/user/:userid/:courseId` - Retrieves course details and current user progress. [server/routes/userRouter.js:6]
+- `GET /api/user/:userid/stats` - Retrieves user learning statistics (enrolled count, completed count, ongoing count, average progress, streak, last active date). [server/routes/userRouter.js:6]
+- `GET /api/user/:userid/:courseId` - Retrieves course details and current user progress. [server/routes/userRouter.js:7]
 - `POST /api/user/:userid/:courseid/enroll` - Enrolls a user in a specific course and initializes their progress tracker. [server/routes/userRouter.js:16]
 - `PATCH /api/user/:userid/:courseId/progress/:moduleNumber/:subModuleNumber` - Marks a specific submodule as complete and recalculates overall course progress. [server/routes/userRouter.js:13]
 - `GET /api/user/:userid/course/search` - Searches for courses by tags. [server/routes/userRouter.js:15]
