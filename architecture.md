@@ -1,45 +1,30 @@
-# 📚 EduTrack - System Architecture & Technical Documentation
-
-EduTrack is a full-stack e-learning platform where users can explore courses, enroll, complete modules via interactive quizzes, track learning progress over time, and download PDF certificates/reports. Admins can manage courses, track individual user progress, and monitor overall platform statistics.
-
----
-
-## 🌍 Live Preview & Admin Credentials
-- **Live Application:** [https://edu-track-flax.vercel.app/](https://edu-track-flax.vercel.app/)
-- **Demo Admin View Account:**
-  - **Email:** `backups795@gmail.com`
-  - **Password:** `1234`
-  - *Note: This is a dummy user account configured to simulate the admin view.* 
-
----
+# System Architecture & Technical Documentation
 
 ## 1. System Overview
-
-### High-Level Purpose
-EduTrack provides a structured learning management environment for employees and learners. It enables interactive video learning, quiz-based progress validation, automatic progress graph visualization, custom note-taking per module, and headless-browser generation of PDF completion certificates and monthly learning reports.
-
-### Core Design Pattern
-- **Client:** Component-Based Single Page Application (SPA) utilizing React 19, React Router v7 for client-side routing, and Tailwind CSS + custom CSS for styling.
-- **Server:** Layered Controller-Service-Model architecture built with Express.js and Node.js. State and data persistence are handled via MongoDB using Mongoose schemas. Authentication relies on salted `bcrypt` password hashing and email-based OTP verification via Nodemailer.
+* **High-Level Purpose:** EduTrack is a full-stack e-learning and learning management system (LMS) designed to facilitate online learning, course content delivery, module-level progress tracking, interactive quiz evaluation, PDF certificate/report generation, and administrative monitoring of learner performance.
+* **Core Design Pattern:** The application implements a decoupled architecture:
+  * **Frontend:** Single Page Application (SPA) built with React 19, Vite, and React Router DOM v7, utilizing Axios for asynchronous HTTP communications.
+  * **Backend:** Layered RESTful API built on Node.js and Express.js, organized into explicit router, controller, middleware, and data model layers.
+  * **Database:** MongoDB document store accessed via Mongoose ODM for persistence of users, course structures, progress matrices, notes, statistics, and OTP tokens.
 
 ---
 
 ## 2. Technology Stack & Dependencies
 
-| Category | Technology / Library | Purpose in EduTrack |
+| Category | Technology / Library | Purpose in this Project |
 | :--- | :--- | :--- |
-| **Frontend Core** | React 19 (`react`, `react-dom`) | UI component library and state management |
-| **Frontend Build Tool** | Vite | Rapid frontend tooling and bundler |
-| **Routing** | React Router v7 (`react-router-dom`) | Client-side page navigation and parameter parsing |
-| **Data Visualization** | Chart.js (`react-chartjs-2`), Recharts | Historical learning progress line charts |
-| **Icons & UI** | Lucide React | UI iconography |
-| **HTTP Client** | Axios | REST API communication with the Express backend |
-| **Styling** | Tailwind CSS, PostCSS, Autoprefixer | Utility-first CSS layout styling |
-| **Backend Core** | Node.js, Express.js | Core Web API server implementation |
-| **Database & ORM** | MongoDB, Mongoose v8 | Persistent document storage and schema modeling |
-| **Authentication & Security** | bcrypt, Nodemailer | Password salt-and-hashing, OTP email transport |
-| **Document Generation** | Puppeteer v24 | Headless Chrome automation for generating PDF certificates and monthly reports |
-| **Runtime Utilities** | `dotenv`, `express-async-errors`, `cors` | Environment handling, async exception catching, and CORS policy management |
+| Frontend Framework | React.js (v19.1.0) | Declarative UI library for component construction |
+| Build Tool & Dev Server | Vite (v6.3.5) | Next-generation frontend tooling and fast HMR |
+| Client Routing | React Router DOM (v7.6.1) | Declarative client-side routing and page dynamic parameter navigation |
+| HTTP Client | Axios (v1.9.0) | Promise-based HTTP client for API interactions |
+| Data Visualization | Recharts (v3.2.1), Chart.js (v4.5.0), react-chartjs-2 (v5.3.0) | Rendering linear course progress charts and historical user performance graphs |
+| Styling & Icons | Tailwind CSS (v3.4.17), Lucide React (v0.511.0) | Utility-first styling framework and modern icon collection |
+| Backend Runtime | Node.js | Server-side JavaScript runtime environment |
+| Web Framework | Express.js (v4.21.2) | Middleware-driven HTTP server for REST API endpoints |
+| Database & ODM | MongoDB & Mongoose (v8.15.0) | NoSQL document database and schema object modeling |
+| Security & Authentication | Bcrypt (v6.0.0) | Password hashing with configurable salt rounds |
+| Email Transport | Nodemailer (v7.0.3) | Sending One-Time Passwords (OTP) via SMTP for verification and reset workflows |
+| PDF Document Generation | Puppeteer (v24.10.0) | Headless Chromium browser automation for generating A4 Certificates and Monthly Reports |
 
 ---
 
@@ -47,97 +32,132 @@ EduTrack provides a structured learning management environment for employees and
 
 ```mermaid
 flowchart TD
-    subgraph Client [Client Application - React SPA]
-        UI["React UI Components (Dashboard, Learn, Profile)"]
-        Router["React Router v7"]
-        AxiosClient["Axios HTTP Client"]
-        Charts["Chart.js & Recharts"]
-        UI --> Router
-        UI --> Charts
-        Router --> AxiosClient
+    subgraph Client [Frontend Client - React SPA + Vite]
+        UI["React UI Pages & Components"]
+        AXIOS["Axios HTTP Client"]
+        UI --> AXIOS
     end
 
-    subgraph Backend [Server Application - Express API]
-        APIRouter["Express API Router"]
-        AuthCtrl["Auth & OTP Controllers"]
-        UserCtrl["User & Progress Controllers"]
-        AdminCtrl["Admin Management Controllers"]
-        CertCtrl["Puppeteer Certificate Engine"]
-        NotesCtrl["Course Notes Controllers"]
+    subgraph Server [Backend REST API - Express.js]
+        SERVER_JS["Express Application Server (server.js)"]
         
-        APIRouter --> AuthCtrl
-        APIRouter --> UserCtrl
-        APIRouter --> AdminCtrl
-        APIRouter --> CertCtrl
-        APIRouter --> NotesCtrl
+        subgraph Routers [API Routers]
+            AUTH_R["Login / Auth Router (/api/login)"]
+            USER_R["User Router (/api/user)"]
+            ADMIN_R["Admin Router (/api/admin)"]
+            CERT_R["Certificate Router (/api/certificate)"]
+            NOTES_R["Notes Router (/api/notes)"]
+            COMMON_R["Common Router (/api/common)"]
+        end
+
+        subgraph Controllers [Controller Layer]
+            AUTH_C["login.js & otpAuth.js"]
+            USER_C["user.js"]
+            ADMIN_C["admin.js"]
+            CERT_C["certificate.js"]
+            NOTES_C["notes.js"]
+            COMMON_C["common.js"]
+        end
+
+        SERVER_JS --> Routers
+        AUTH_R --> AUTH_C
+        USER_R --> USER_C
+        ADMIN_R --> ADMIN_C
+        CERT_R --> CERT_C
+        NOTES_R --> NOTES_C
+        COMMON_R --> COMMON_C
     end
 
-    subgraph External [External Services & DB]
-        MongoDB[("MongoDB Atlas Database")]
-        GmailSMTP["Nodemailer / Gmail SMTP"]
+    subgraph ExtServices [External & Auxiliary Services]
+        SMTP["Nodemailer (Gmail SMTP Service)"]
+        PUPPETEER["Puppeteer Headless Chrome Engine"]
     end
 
-    AxiosClient -->|"HTTP REST API Requests"| APIRouter
-    AuthCtrl -->|"Send Verification Emails"| GmailSMTP
-    UserCtrl -->|"Mongoose Queries"| MongoDB
-    AdminCtrl -->|"Mongoose Queries"| MongoDB
-    CertCtrl -->|"Query User Progress & Content"| MongoDB
-    NotesCtrl -->|"Mongoose Queries"| MongoDB
+    subgraph DB [Database Layer - MongoDB]
+        M_USER["UserDetails Collection"]
+        M_COURSE["CourseDetails Collection"]
+        M_CONTENT["CourseContent Collection"]
+        M_PROGRESS["ProgressData Collection"]
+        M_NOTE["CourseNote Collection"]
+        M_STATS["UserStats Collection"]
+        M_OTP["otpVerify Collection"]
+    end
+
+    AXIOS -->|REST Operations| SERVER_JS
+    AUTH_C -->|Dispatch Email| SMTP
+    CERT_C -->|Render PDF| PUPPETEER
+    Controllers -->|ODM Queries| DB
 ```
 
 ---
 
 ## 4. Directory & Module Structure
 
-```text
+```
 EduTrack/
-├── client/                         # Frontend React + Vite application
-│   ├── src/
-│   │   ├── assets/                 # Static brand assets (logo, images)
-│   │   ├── components/             # Reusable UI components
-│   │   │   ├── AdminAvailableCourse.jsx # Admin view for course list
-│   │   │   ├── CourseDetails.jsx   # Course introduction and certificate trigger
-│   │   │   ├── CourseNavbar.jsx    # Learning sidebar module list
-│   │   │   ├── EditProfile.jsx     # Profile editing modal
-│   │   │   ├── Module.jsx          # Module lecture video & quiz interface
-│   │   │   ├── Navbar.jsx          # Primary application header & search
-│   │   │   └── UserProgressChartJS.jsx # Historical progress graph
-│   │   ├── pages/                  # Page route components
-│   │   │   ├── AddCourse.jsx       # Admin course creation interface
-│   │   │   ├── AdminDashboard.jsx  # Admin panel navigation host
-│   │   │   ├── CourseDeets.jsx     # Admin detailed course progress view
-│   │   │   ├── CourseLearn.jsx     # Learner video & quiz page
-│   │   │   ├── EmpProgress.jsx     # Admin employee detail view
-│   │   │   ├── Login.jsx           # Signup, login, & password reset form
-│   │   │   ├── Profile.jsx         # User profile & certificate downloads
-│   │   │   └── UserDashboard.jsx   # Main learner course dashboard
-│   │   ├── styles/                 # Page and component CSS stylesheets
-│   │   ├── App.jsx                 # Route configurations
-│   │   └── main.jsx                # DOM entry point
-│   └── package.json
-└── server/                         # Backend Express Node.js application
-    ├── controllers/                # Business logic handlers
-    │   ├── admin.js                # Admin user and course management logic
-    │   ├── certificate.js          # Puppeteer PDF generation engines
-    │   ├── login.js                # Signup, login validation, password resets
-    │   ├── notes.js                # User per-module note management
-    │   ├── otpAuth.js              # OTP generation & verification logic
-    │   └── user.js                 # Course enrollment, progress matrix, stats
+├── README.md                   # Global application overview and quickstart guide
+├── client/                     # Frontend Application (React + Vite)
+│   ├── package.json            # Client dependencies and npm scripts
+│   ├── vite.config.js          # Vite build plugin and server configuration
+│   ├── index.html              # Core HTML entry document
+│   └── src/
+│       ├── App.jsx             # React Router routing definition
+│       ├── main.jsx            # DOM mounting and application entry
+│       ├── components/         # Reusable presentation and functional components
+│       │   ├── Navbar.jsx      # Navigation bar with integrated course search
+│       │   ├── CourseNavbar.jsx# Sidebar module navigator with status indicators
+│       │   ├── Module.jsx      # Module view rendering video and quiz questions
+│       │   ├── CourseDetails.jsx# Course landing overview & certificate action
+│       │   ├── EditProfile.jsx # Profile edit modal dialog
+│       │   ├── UserProgressChartJS.jsx # Reusable Chart.js line graph for completion rates
+│       │   └── ...
+│       ├── pages/              # Top-level view containers
+│       │   ├── Login.jsx       # Auth login, signup, OTP verification, and password reset
+│       │   ├── UserDashboard.jsx# Learner dashboard showing enrolled & available courses
+│       │   ├── AdminDashboard.jsx# Admin monitoring portal
+│       │   ├── CourseIntro.jsx # Course information view
+│       │   ├── CourseLearn.jsx # Interactive course workspace page
+│       │   ├── AddCourse.jsx   # Dynamic multi-step course creation form
+│       │   ├── EmpProgress.jsx # Individual learner progress tracking view for admins
+│       │   ├── CourseDeets.jsx # Course enrollment and progress listing view for admins
+│       │   └── Profile.jsx     # User profile, completed courses, & monthly report export
+│       └── styles/             # Dedicated CSS stylesheets per view/component
+└── server/                     # Backend REST API Application (Express + Node.js)
+    ├── server.js               # Entry script configuring middleware, CORS, database, & server
+    ├── package.json            # Server package metadata & scripts
+    ├── render-postinstall.js   # Linux postinstall script for automated Puppeteer Chromium installation
     ├── database/
-    │   └── connect.js              # MongoDB connection instance
-    ├── middlewares/                # Error handling & 404 middlewares
-    ├── models/                     # Mongoose database collection schemas
-    │   ├── authOTP.js              # OTP code collection schema
-    │   ├── courseContent.js        # Modules, submodules & quiz schema
-    │   ├── courseDetails.js        # Course metadata schema
-    │   ├── courseNote.js           # Learner module notes schema
-    │   ├── courseProgress.js       # Learner completion matrix & history schema
-    │   ├── userDetails.js          # User profile & account schema
-    │   └── userStats.js            # User aggregate statistics schema
-    ├── routes/                     # Express REST route endpoints
-    ├── utils/                      # Helper utilities (Nodemailer setup, OTP gen)
-    ├── server.js                   # Application entry point & server setup
-    └── package.json
+    │   └── connect.js          # Mongoose database connection client setup
+    ├── middlewares/
+    │   ├── error-handler.js    # Global async error catch-all middleware
+    │   └── not-found.js        # 404 Route handling fallback
+    ├── models/                 # Mongoose Data Schemas
+    │   ├── userDetails.js      # User credentials, roles, and profile metadata
+    │   ├── courseDetails.js    # Metadata for course catalog listings
+    │   ├── courseContent.js    # Nested structure of modules, submodules, videos, & quizzes
+    │   ├── courseProgress.js   # Matrix-based submodule status and progress history
+    │   ├── courseNote.js       # Learner notes saved per course module
+    │   ├── userStats.js        # Aggregated streak and completion metrics
+    │   └── authOTP.js          # One-Time Password storage for email authentication
+    ├── controllers/            # Core business logic layer
+    │   ├── admin.js            # Admin user management, course creation, and tracking handlers
+    │   ├── user.js             # User dashboards, course enrollment, progress updates, and stats
+    │   ├── login.js            # Authentication, registration validation, and password resets
+    │   ├── otpAuth.js          # OTP code generation and verification processing
+    │   ├── certificate.js      # Puppeteer HTML-to-PDF certificate and report generators
+    │   ├── notes.js            # Module note creation, retrieval, and deletion
+    │   └── common.js           # Shared profile role checker
+    ├── routes/                 # Express Endpoint Routers
+    │   ├── adminRouter.js      # /api/admin endpoints
+    │   ├── userRouter.js       # /api/user endpoints
+    │   ├── loginRouter.js      # /api/login endpoints
+    │   ├── certificateRouter.js# /api/certificate endpoints
+    │   ├── notesRouter.js      # /api/notes endpoints
+    │   └── common.js           # /api/common endpoints
+    └── utils/                  # Helper utilities
+        ├── generateOTP.js      # Random 6-digit numerical OTP generator
+        ├── nodemailer.js       # SMTP transport initialization
+        └── sendOTP.js          # HTML email template formatter and transport dispatcher
 ```
 
 ---
@@ -147,195 +167,177 @@ EduTrack/
 ```mermaid
 erDiagram
     UserDetails {
-        ObjectId id PK
-        string username
-        string userid UK
-        string email UK
-        string passwordHash
-        string profilePicture
-        string role
-        string position
-        string_array currentCourses
+        ObjectId _id PK
+        String username
+        String userid UK
+        String email UK
+        String passwordHash
+        String profilePicture
+        String role "user | admin"
+        String position
+        StringArray currentCourses
     }
 
     CourseDetails {
-        ObjectId id PK
-        string courseId UK
-        string courseName
-        string courseDescription
-        number courseCompletions
-        number courseRating
-        string courseInstructor
-        string courseImage
-        string_array tags
-        object courseIntroVideo
+        ObjectId _id PK
+        String courseId UK
+        String courseName
+        String courseDescription
+        Number courseCompletions
+        Number courseRating
+        String courseInstructor
+        String courseImage
+        StringArray tags
+        Object courseIntroVideo
     }
 
     CourseContent {
-        ObjectId id PK
-        string courseId UK
-        array modules
+        ObjectId _id PK
+        String courseId UK
+        Array modules
     }
 
     ProgressData {
-        ObjectId id PK
-        string userId
-        string courseId
-        string courseName
-        number percentComplete
-        array progressHistory
-        object moduleStatus
+        ObjectId _id PK
+        String userId
+        String courseId
+        String courseName
+        Number percentComplete
+        Array progressHistory
+        Object moduleStatus
     }
 
     CourseNote {
-        ObjectId id PK
-        string userId
-        string courseId
-        number moduleNumber
-        string text
-        date createdAt
+        ObjectId _id PK
+        String userId
+        String courseId
+        Number moduleNumber
+        String text
+        Date createdAt
+        Date updatedAt
     }
 
     UserStats {
-        ObjectId id PK
-        string userId UK
-        number totalEnrolled
-        number totalCompleted
-        number totalOngoing
-        number averageProgress
-        number learningStreak
-        date lastActiveDate
+        ObjectId _id PK
+        String userId UK
+        Number totalEnrolled
+        Number totalCompleted
+        Number totalOngoing
+        Number averageProgress
+        Number learningStreak
+        Date lastActiveDate
     }
 
     otpVerify {
-        ObjectId id PK
-        string useremail UK
-        number otp
+        ObjectId _id PK
+        String useremail UK
+        Number otp UK
     }
 
-    UserDetails ||--o{ ProgressData : "tracks"
-    CourseDetails ||--|| CourseContent : "defines content"
-    CourseDetails ||--o{ ProgressData : "enrolled in"
-    UserDetails ||--o{ CourseNote : "creates"
-    UserDetails ||--|| UserStats : "has stats"
+    UserDetails ||--o{ ProgressData : "tracks completion"
+    UserDetails ||--o{ CourseNote : "creates notes"
+    UserDetails ||--o| UserStats : "has analytics"
+    CourseDetails ||--|| CourseContent : "defines modules"
+    CourseDetails ||--o{ ProgressData : "enrolled learners"
 ```
 
 ---
 
 ## 6. API Surface, Routes & Interfaces
 
-### Authentication Routes (`/api/login`)
-| Method | Endpoint | Handler | Description |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/signup/check` | `checkExistingUser` | Checks if user email is already registered |
-| `POST` | `/signup/send-otp` | `sendOTPController` | Generates and emails verification OTP |
-| `POST` | `/signup/verify-otp` | `verifyOTPController` | Validates signup OTP |
-| `POST` | `/signup/newuser` | `signupValidation` | Registers new user with bcrypt-hashed password |
-| `POST` | `/existinguser` | `loginValidation` | Authenticates user credentials |
-| `POST` | `/forgot-password/send-otp` | `sendOTPController` | Sends password reset OTP |
-| `POST` | `/forgot-password/verify-otp` | `verifyOTPController` | Verifies reset OTP |
-| `POST` | `/forgot-password/reset-password` | `resetUserPassword` | Updates user password |
+### Authentication & Account Routes (`/api/login`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/login/existinguser` | `loginValidation` | None | Authenticates email & password against stored bcrypt hashes |
+| `POST` | `/api/login/signup/check` | `checkExistingUser` | None | Checks if user email is already registered |
+| `POST` | `/api/login/signup/send-otp` | `sendOTPController` | None | Generates and dispatches an OTP verification code via email |
+| `POST` | `/api/login/signup/verify-otp` | `verifyOTPController` | None | Verifies the submitted OTP against stored value |
+| `POST` | `/api/login/signup/newuser` | `signupValidation` | None | Registers a new account with hashed password |
+| `POST` | `/api/login/forgot-password/send-otp` | `sendOTPController` | None | Sends a password reset OTP to user email |
+| `POST` | `/api/login/forgot-password/verify-otp` | `verifyOTPController` | None | Verifies password reset OTP |
+| `POST` | `/api/login/forgot-password/reset-password` | `resetUserPassword` | None | Updates user account password hash |
 
-### Learner Routes (`/api/user`)
-| Method | Endpoint | Handler | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/:userid` | `getAllCourses` | Retrieves enrolled, available, and completed courses |
-| `GET` | `/:userid/stats` | `getUserStats` | Calculates learning streak and aggregate metrics |
-| `GET` | `/:userid/data/userinfo` | `getUserInfoByUserId` | Gets public profile information |
-| `GET` | `/:userid/:courseId` | `getCourseById` | Fetches course details and overall progress |
-| `GET` | `/:userid/:courseId/module/:moduleNumber/:subModuleNumber` | `getSubModuleByCourseId` | Fetches lecture video and quiz questions |
-| `GET` | `/:userid/:courseid/progress` | `getProgressMatrixByCourseId` | Fetches completion matrix |
-| `PATCH` | `/:userid/:courseId/progress/:moduleNumber/:subModuleNumber` | `updateProgress` | Marks submodule complete and updates percentage |
-| `POST` | `/:userid/:courseid/enroll` | `enrollUserInCourse` | Enrolls user in course and initializes progress document |
-| `POST` | `/:userid/course/:courseid/feedback` | `updateRating` | Submits rating feedback for course |
-| `GET` | `/:userid/course/search` | `searchCourse` | Searches courses by tag intersection |
-| `PATCH` | `/:userid/user/data/editprofile` | `editProfile` | Updates user avatar and profile details |
+### Learner Operations (`/api/user`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/api/user/:userid` | `getAllCourses` | User | Fetches user's enrolled, available, and completed courses |
+| `GET` | `/api/user/:userid/stats` | `getUserStats` | User | Calculates user stats, progress averages, and streaks |
+| `GET` | `/api/user/:userid/:courseId` | `getCourseById` | User | Fetches course landing details, contents, and user progress |
+| `GET` | `/api/user/:userid/:courseId/module/:moduleNumber/:subModuleNumber` | `getSubModuleByCourseId` | User | Retrieves specific submodule video link, title, and quiz |
+| `GET` | `/api/user/:userid/:courseid/progress` | `getProgressMatrixByCourseId` | User | Returns boolean completion matrix for modules |
+| `GET` | `/api/user/:userid/data/userinfo` | `getUserInfoByUserId` | User | Returns user account details |
+| `PATCH` | `/api/user/:userid/:courseId/progress/:moduleNumber/:subModuleNumber` | `updateProgress` | User | Updates submodule completion matrix, recalculates percent complete, and appends progress history |
+| `GET` | `/api/user/:userid/course/search` | `searchCourse` | User | Performs search query on courses using matching tags |
+| `POST` | `/api/user/:userid/:courseid/enroll` | `enrollUserInCourse` | User | Enrolls user in a course and initializes empty completion matrix |
+| `POST` | `/api/user/:userid/course/:courseid/feedback` | `updateRating` | User | Updates cumulative rating and completion counts for a course |
+| `PATCH` | `/api/user/:userid/user/data/editprofile` | `editProfile` | User | Updates user display name and profile picture URL |
 
-### Admin Routes (`/api/admin`)
-| Method | Endpoint | Handler | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/:adminid/` | `getAllUsers` | Retrieves all registered platform users |
-| `GET` | `/:adminid/userdata/:userid` | `getUserById` | Retrieves specific user profile |
-| `GET` | `/:adminid/course/allcourses` | `getAllCourses` | Retrieves all platform courses |
-| `GET` | `/:adminid/courseinfo/:courseId` | `getCourseInfoById` | Retrieves course metadata and table of contents |
-| `GET` | `/:adminid/allusers/:courseId` | `getUserForCourse` | Fetches all users enrolled in a specific course |
-| `GET` | `/:adminid/progress/:employeeid` | `getProgressByUserId` | Retrieves course progress for an individual user |
-| `POST` | `/:adminid/course/addnewcourse` | `addNewCourse` | Creates a new course with modules, lectures, and quizzes |
-| `PUT` | `/:adminid/promote/:userid` | `addNewUser` | Promotes user role to admin |
-| `PATCH` | `/:adminid/updateuserrole` | `updateUserRole` | Modifies user account role |
-| `PATCH` | `/:adminid/user/data/editprofile` | `editProfileAdmin` | Edits user details on behalf of admin |
+### Administrative Operations (`/api/admin`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/api/admin/:adminid/course/allcourses` | `getAllCourses` | Admin | Fetches list of all active catalog courses |
+| `GET` | `/api/admin/:adminid/` | `getAllUsers` | Admin | Retrieves all registered system users |
+| `GET` | `/api/admin/:adminid/userdata/:userid` | `getUserById` | Admin | Fetches individual user profile information |
+| `GET` | `/api/admin/:adminid/progress/:employeeid` | `getProgressByUserId` | Admin | Fetches course progress list for a specific employee |
+| `GET` | `/api/admin/:adminid/allusers/:courseId` | `getUserForCourse` | Admin | Returns list of all learners enrolled in a course with completion histories |
+| `GET` | `/api/admin/:adminid/courseinfo/:courseId` | `getCourseInfoById` | Admin | Fetches course overview and table of contents |
+| `POST` | `/api/admin/:adminid/course/addnewcourse` | `addNewCourse` | Admin | Creates a new course along with modules, submodules, video links, and quizzes |
+| `PUT` | `/api/admin/:adminid/promote/:userid` | `addNewUser` | Admin | Promotes target user to Admin role |
+| `PATCH` | `/api/admin/:adminid/updateuserrole` | `updateUserRole` | Admin | Updates user role explicitly |
+| `PATCH` | `/api/admin/:adminid/user/data/editprofile` | `editProfileAdmin` | Admin | Administrative profile detail editor |
 
-### Document Routes (`/api/certificate`)
-| Method | Endpoint | Handler | Description |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/` | `generateCertificate` | Generates a custom PDF course certificate via Puppeteer |
-| `GET` | `/monthly/:userid` | `generateMonthlyLearningReport` | Generates a monthly learning progress report PDF (Rate Limited) |
+### Document Generation (`/api/certificate`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/certificate/` | `generateCertificate` | None | Renders and streams an A4 landscape PDF Certificate of Completion |
+| `GET` | `/api/certificate/monthly/:userid` | `generateMonthlyLearningReport` | Rate-Limited | Renders and streams an A4 PDF summary report of monthly completed modules |
 
-### Notes Routes (`/api/notes`)
-| Method | Endpoint | Handler | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/:userid/:courseId/module/:moduleNumber` | `getNotesByModule` | Fetches learner notes for a specific module |
-| `POST` | `/:userid/:courseId/module/:moduleNumber` | `createNote` | Creates a module note |
-| `DELETE` | `/:userid/note/:noteId` | `deleteNote` | Deletes a module note |
+### Module Notes (`/api/notes`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/api/notes/:userid/:courseId/module/:moduleNumber` | `getNotesByModule` | User | Retrieves user notes for a specific module |
+| `POST` | `/api/notes/:userid/:courseId/module/:moduleNumber` | `createNote` | User | Saves a new text note for a course module |
+| `DELETE` | `/api/notes/:userid/note/:noteId` | `deleteNote` | User | Deletes a specified note entry |
+
+### Shared / Common (`/api/common`)
+| Method | Endpoint | Handler | Auth Required | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/api/common/profile/role/:userid` | `getRole` | User | Returns the specific user's assigned role |
 
 ---
 
 ## 7. Key Data Flows & Sequences
 
-### User Signup & OTP Verification
+### Quiz Evaluation and Progress Update Sequence
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as Learner
-    participant React as React SPA
-    participant API as Express API
-    participant Mail as Nodemailer / SMTP
-    participant DB as MongoDB
+    actor Learner as Learner (Browser)
+    participant ModuleComp as Module Component (React)
+    participant API as Express API Router
+    participant UserCtrl as User Controller
+    participant DB as MongoDB (Mongoose)
 
-    User->>React: Enter name, email, password & Submit
-    React->>API: POST /api/login/signup/check { useremail }
-    API->>DB: Check UserDetails existing email
-    DB-->>API: Not Found
-    API-->>React: 200 OK (User does not exist)
-    React->>API: POST /api/login/signup/send-otp { useremail }
-    API->>Mail: Send email with generated OTP code
-    API->>DB: Upsert OTP into otpVerify collection
-    API-->>React: 200 OTP Sent
-    User->>React: Input OTP & Submit
-    React->>API: POST /api/login/signup/verify-otp { useremail, otp }
-    API->>DB: Validate OTP against otpVerify collection
-    DB-->>API: OTP Valid
-    API->>DB: Delete OTP record
-    React->>API: POST /api/login/signup/newuser { username, email, password }
-    API->>API: Hash password using bcrypt (HASH_SALT)
-    API->>DB: Save UserDetails record
-    API-->>React: 201 Created { userid }
-    React->>User: Redirect to User Dashboard
-```
-
-### Module Completion & Progress Updates
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Learner
-    participant React as React SPA
-    participant API as Express API
-    participant DB as MongoDB
-
-    User->>React: Submit Quiz Answers on Module Page
-    React->>React: Validate selected answers locally
-    alt All Answers Correct
-        React->>API: PATCH /api/user/:userid/:courseId/progress/:moduleNumber/:subModuleNumber
-        API->>DB: Fetch CourseContent & ProgressData
-        API->>API: Mark submodule boolean as true in completion matrix
-        API->>API: Calculate new percentComplete & append progressHistory
-        API->>DB: Save updated ProgressData
-        API-->>React: 200 OK { UpdatedPercentComplete }
-        React->>User: Show success popup & update progress bar
-    else Incorrect Answers
-        React->>User: Show error feedback popup
+    Learner->>ModuleComp: Submits quiz answers
+    ModuleComp->>ModuleComp: Evaluates selected answers against quiz correct answers
+    alt Any answer is incorrect
+        ModuleComp-->>Learner: Shows error notification popup
+    else All answers are correct
+        ModuleComp->>API: PATCH /api/user/:userid/:courseId/progress/:moduleNumber/:subModuleNumber
+        API->>UserCtrl: Calls updateProgress handler
+        UserCtrl->>DB: Find ProgressData for user & course
+        DB-->>UserCtrl: Return ProgressData document
+        UserCtrl->>UserCtrl: Update completedModules[moduleIndex][subModuleIndex] = true
+        UserCtrl->>UserCtrl: Compute overall percentComplete & append to progressHistory
+        UserCtrl->>DB: Save updated ProgressData
+        DB-->>UserCtrl: Confirmation saved
+        UserCtrl-->>API: Return UpdatedPercentComplete
+        API-->>ModuleComp: 200 OK Response
+        ModuleComp-->>Learner: Display success popup notification
+        opt Course Reaches 100%
+            ModuleComp-->>Learner: Renders Feedback modal portal
+        end
     end
 ```
 
@@ -343,63 +345,16 @@ sequenceDiagram
 
 ## 8. Configuration & Environment Variables
 
-### Server Environment Variables (`server/.env`)
-| Variable | Type | Description |
-| :--- | :--- | :--- |
-| `PORT` | Number | Server HTTP port (Default: `5000` / `3000`) |
-| `MONGO_URI` | String | MongoDB connection URI |
-| `HASH_SALT` | Number | Number of salt rounds for `bcrypt` password hashing (e.g., `10`) |
-| `USER_EMAIL` | String | Gmail email address for sending OTP emails |
-| `EMAIL_PASSWORD` | String | Gmail App Password for SMTP authentication |
+### Backend Environment Variables (`server/.env`)
+| Variable Name | Required | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `PORT` | Optional | `3000` / `5000` | Port number for Express server HTTP connection |
+| `MONGO_URI` | Required | N/A | MongoDB connection string (local or MongoDB Atlas) |
+| `HASH_SALT` | Required | `10` | Salt round count used by Bcrypt for password hashing |
+| `USER_EMAIL` | Required | N/A | Sender Gmail/SMTP email address for dispatching OTP messages |
+| `EMAIL_PASSWORD` | Required | N/A | App password/credential for SMTP authentication |
 
-### Client Environment Variables (`client/.env`)
-| Variable | Type | Description |
-| :--- | :--- | :--- |
-| `VITE_API_BASE_URL` | String | Backend API base URL (e.g., `http://localhost:5000` or production URL) |
-
----
-
-## 🛠️ Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/abdul8704/EduTrack.git
-cd EduTrack
-```
-
-### 2. Install Dependencies
-```bash
-# Install client dependencies
-cd client
-npm install
-
-# Install server dependencies
-cd ../server
-npm install
-```
-
-### 3. Environment Setup
-Create a `.env` file in the `server` directory:
-```env
-PORT=5000
-MONGO_URI=your_mongo_uri_here
-HASH_SALT=10
-USER_EMAIL=your_email_here
-EMAIL_PASSWORD=your_email_app_password
-```
-
-Create a `.env` file in the `client` directory:
-```env
-VITE_API_BASE_URL=http://localhost:5000
-```
-
-### 4. Run the Application
-```bash
-# Run the server
-cd server
-npm run start
-
-# Run the client in a separate terminal
-cd client
-npm run dev
-```
+### Frontend Environment Variables (`client/.env`)
+| Variable Name | Required | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `VITE_API_BASE_URL` | Required | `http://localhost:5000` | Base HTTP endpoint for client Axios API requests |
