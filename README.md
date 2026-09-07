@@ -10,7 +10,7 @@ https://edu-track-flax.vercel.app/
 To see the admin view, use 
 - Email = "backups795@gmail.com"
 - Password = "1234"
-
+- Note: This is a dummy user to simulate admin view
 
 ## 🚀 Features
 
