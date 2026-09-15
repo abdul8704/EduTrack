@@ -1,69 +1,75 @@
 # EduTrack Architecture Documentation
 
 ## System Overview
-EduTrack is a full-stack e-learning and progress tracking platform built using a decoupled client-server architecture. The frontend is a React Single Page Application (SPA) powered by Vite and React Router, while the backend is a Node.js Express API using MongoDB for data storage and Puppeteer for headless PDF compilation.
+EduTrack is a full-stack e-learning and learning management platform designed for course browsing, module progression, quiz evaluations, learning analytics, and administrative management.
 
-## High-Level Architecture Diagram
+## Tech Stack
 
-```mermaid
-graph TD
-    Client[React SPA - Client Layer] -->|HTTP/REST APIs| Express[Express.js API Server]
-    Express -->|Mongoose ODM| Mongo[(MongoDB Database)]
-    Express -->|SMTP Email| SMTP[Nodemailer / Gmail Service]
-    Express -->|Headless Render| Puppeteer[Puppeteer PDF Engine]
+| Layer | Technology |
+| --- | --- |
+| Frontend | React 19, Vite, React Router v7, Tailwind CSS, Axios, Chart.js, Recharts |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose ODM |
+| Document Engine | Puppeteer (Headless Chrome PDF Rendering) |
+| Mailer & Security | Nodemailer (Gmail SMTP), Bcrypt (Password Hashing) |
+
+## System Architecture
+
+```
+[ Frontend: React SPA (Vite) ]
+          |
+          | HTTP REST API (JSON & PDF Blobs)
+          v
+[ Backend: Express.js API Layer ]
+   ├── Middlewares (CORS, Error Handler, Rate Limiter)
+   ├── Controllers & Routers (Auth, User, Admin, Certificate, Notes)
+   └── Services (Puppeteer PDF Generator, Nodemailer SMTP Engine)
+          |
+          v
+[ Database: MongoDB / Mongoose ODM ]
 ```
 
---- 
+## Repository & Component Layout
 
-## Core System Components
+### Frontend Architecture (`/client`)
+- **`src/pages/`**: Page views representing major user routes (`Login`, `UserDashboard`, `AdminDashboard`, `CourseIntro`, `CourseLearn`, `CourseDeets`, `EmpProgress`, `AddCourse`, `Profile`, `NotFound`).
+- **`src/components/`**: Modular components:
+  - `Navbar`: Main navbar with integrated tag-based course search.
+  - `CourseNavbar` & `CourseLayout`: Dynamic course navigation sidebars for module hierarchy.
+  - `Module`: Submodule video player and interactive quiz validator.
+  - `UserProgressChartJS` & `UserProgressGraph`: Progress timeline visualizations.
+  - `EditProfile`, `ProfileCard`, `Popup`, `Feedback`: UI dialogs and feedback components.
+- **`src/styles/`**: Component-level CSS and Tailwind utility overrides.
 
-### 1. Frontend Application (`/client`)
-- **Framework & Libraries**: React 19, Vite, React Router v7, Tailwind CSS, Lucide React, Chart.js / Recharts.
-- **Routing Structure**:
-  - `/` - Auth page (`Login.jsx`) handling sign-in, OTP verification, and password reset.
-  - `/user/dashboard/:userId` - Learner dashboard (`UserDashboard.jsx`) displaying enrolled & available courses.
-  - `/user/profile/:userId` - Profile page (`Profile.jsx`) showcasing completed courses and monthly learning reports.
-  - `/course/intro/:userId/:courseId` - Course detail summary (`CourseIntro.jsx`) and enrollment triggers.
-  - `/course/learn/:userId/:courseId/:moduleNumber/:subModuleNumber` - Interactive module player (`CourseLearn.jsx` & `Module.jsx`) with inline quizzes and progress sync.
-  - `/admin/dashboard/:userId/...` - Administrative pages (`AdminDashboard.jsx`, `EmpProgress.jsx`, `CourseDeets.jsx`, `AddCourse.jsx`) for managing courses, tracking employee progress, and user role management.
+### Backend Architecture (`/server`)
+- **`server.js`**: Application entry point, Express app configuration, CORS rules, database setup, and route mounting.
+- **`controllers/`**: API business logic:
+  - `user.js`: Course fetching, progress tracking grid updates, course rating, tag search, and analytics calculation.
+  - `admin.js`: Role checks, participant lookup, administrative course creation, and user promotion.
+  - `login.js` & `otpAuth.js`: Bcrypt authentication, email validation, and OTP verification.
+  - `certificate.js`: Puppeteer-powered HTML-to-PDF rendering for certificates and monthly summary reports.
+  - `notes.js`: Learner module notes management.
+- **`models/`**: Mongoose schemas defining data storage contracts (`UserDetails`, `CourseDetails`, `CourseContent`, `ProgressData`, `CourseNote`, `UserStats`, `authOTP`).
+- **`routes/`**: Express route definitions (`userRouter`, `adminRouter`, `loginRouter`, `certificateRouter`, `notesRouter`, `common`).
 
-### 2. Backend API & Business Logic (`/server`)
-- **Framework**: Node.js with Express.js REST API.
-- **Route Groups**:
-  - `/api/login` - Handles user authentication, registration, OTP creation, and password resets (`loginRouter.js`).
-  - `/api/user` - User dashboard metrics, progress updates, course search, and enrollment (`userRouter.js`).
-  - `/api/admin` - Admin course management, user role promotion, and progress analytics (`adminRouter.js`).
-  - `/api/certificate` - PDF generation engine for certificates and monthly learning reports (`certificateRouter.js`).
-  - `/api/notes` - Module-level learner notes creation and management (`notesRouter.js`).
-  - `/api/common` - Common utility routes such as user role resolution (`common.js`).
+## Data Models & Schema Design
 
-### 3. Database Layer (`/server/models`)
-- **Database Engine**: MongoDB with Mongoose ODM.
-- **Data Schemas**:
-  - `UserDetails`: Stores user accounts, bcrypt password hashes, profile images, positions, and assigned roles (`user` / `admin`).
-  - `CourseDetails`: Catalog metadata including instructor, description, rating, completion counter, tags, and intro video.
-  - `CourseContent`: Hierarchical structure containing modules, submodules, video assets, and multiple-choice quiz questions.
-  - `ProgressData`: Tracks individual user module completion matrices (`completedModules`), percent metrics, and historical progress timelines (`progressHistory`).
-  - `UserStats`: Aggregated metrics including learning streak, total enrolled, total completed, and last active timestamp.
-  - `CourseNote`: Module-specific user notes scoped by user and course.
-  - `AuthOTP`: Temporary 6-digit OTP codes for email verification.
+- **`UserDetails`**: Stores authentication details (`passwordHash`), role (`user` | `admin`), email, designation (`position`), and currently enrolled course IDs.
+- **`CourseDetails`**: Top-level course metadata (title, instructor, rating, total completions, tags array, image, and intro video link).
+- **`CourseContent`**: Curriculum hierarchy containing modules, submodules, video metadata, and quiz questions with answer keys.
+- **`ProgressData`**: Learner course progression data. Contains percentage completion, boolean matrix grid (`completedModules`), module completion timestamps (`moduleCompletionDates`), and daily history entries (`progressHistory`).
+- **`UserStats`**: Aggregated learner statistics including completion counts, average progress, streak calculation, and active dates.
+- **`CourseNote`**: Contextual learner notes tied to specific course modules.
+- **`authOTP`**: Ephemeral store for email verification and password reset OTP codes.
 
---- 
+## Core Subsystems & Operational Workflows
 
-## Key Data Flows & Architectural Workflows
-
-### 1. Authentication & OTP Verification
-1. User submits registration or password reset request.
-2. Server generates a random 6-digit OTP via `generateOTP.js` and upserts it to the `AuthOTP` collection.
-3. `sendOTP.js` dispatches an HTML email via Nodemailer.
-4. User verifies the code; upon validation, password hashes are updated or new user accounts are persisted using `bcrypt` salting.
-
-### 2. Module Progress Calculation Matrix
-- Each course progress entry maintains a 2D boolean array (`completedModules`) matching `[moduleIndex][subModuleIndex]`.
-- Completing a submodule quiz marks the corresponding cell `true` and updates `percentComplete` proportionally.
-- First-of-day progress points are logged into `progressHistory` to feed visual trend charts in `UserProgressChartJS.jsx`.
-
-### 3. Automated PDF Report & Certificate Generation
-- PDF generation is handled server-side in `controllers/certificate.js` using Puppeteer.
-- HTML templates styled for A4 standards (landscape for certificates, portrait for monthly reports) are populated with database metrics.
-- A headless Chromium instance converts the HTML into binary PDF streams delivered directly to the client.
+1. **Authentication & OTP Verification**:
+   - Passwords are encrypted using salted `bcrypt` hashes.
+   - Registration and password resets trigger 6-digit OTP codes sent via Nodemailer SMTP.
+2. **Curriculum Engine & Quiz Validation**:
+   - Module progression evaluates multiple-choice quizzes on the backend.
+   - Successful quiz completion updates the `completedModules` grid matrix and recalculates progress percentage.
+3. **PDF Certificate & Report Generation**:
+   - `certificateController` launches a Puppeteer headless browser to synthesize dynamic HTML templates into PDF downloads for certificates and monthly summaries.
+   - `render-postinstall.js` ensures Chromium binaries are installed on Linux host environments.
